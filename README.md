@@ -17,11 +17,40 @@ To evolve into an all-encompassing digital venture associate that empowers VCs, 
 
 ## 4. Summary of Features, Sprints, and Roadmap
 ### **Features**
-1. **Core Functionality**: Account creation, venture management, competitor tracking, and asset enrichment.
-2. **AI-Powered Insights**: Chatbot interaction, web search integration, and predefined agent tasks.
-3. **Advanced Customisation**: Custom agents/tasks and mix-and-match workflows.
-4. **Collaboration Tools**: Team accounts and shared dashboards.
-5. **Decision Tools**: Market sizing, business canvas generation, and risk adjustment.
+#### **Core Functionality**
+1. Account creation and sign-in/out.
+2. Venture management: Create ventures, toggle between ventures.
+3. Asset enrichment for ventures: Upload PDFs, YouTube links, URLs, etc.
+4. Competitor/Collaborator management: Add competitors or collaborators and enrich with assets.
+
+#### **AI-Powered Insights**
+5. Chat with an industry expert: Conversational chatbot linked to enriched knowledge bases.
+6. Web search integration: Search the web, review results, and enrich ventures/companies.
+7. Predefined agent tasks: Complete specific tasks like generating a value proposition.
+
+#### **Advanced Customisation**
+8. Agent customisation: Create custom agents, tasks, and workflows.
+9. Decoupled agents/tasks: Combine predefined agents/tasks in unique ways.
+
+#### **Collaboration and Portfolio Management**
+10. Team accounts: Allow multiple users from one firm to collaborate.
+11. Portfolio insights: Dashboard views of all ventures and performance metrics.
+12. Financial data integration: Add and analyse financial data for deeper insights.
+
+#### **Advanced Tools for Decision-Making**
+13. Business canvas generator: Generate business model or lean canvases.
+14. Industry analysis: Frameworks like Porter’s Five Forces or BCG matrix.
+15. Market sizing estimator: TAM, SAM, SOM estimates (USA initially).
+16. Risk appetite adjustor: Temperature gauge for aligning AI guidance to user risk profiles.
+
+#### **Future Features**
+17. Growth assistant: Campaign ideation and planning.
+18. Product-market fit checker: Assess if a product achieves market fit.
+19. Geography tailoring: Adapt the tool for emerging markets and global regions.
+20. Research tools: Create surveys or collect primary data through LLM-powered interaction.
+21. Experiment builder/tracker: Design and monitor experiments to validate hypotheses.
+22. Founder profiling: Psychographic and personality assessments for team evaluations.
+23. Multi-LLM support: Integrate specialised models for different use cases, tools, or regions.
 
 ### **Sprints**
 - **Sprint 1**: Core Foundation – Build account creation, venture management, and asset enrichment features.
