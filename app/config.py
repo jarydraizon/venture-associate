@@ -1,9 +1,10 @@
+
 from pydantic import BaseSettings
 
 class Settings(BaseSettings):
-    DATABASE_URL: str = "postgresql://username:password@localhost/db_name"
+    DATABASE_URL: str
 
     class Config:
-        env_file = ".env"  # Load variables from a .env file
+        env_file = ".env"
 
 settings = Settings()

@@ -1,28 +1,12 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel, EmailStr
-from sqlalchemy import create_engine, Column, Integer, String, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from datetime import datetime
+from app.db import Base, SessionLocal
 
-# Initialize FastAPI app
-# This is the main application object for FastAPI. It provides the structure for defining routes and middleware.
-app = FastAPI()
-
-# SQLAlchemy setup
-# DATABASE_URL: This is the connection string used to connect to the PostgreSQL database.
-# Replace "user", "password", and "db_name" with your PostgreSQL credentials and database name.
-DATABASE_URL = "postgresql://user:password@localhost/db_name"
-
-# Engine: This is the interface to the database. It manages the connection pool and issues SQL statements.
-engine = create_engine(DATABASE_URL)
-
-# SessionLocal: This is a factory for creating database sessions. Sessions are used to interact with the database.
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-# Base: The declarative base class used for defining database models (tables).
-Base = declarative_base()
+router = APIRouter()
 
 # Password hashing context
 # CryptContext is used to handle password hashing and verification securely.
