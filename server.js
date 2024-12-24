@@ -7,24 +7,39 @@ const authRoutes = require('./src/api/auth');
 
 const app = express();
 
-// Configure CORS
+// Logging middleware
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} ${req.method} ${req.url}`);
+  next();
+});
+
+// CORS configuration
 app.use(cors({
   origin: true,
   credentials: true
 }));
 
-// Parse JSON bodies
+// Body parser
 app.use(express.json());
 
-// Mount auth routes
+// Test database connection
+const pool = require('./src/db/config');
+pool.query('SELECT NOW()', (err, res) => {
+  if (err) {
+    console.error('Database connection error:', err);
+  } else {
+    console.log('Database connected successfully');
+  }
+});
+
+// API routes
 app.use('/api/auth', authRoutes);
+console.log('Auth routes mounted at /api/auth');
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'build')));
-
-// All remaining requests return the React app
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({ error: err.message });
 });
 
 const PORT = process.env.PORT || 3000;
