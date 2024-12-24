@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(`${window.location.protocol}//${window.location.hostname}:3000/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -17,9 +17,10 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify(credentials)
       });
 
+      const data = await response.json();
+      
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Login failed');
+        throw new Error(data.error || 'Login failed');
       }
 
       setUser(data.user);
