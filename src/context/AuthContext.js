@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const response = await fetch(`${window.location.protocol}//${window.location.hostname}:3000/api/auth/login`, {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
   const signup = async (credentials) => {
     try {
       console.log('Sending signup request:', credentials);
-      const response = await fetch(`${window.location.protocol}//${window.location.hostname}:3000/api/auth/signup`, {
+      const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
