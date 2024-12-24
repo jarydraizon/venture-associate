@@ -4,11 +4,10 @@ const cors = require('cors');
 const authRoutes = require('./src/api/auth');
 const app = express();
 
+// Enable CORS
 app.use(cors({
   origin: true,
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  credentials: true
 }));
 
 app.use(express.json());
