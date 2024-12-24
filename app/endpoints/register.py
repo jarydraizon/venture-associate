@@ -4,7 +4,7 @@ from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from datetime import datetime
-from app.db import Base, SessionLocal
+from db import Base, SessionLocal
 
 router = APIRouter()
 
