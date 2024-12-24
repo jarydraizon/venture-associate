@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "start": "PORT=3000 HOST=0.0.0.0 react-scripts start",
+    "dev": "PORT=3000 HOST=0.0.0.0 react-scripts start",
     "build": "react-scripts build"
   },
   "dependencies": {
