@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext } from 'react';
 
 const AuthContext = createContext(null);
@@ -47,18 +46,12 @@ export const AuthProvider = ({ children }) => {
       const responseText = await response.text();
       console.log('Raw response:', responseText);
       
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (err) {
-        console.error('JSON parse error:', err);
-        throw new Error('Invalid server response');
-      }
-
       if (!response.ok) {
-        throw new Error(data.error || 'Signup failed');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Signup failed');
       }
 
+      const data = await response.json();
       setUser(data.user);
       localStorage.setItem('token', data.token);
       return data;
