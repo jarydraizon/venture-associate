@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const pool = require('../db/config');
@@ -30,13 +29,7 @@ router.post('/signup', async (req, res) => {
       token
     });
   } catch (err) {
-    console.error('Signup error:', err);
-    if (err.code === '23505') { // PostgreSQL unique violation
-      return res.status(400).json({
-        success: false,
-        error: 'Email already exists'
-      });
-    }
+    console.error('Signup error:', err.message);
     return res.status(500).json({
       success: false,
       error: err.message || 'Failed to create account'
