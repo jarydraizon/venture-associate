@@ -34,7 +34,8 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (credentials) => {
     try {
-      const response = await fetch('/api/auth/signup', {
+      console.log('Sending signup request:', credentials);
+      const response = await fetch('http://0.0.0.0:3001/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -42,9 +43,20 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify(credentials)
       });
 
+      console.log('Response status:', response.status);
+      const responseText = await response.text();
+      console.log('Raw response:', responseText);
+      
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (err) {
+        console.error('JSON parse error:', err);
+        throw new Error('Invalid server response');
+      }
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Signup failed');
+        throw new Error(data.error || 'Signup failed');
       }
 
       const data = await response.json();

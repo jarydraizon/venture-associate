@@ -5,6 +5,7 @@ const pool = require('../db/config');
 const { hashPassword, comparePasswords, generateToken } = require('../utils/auth');
 
 router.post('/signup', async (req, res) => {
+  console.log('Signup request received:', req.body);
   const { email, password } = req.body;
   
   if (!email || !password) {
