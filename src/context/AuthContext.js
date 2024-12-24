@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }) => {
         throw new Error(errorData.error || 'Login failed');
       }
 
-      const data = await response.json();
       setUser(data.user);
       localStorage.setItem('token', data.token);
       return data;
@@ -59,7 +58,6 @@ export const AuthProvider = ({ children }) => {
         throw new Error(data.error || 'Signup failed');
       }
 
-      const data = await response.json();
       setUser(data.user);
       localStorage.setItem('token', data.token);
       return data;
