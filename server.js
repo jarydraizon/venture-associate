@@ -6,8 +6,10 @@ const app = express();
 
 // Enable CORS
 app.use(cors({
-  origin: true,
-  credentials: true
+  origin: ['https://venture-associate.bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev', 'https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
