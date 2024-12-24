@@ -26,8 +26,10 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', data.token);
       return data;
     } catch (err) {
-      setError(err.message);
-      throw err;
+      console.error('Signup failed:', err);
+      const errorMessage = err.message || 'Failed to create account';
+      setError(errorMessage);
+      throw new Error(errorMessage);
     }
   };
 
@@ -54,8 +56,10 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', data.token);
       return data;
     } catch (err) {
-      setError(err.message);
-      throw err;
+      console.error('Signup failed:', err);
+      const errorMessage = err.message || 'Failed to create account';
+      setError(errorMessage);
+      throw new Error(errorMessage);
     }
   };
 

@@ -31,9 +31,15 @@ router.post('/signup', async (req, res) => {
     });
   } catch (err) {
     console.error('Signup error:', err);
+    if (err.code === '23505') { // PostgreSQL unique violation
+      return res.status(400).json({
+        success: false,
+        error: 'Email already exists'
+      });
+    }
     return res.status(500).json({
       success: false,
-      error: 'Failed to create account'
+      error: err.message || 'Failed to create account'
     });
   }
 });
