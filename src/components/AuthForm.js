@@ -5,9 +5,16 @@ const AuthForm = ({ onSubmit, isLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const [error, setError] = useState('');
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit({ email, password });
+    setError('');
+    try {
+      await onSubmit({ email, password });
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
@@ -26,6 +33,7 @@ const AuthForm = ({ onSubmit, isLogin }) => {
         placeholder="Password"
         required
       />
+      {error && <div className="error-message">{error}</div>}
       <button type="submit">
         {isLogin ? 'Sign In' : 'Sign Up'}
       </button>

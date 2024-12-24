@@ -8,34 +8,40 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch('http://localhost:3001/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials)
+        body: JSON.stringify(credentials),
+        credentials: 'include'
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
+      if (!res.ok) throw new Error(data.error || 'Login failed');
       
       localStorage.setItem('token', data.token);
       setUser(data.user);
+      return data;
     } catch (err) {
+      console.error('Login error:', err);
       throw err;
     }
   };
 
   const signup = async (credentials) => {
     try {
-      const res = await fetch('/api/auth/signup', {
+      const res = await fetch('http://localhost:3001/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials)
+        body: JSON.stringify(credentials),
+        credentials: 'include'
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
+      if (!res.ok) throw new Error(data.error || 'Signup failed');
       
       localStorage.setItem('token', data.token);
       setUser(data.user);
+      return data;
     } catch (err) {
+      console.error('Signup error:', err);
       throw err;
     }
   };

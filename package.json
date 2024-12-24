@@ -2,6 +2,7 @@
   "name": "venture-associate",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3001",
   "scripts": {
     "start": "PORT=3000 HOST=0.0.0.0 react-scripts start",
     "dev": "PORT=3000 HOST=0.0.0.0 react-scripts start",
