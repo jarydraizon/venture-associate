@@ -1,0 +1,16 @@
+[project]
+name = "repl-nix-venture-associate"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.11"
+dependencies = [
+    "bcrypt>=4.2.1",
+    "fastapi>=0.115.6",
+    "passlib>=1.7.4",
+    "pydantic>=2.10.4",
+    "python-dotenv>=1.0.1",
+    "python-jose>=3.3.0",
+    "python-multipart>=0.0.20",
+    "sqlalchemy>=2.0.36",
+    "uvicorn>=0.34.0",
+]
