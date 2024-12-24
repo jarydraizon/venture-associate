@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 # Include the register router with a prefix
-app.include_router(register_router, prefix="/api")
+app.include_router(register_router, prefix="/api/register")
 
 if __name__ == "__main__":
     import uvicorn
