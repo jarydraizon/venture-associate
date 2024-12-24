@@ -1,7 +1,5 @@
 
-import { Inter } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'] });
+import './globals.css'
 
 export default function RootLayout({
   children,
@@ -10,14 +8,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className} suppressHydrationWarning={true}>
+      <body suppressHydrationWarning={true}>
         {children}
       </body>
     </html>
-  );
-}
-
-export const metadata = {
-  title: 'Venture Associate',
-  description: 'Your AI-powered venture analysis tool',
+  )
 }
