@@ -10,11 +10,22 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        credentials: 'include',
         body: JSON.stringify(credentials)
       });
       
-      const data = await res.json();
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        throw new Error('Invalid server response');
+      }
+      
       if (!res.ok) throw new Error(data.error || 'Login failed');
       
       localStorage.setItem('token', data.token);

@@ -3,9 +3,15 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const authRoutes = require('./src/api/auth');
+
 const app = express();
 
 app.use(express.json());
+app.use((req, res, next) => {
+  res.header('Content-Type', 'application/json');
+  next();
+});
+
 app.use('/api/auth', authRoutes);
 
 const PORT = process.env.PORT || 3001;
