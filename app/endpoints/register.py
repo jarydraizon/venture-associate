@@ -34,7 +34,7 @@ class RegisterUser(BaseModel):
     email: EmailStr
     password: str
 
-@router.post("/register")
+@router.post("")
 def register_user(user: RegisterUser, db: Session = Depends(get_db)):
     if db.query(User).filter(User.email == user.email).first():
         raise HTTPException(status_code=400, detail="Email is already registered")

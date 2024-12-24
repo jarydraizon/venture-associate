@@ -19,8 +19,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Adds the routes from the 'register' module to the FastAPI application
-app.include_router(register_router)
+# Include the register router with a prefix
+app.include_router(register_router, prefix="/api")
 
 if __name__ == "__main__":
     import uvicorn
