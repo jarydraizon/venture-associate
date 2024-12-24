@@ -1,8 +1,8 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from db import Base, engine  # Changed from app.db
-from endpoints import register  # Changed from app.endpoints
+from db import Base, engine
+from endpoints.register import router as register_router
 
 # Initialize tables
 Base.metadata.create_all(bind=engine)
@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 # Adds the routes from the 'register' module to the FastAPI application
-app.include_router(register.router)
+app.include_router(register_router)
 
 if __name__ == "__main__":
     import uvicorn

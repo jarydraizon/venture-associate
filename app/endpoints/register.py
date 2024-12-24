@@ -4,27 +4,21 @@ from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from datetime import datetime
-from db import Base, SessionLocal
+from ..db import Base, SessionLocal
 
 router = APIRouter()
 
 # Password hashing context
-# CryptContext is used to handle password hashing and verification securely.
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # User model
-# This defines the structure of the "users" table in the database.
 class User(Base):
-    __tablename__ = "users"  # Name of the table in the database
-
-    id = Column(Integer, primary_key=True, index=True)  # Primary key, auto-incrementing integer
-    email = Column(String, unique=True, index=True, nullable=False)  # Unique email column, cannot be null
-    password_hash = Column(String, nullable=False)  # Stores the hashed password
-    created_at = Column(DateTime, default=datetime.utcnow)  # Timestamp of when the record was created
-
-# Create database tables
-# This command ensures that the "users" table is created in the database if it doesn't already exist.
-Base.metadata.create_all(bind=engine)
+    __tablename__ = "users"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String, unique=True, index=True, nullable=False)
+    password_hash = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
 # Dependency to get database session
 # This function provides a database session to route handlers. It ensures sessions are properly closed after use.
