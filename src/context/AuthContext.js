@@ -10,17 +10,18 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await fetch('http://0.0.0.0:3001/api/auth/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
-        credentials: 'include'
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(credentials)
       });
       
+      const data = await res.json();
       if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || 'Login failed');
+        throw new Error(data.error || 'Login failed');
       }
       
-      const data = await res.json();
       localStorage.setItem('token', data.token);
       setUser(data.user);
       return data;
@@ -34,17 +35,18 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await fetch('http://0.0.0.0:3001/api/auth/signup', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
-        credentials: 'include'
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(credentials)
       });
 
+      const data = await res.json();
       if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || 'Signup failed');
+        throw new Error(data.error || 'Signup failed');
       }
 
-      const data = await res.json();
       localStorage.setItem('token', data.token);
       setUser(data.user);
       return data;
