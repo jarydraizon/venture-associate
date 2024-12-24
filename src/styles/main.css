@@ -1,0 +1,63 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+nav {
+  background: #2c3e50;
+  padding: 1rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+nav .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  margin-left: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+nav button {
+  background: #3498db;
+  color: white;
+}
+
+main {
+  padding: 2rem 0;
+  text-align: center;
+}
+
+main h1 {
+  margin-bottom: 1rem;
+}
+
+main p {
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+main button {
+  background: #2ecc71;
+  color: white;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.5rem;
+}
