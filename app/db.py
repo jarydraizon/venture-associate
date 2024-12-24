@@ -12,7 +12,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # Import application settings which typically includes the database URL
-from app.config import settings
+from config import settings
 
 # Create a new SQLAlchemy engine instance which is used to manage the
 # connection to the database using the database URL provided in settings
