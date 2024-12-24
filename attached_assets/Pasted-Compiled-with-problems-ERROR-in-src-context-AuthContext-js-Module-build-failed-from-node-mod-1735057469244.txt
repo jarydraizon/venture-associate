@@ -1,0 +1,67 @@
+Compiled with problems:
+×
+ERROR in ./src/context/AuthContext.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/runner/venture-associate/src/context/AuthContext.js: Identifier 'data' has already been declared. (62:12)
+
+  60 |       }
+  61 |
+> 62 |       const data = await response.json();
+     |             ^
+  63 |       setUser(data.user);
+  64 |       localStorage.setItem('token', data.token);
+  65 |       return data;
+    at constructor (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:359:19)
+    at FlowParserMixin.raise (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:3266:19)
+    at FlowScopeHandler.checkRedeclarationInScope (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:1502:19)
+    at FlowScopeHandler.declareName (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:1468:12)
+    at FlowScopeHandler.declareName (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:1569:11)
+    at FlowParserMixin.declareNameFromIdentifier (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:7357:16)
+    at FlowParserMixin.checkIdentifier (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:7353:12)
+    at FlowParserMixin.checkLVal (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:7294:12)
+    at FlowParserMixin.parseVarId (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12906:10)
+    at FlowParserMixin.parseVarId (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:5610:11)
+    at FlowParserMixin.parseVar (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12881:12)
+    at FlowParserMixin.parseVarStatement (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12728:10)
+    at FlowParserMixin.parseStatementContent (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12344:23)
+    at FlowParserMixin.parseStatementLike (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12261:17)
+    at FlowParserMixin.parseStatementLike (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:5054:24)
+    at FlowParserMixin.parseStatementListItem (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12241:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12814:61)
+    at FlowParserMixin.parseBlockBody (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12807:10)
+    at FlowParserMixin.parseBlock (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12795:10)
+    at FlowParserMixin.parseTryStatement (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12703:23)
+    at FlowParserMixin.parseStatementContent (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12298:21)
+    at FlowParserMixin.parseStatementLike (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12261:17)
+    at FlowParserMixin.parseStatementLike (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:5054:24)
+    at FlowParserMixin.parseStatementListItem (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12241:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12814:61)
+    at FlowParserMixin.parseBlockBody (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12807:10)
+    at FlowParserMixin.parseBlock (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:12795:10)
+    at FlowParserMixin.parseFunctionBody (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:11638:24)
+    at /home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:5028:63
+    at FlowParserMixin.forwardNoArrowParamsConversionAt (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:5204:16)
+    at FlowParserMixin.parseFunctionBody (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:5028:12)
+    at FlowParserMixin.parseArrowExpression (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:11613:10)
+    at FlowParserMixin.parseAsyncArrowFromCallExpression (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:10800:10)
+    at FlowParserMixin.parseAsyncArrowFromCallExpression (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:5623:18)
+    at FlowParserMixin.parseCoverCallAndAsyncArrowHead (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:10730:27)
+    at FlowParserMixin.parseSubscript (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:10659:19)
+    at FlowParserMixin.parseSubscript (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:5786:18)
+    at FlowParserMixin.parseSubscripts (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:10632:19)
+    at FlowParserMixin.parseSubscripts (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:5752:18)
+    at FlowParserMixin.parseExprSubscripts (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:10623:17)
+    at FlowParserMixin.parseUpdate (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:10604:21)
+    at FlowParserMixin.parseMaybeUnary (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:10584:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:10438:61)
+    at FlowParserMixin.parseExprOps (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:10443:23)
+    at FlowParserMixin.parseMaybeConditional (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:10420:23)
+    at FlowParserMixin.parseMaybeAssign (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:10383:21)
+    at FlowParserMixin.parseMaybeAssign (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:5685:18)
+    at /home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:10353:39
+    at FlowParserMixin.allowInAnd (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:11950:16)
+    at FlowParserMixin.parseMaybeAssignAllowIn (/home/runner/venture-associate/node_modules/@babel/parser/lib/index.js:10353:17)
+ERROR
+[eslint] 
+src/context/AuthContext.js
+  Line 62:12:  Parsing error: Identifier 'data' has already been declared. (62:12)
