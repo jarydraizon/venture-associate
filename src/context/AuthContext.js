@@ -5,54 +5,54 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
 
   const login = async (credentials) => {
     try {
-      const res = await fetch('/api/auth/login', {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+        headers: {
+          'Content-Type': 'application/json'
         },
-        credentials: 'include',
         body: JSON.stringify(credentials)
       });
-      
-      const text = await res.text();
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (e) {
-        throw new Error('Invalid server response');
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Login failed');
       }
-      
-      if (!res.ok) throw new Error(data.error || 'Login failed');
-      
-      localStorage.setItem('token', data.token);
+
+      const data = await response.json();
       setUser(data.user);
+      localStorage.setItem('token', data.token);
       return data;
     } catch (err) {
-      console.error('Login error:', err);
+      setError(err.message);
       throw err;
     }
   };
 
   const signup = async (credentials) => {
     try {
-      const res = await fetch('/api/auth/signup', {
+      const response = await fetch('/api/auth/signup', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(credentials)
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Signup failed');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Signup failed');
+      }
 
-      localStorage.setItem('token', data.token);
+      const data = await response.json();
       setUser(data.user);
+      localStorage.setItem('token', data.token);
       return data;
     } catch (err) {
-      console.error('Signup error:', err);
+      setError(err.message);
       throw err;
     }
   };
@@ -60,10 +60,11 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
+    setError(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, error, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -5,25 +5,44 @@ const pool = require('../db/config');
 const { hashPassword, comparePasswords, generateToken } = require('../utils/auth');
 
 router.post('/signup', async (req, res) => {
+  const { email, password } = req.body;
+  
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
   try {
-    const { email, password } = req.body;
     const hashedPassword = await hashPassword(password);
-    
     const result = await pool.query(
       'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id, email',
       [email, hashedPassword]
     );
     
-    const token = generateToken(result.rows[0].id);
-    res.json({ user: result.rows[0], token });
+    const user = result.rows[0];
+    const token = generateToken(user.id);
+    
+    return res.status(200).json({
+      success: true,
+      user: { id: user.id, email: user.email },
+      token
+    });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    console.error('Signup error:', err);
+    return res.status(500).json({
+      success: false,
+      error: 'Failed to create account'
+    });
   }
 });
 
 router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
   try {
-    const { email, password } = req.body;
     const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     
     if (result.rows.length === 0) {
@@ -36,12 +55,17 @@ router.post('/login', async (req, res) => {
     }
     
     const token = generateToken(result.rows[0].id);
-    res.json({ 
+    return res.status(200).json({
+      success: true,
       user: { id: result.rows[0].id, email: result.rows[0].email },
-      token 
+      token
     });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    console.error('Login error:', err);
+    return res.status(500).json({
+      success: false,
+      error: 'Login failed'
+    });
   }
 });
 
