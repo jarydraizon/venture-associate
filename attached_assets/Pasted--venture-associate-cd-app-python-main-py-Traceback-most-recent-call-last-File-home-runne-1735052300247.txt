@@ -1,0 +1,59 @@
+~/venture-associate$ cd app && python main.py
+Traceback (most recent call last):
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/networks.py", line 895, in import_email_validator
+    import email_validator
+ModuleNotFoundError: No module named 'email_validator'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/venture-associate/app/main.py", line 5, in <module>
+    from endpoints.register import router as register_router
+  File "/home/runner/venture-associate/app/endpoints/register.py", line 33, in <module>
+    class RegisterUser(BaseModel):
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/_internal/_model_construction.py", line 226, in __new__
+    complete_model_class(
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/_internal/_model_construction.py", line 658, in complete_model_class
+    schema = cls.__get_pydantic_core_schema__(cls, handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/main.py", line 702, in __get_pydantic_core_schema__
+    return handler(source)
+           ^^^^^^^^^^^^^^^
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/_internal/_schema_generation_shared.py", line 84, in __call__
+    schema = self._handler(source_type)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py", line 610, in generate_schema
+    schema = self._generate_schema_inner(obj)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py", line 879, in _generate_schema_inner
+    return self._model_schema(obj)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py", line 691, in _model_schema
+    {k: self._generate_md_field_schema(k, v, decorators) for k, v in fields.items()},
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py", line 691, in <dictcomp>
+    {k: self._generate_md_field_schema(k, v, decorators) for k, v in fields.items()},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py", line 1071, in _generate_md_field_schema
+    common_field = self._common_field_schema(name, field_info, decorators)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py", line 1263, in _common_field_schema
+    schema = self._apply_annotations(
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py", line 2056, in _apply_annotations
+    schema = get_inner_schema(source_type)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/_internal/_schema_generation_shared.py", line 84, in __call__
+    schema = self._handler(source_type)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py", line 2035, in inner_handler
+    from_property = self._generate_schema_from_property(obj, source_type)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/_internal/_generate_schema.py", line 759, in _generate_schema_from_property
+    schema = get_schema(
+             ^^^^^^^^^^^
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/networks.py", line 935, in __get_pydantic_core_schema__
+    import_email_validator()
+  File "/home/runner/venture-associate/.pythonlibs/lib/python3.11/site-packages/pydantic/networks.py", line 897, in import_email_validator
+    raise ImportError('email-validator is not installed, run `pip install pydantic[email]`') from e
+ImportError: email-validator is not installed, run `pip install pydantic[email]`
