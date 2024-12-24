@@ -43,15 +43,13 @@ export const AuthProvider = ({ children }) => {
       });
 
       console.log('Response status:', response.status);
-      const responseText = await response.text();
-      console.log('Raw response:', responseText);
+      const data = await response.json();
+      console.log('Response data:', data);
       
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Signup failed');
+        throw new Error(data.error || 'Signup failed');
       }
 
-      const data = await response.json();
       setUser(data.user);
       localStorage.setItem('token', data.token);
       return data;
