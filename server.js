@@ -1,15 +1,13 @@
 
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./src/api/auth');
 const app = express();
 
-// Enable CORS with specific configuration
 app.use(cors({
   origin: true,
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  credentials: true
 }));
 
 app.use(express.json());
