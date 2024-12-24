@@ -1,0 +1,18 @@
+Login error: 
+TypeError {}
+
+at t.value (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev:3000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev:3000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev:3000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev:3000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+Failed to fetch
+at window.fetch (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev:3000/__replco/static/devtools/eruda/3.2.3/eruda.js:2:218642)
+at login (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev:3000/static/js/bundle.js:438:25)
+at handleSubmit (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev:3000/static/js/bundle.js:41:13)
+at handleSubmit (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev:3000/static/js/bundle.js:202:13)
+at HTMLUnknownElement.callCallback (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev:3000/static/js/bundle.js:9954:18)
+at Object.invokeGuardedCallbackDev (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev:3000/static/js/bundle.js:9998:20)
+at invokeGuardedCallback (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev:3000/static/js/bundle.js:10055:35)
+at invokeGuardedCallbackAndCatchFirstError (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev:3000/static/js/bundle.js:10069:29)
+at executeDispatch (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev:3000/static/js/bundle.js:14212:7)
+at processDispatchQueueItemsInOrder (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev:3000/static/js/bundle.js:14238:11)
