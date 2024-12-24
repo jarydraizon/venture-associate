@@ -7,13 +7,37 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const login = async (credentials) => {
-    // TODO: Implement actual API call
-    setUser({ email: credentials.email });
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials)
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      
+      localStorage.setItem('token', data.token);
+      setUser(data.user);
+    } catch (err) {
+      throw err;
+    }
   };
 
   const signup = async (credentials) => {
-    // TODO: Implement actual API call
-    setUser({ email: credentials.email });
+    try {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials)
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      
+      localStorage.setItem('token', data.token);
+      setUser(data.user);
+    } catch (err) {
+      throw err;
+    }
   };
 
   const logout = () => {
