@@ -11,16 +11,20 @@
     "build": "react-scripts build"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.26.3",
     "bcryptjs": "^2.4.3",
     "concurrently": "^9.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jest-environment-jsdom": "^29.7.0",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "supertest": "^7.0.0"
   },
   "browserslist": {
     "production": [
