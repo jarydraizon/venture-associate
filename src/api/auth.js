@@ -8,11 +8,11 @@ const pool = require('../db/config');
 router.post('/signup', async (req, res) => {
   const { email, password } = req.body;
   
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password are required' });
-  }
-
   try {
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
     // Check if user exists
     const userCheck = await pool.query(
       'SELECT * FROM users WHERE email = $1',
@@ -35,7 +35,7 @@ router.post('/signup', async (req, res) => {
 
     const token = jwt.sign(
       { userId: result.rows[0].id },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || 'fallback_secret_key_123',
       { expiresIn: '1d' }
     );
 
@@ -46,18 +46,18 @@ router.post('/signup', async (req, res) => {
     });
   } catch (err) {
     console.error('Signup error:', err);
-    res.status(500).json({ error: 'Failed to create account' });
+    res.status(500).json({ error: 'Failed to create account', details: err.message });
   }
 });
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password are required' });
-  }
-
   try {
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
     const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     
     if (result.rows.length === 0) {
@@ -71,18 +71,18 @@ router.post('/login', async (req, res) => {
     
     const token = jwt.sign(
       { userId: result.rows[0].id },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || 'fallback_secret_key_123',
       { expiresIn: '1d' }
     );
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       user: { id: result.rows[0].id, email: result.rows[0].email },
       token
     });
   } catch (err) {
     console.error('Login error:', err);
-    return res.status(500).json({ error: 'Login failed' });
+    res.status(500).json({ error: 'Login failed', details: err.message });
   }
 });
 

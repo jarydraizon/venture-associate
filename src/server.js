@@ -29,6 +29,12 @@ app.use((req, res, next) => {
 // Mount routes
 app.use('/api/auth', authRoutes);
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Server error:', err);
+  res.status(500).json({ error: err.message || 'Internal server error' });
+});
+
 // Serve static files
 app.use(express.static('build'));
 
