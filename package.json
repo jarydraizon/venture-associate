@@ -6,6 +6,7 @@
   "scripts": {
     "start": "HOST=0.0.0.0 PORT=3000 react-scripts start",
     "server": "node src/server.js",
+    "test": "jest",
     "dev": "concurrently \"npm run server\" \"npm run start\"",
     "build": "react-scripts build"
   },
