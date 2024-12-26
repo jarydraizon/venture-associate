@@ -1,0 +1,119 @@
+~/venture-associate$ npm test
+
+> venture-associate@0.1.0 test
+> jest
+
+ FAIL  src/api/__tests__/auth.test.js
+  ● Test suite failed to run
+
+    Cannot find module 'supertest' from 'src/api/__tests__/auth.test.js'
+
+      1 |
+    > 2 | const request = require('supertest');
+        |                                     ^
+      3 | const express = require('express');
+      4 | const authRoutes = require('../auth');
+      5 | const pool = require('../../db/config');
+
+      at Resolver.resolveModule (node_modules/jest-resolve/build/resolver.js:324:11)
+      at Object.<anonymous> (src/api/__tests__/auth.test.js:2:37)
+
+ FAIL  src/components/__tests__/AuthForm.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    SyntaxError: /home/runner/venture-associate/src/components/__tests__/AuthForm.test.js: Support for the experimental syntax 'jsx' isn't currently enabled (15:12):
+
+      13 |
+      14 |   it('should validate empty fields', async () => {
+    > 15 |     render(<AuthForm onSubmit={mockOnSubmit} isLogin={false} />);
+         |            ^
+      16 |     
+      17 |     const submitButton = screen.getByRole('button');
+      18 |     fireEvent.click(submitButton);
+
+    Add @babel/preset-react (https://github.com/babel/babel/tree/main/packages/babel-preset-react) to the 'presets' section of your Babel config to enable transformation.
+    If you want to leave it as-is, add @babel/plugin-syntax-jsx (https://github.com/babel/babel/tree/main/packages/babel-plugin-syntax-jsx) to the 'plugins' section to enable parsing.
+
+    If you already added the plugin for this syntax to your config, it's possible that your config isn't being loaded.
+    You can re-run Babel with the BABEL_SHOW_CONFIG_FOR environment variable to show the loaded configuration:
+        npx cross-env BABEL_SHOW_CONFIG_FOR=/home/runner/venture-associate/src/components/__tests__/AuthForm.test.js <your build command>
+    See https://babeljs.io/docs/configuration#print-effective-configs for more info.
+
+      at toParseError (node_modules/@babel/parser/src/parse-error.ts:95:45)
+      at Parser.raise (node_modules/@babel/parser/src/tokenizer/index.ts:1496:19)
+      at Parser.expectOnePlugin (node_modules/@babel/parser/src/tokenizer/index.ts:1561:18)
+      at Parser.parseExprAtom (node_modules/@babel/parser/src/parser/expression.ts:1244:16)
+      at Parser.parseExprSubscripts (node_modules/@babel/parser/src/parser/expression.ts:709:23)
+      at Parser.parseUpdate (node_modules/@babel/parser/src/parser/expression.ts:688:21)
+      at Parser.parseMaybeUnary (node_modules/@babel/parser/src/parser/expression.ts:650:23)
+      at Parser.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/src/parser/expression.ts:389:14)
+      at Parser.parseExprOps (node_modules/@babel/parser/src/parser/expression.ts:401:23)
+      at Parser.parseMaybeConditional (node_modules/@babel/parser/src/parser/expression.ts:356:23)
+      at Parser.parseMaybeAssign (node_modules/@babel/parser/src/parser/expression.ts:298:21)
+      at callback (node_modules/@babel/parser/src/parser/expression.ts:252:12)
+      at Parser.allowInAnd (node_modules/@babel/parser/src/parser/expression.ts:3116:12)
+      at Parser.parseMaybeAssignAllowIn (node_modules/@babel/parser/src/parser/expression.ts:251:17)
+      at Parser.parseExprListItem (node_modules/@babel/parser/src/parser/expression.ts:2728:18)
+      at Parser.parseCallExpressionArguments (node_modules/@babel/parser/src/parser/expression.ts:1005:14)
+      at Parser.parseCoverCallAndAsyncArrowHead (node_modules/@babel/parser/src/parser/expression.ts:883:29)
+      at Parser.parseSubscript (node_modules/@babel/parser/src/parser/expression.ts:772:19)
+      at Parser.parseSubscripts (node_modules/@babel/parser/src/parser/expression.ts:730:19)
+      at Parser.parseExprSubscripts (node_modules/@babel/parser/src/parser/expression.ts:715:17)
+      at Parser.parseUpdate (node_modules/@babel/parser/src/parser/expression.ts:688:21)
+      at Parser.parseMaybeUnary (node_modules/@babel/parser/src/parser/expression.ts:650:23)
+      at Parser.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/src/parser/expression.ts:389:14)
+      at Parser.parseExprOps (node_modules/@babel/parser/src/parser/expression.ts:401:23)
+      at Parser.parseMaybeConditional (node_modules/@babel/parser/src/parser/expression.ts:356:23)
+      at Parser.parseMaybeAssign (node_modules/@babel/parser/src/parser/expression.ts:298:21)
+      at Parser.parseExpressionBase (node_modules/@babel/parser/src/parser/expression.ts:221:23)
+      at callback (node_modules/@babel/parser/src/parser/expression.ts:212:39)
+      at Parser.allowInAnd (node_modules/@babel/parser/src/parser/expression.ts:3111:16)
+      at Parser.parseExpression (node_modules/@babel/parser/src/parser/expression.ts:212:17)
+      at Parser.parseStatementContent (node_modules/@babel/parser/src/parser/statement.ts:656:23)
+      at Parser.parseStatementLike (node_modules/@babel/parser/src/parser/statement.ts:437:17)
+      at Parser.parseStatementListItem (node_modules/@babel/parser/src/parser/statement.ts:386:17)
+      at Parser.parseBlockOrModuleBlockBody (node_modules/@babel/parser/src/parser/statement.ts:1407:16)
+      at Parser.parseBlockBody (node_modules/@babel/parser/src/parser/statement.ts:1380:10)
+      at Parser.parseBlock (node_modules/@babel/parser/src/parser/statement.ts:1348:10)
+      at Parser.parseFunctionBody (node_modules/@babel/parser/src/parser/expression.ts:2565:24)
+      at Parser.parseArrowExpression (node_modules/@babel/parser/src/parser/expression.ts:2506:10)
+      at Parser.parseAsyncArrowFromCallExpression (node_modules/@babel/parser/src/parser/expression.ts:1025:10)
+      at Parser.parseCoverCallAndAsyncArrowHead (node_modules/@babel/parser/src/parser/expression.ts:904:27)
+      at Parser.parseSubscript (node_modules/@babel/parser/src/parser/expression.ts:772:19)
+      at Parser.parseSubscripts (node_modules/@babel/parser/src/parser/expression.ts:730:19)
+      at Parser.parseExprSubscripts (node_modules/@babel/parser/src/parser/expression.ts:715:17)
+      at Parser.parseUpdate (node_modules/@babel/parser/src/parser/expression.ts:688:21)
+      at Parser.parseMaybeUnary (node_modules/@babel/parser/src/parser/expression.ts:650:23)
+      at Parser.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/src/parser/expression.ts:389:14)
+      at Parser.parseExprOps (node_modules/@babel/parser/src/parser/expression.ts:401:23)
+      at Parser.parseMaybeConditional (node_modules/@babel/parser/src/parser/expression.ts:356:23)
+      at Parser.parseMaybeAssign (node_modules/@babel/parser/src/parser/expression.ts:298:21)
+      at node_modules/@babel/parser/src/parser/expression.ts:252:12
+
+Test Suites: 2 failed, 2 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        0.815 s
+Ran all test suites.
