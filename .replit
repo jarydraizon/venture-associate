@@ -1,6 +1,10 @@
 
-run = "node src/server.js"
+run = "npm start"
 entrypoint = "src/server.js"
 
 [nix]
 channel = "stable-23_11"
+
+[deployment]
+run = ["sh", "-c", "npm start"]
+deploymentTarget = "cloudrun"
