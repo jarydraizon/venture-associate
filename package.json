@@ -4,13 +4,9 @@
   "private": true,
   "proxy": "http://localhost:3001",
   "scripts": {
-    "start": "PORT=3000 HOST=0.0.0.0 react-scripts start",
-    "scripts": {
-      "start": "HOST=0.0.0.0 PORT=3000 react-scripts start",
-      "server": "node server.js",
-      "dev": "concurrently \"npm run server\" \"npm run start\"",
-      "build": "react-scripts build"
-    } run start\"",
+    "start": "HOST=0.0.0.0 PORT=3000 react-scripts start",
+    "server": "node server.js",
+    "dev": "concurrently \"npm run server\" \"npm run start\"",
     "build": "react-scripts build"
   },
   "dependencies": {
