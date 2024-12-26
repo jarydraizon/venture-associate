@@ -5,24 +5,28 @@ const { hashPassword, comparePasswords, generateToken } = require('../utils/auth
 
 router.post('/signup', async (req, res) => {
   console.log('Signup endpoint hit');
-  console.log('Request headers:', req.headers);
-  console.log('Request body:', req.body);
   const { email, password } = req.body;
-  
+
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required' });
   }
 
   try {
+    // Check if the email already exists
+    const existingUserCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (existingUserCheck.rows.length > 0) {
+      return res.status(409).json({ error: 'Email already in use' }); // Conflict status
+    }
+
     const hashedPassword = await hashPassword(password);
     const result = await pool.query(
       'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id, email',
       [email, hashedPassword]
     );
-    
+
     const user = result.rows[0];
     const token = generateToken(user.id);
-    
+
     return res.status(200).json({
       success: true,
       user: { id: user.id, email: user.email },
