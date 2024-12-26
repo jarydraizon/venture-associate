@@ -11,8 +11,11 @@ const comparePasswords = async (password, hash) => {
 };
 
 const generateToken = (userId) => {
-    console.log("JWT_SECRET:", process.env.JWT_SECRET); // Check the value
-    return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '1d' });
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error('JWT_SECRET environment variable is not set');
+  }
+  return jwt.sign({ id: userId }, secret, { expiresIn: '1d' });
 };
 
 module.exports = { hashPassword, comparePasswords, generateToken };

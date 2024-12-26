@@ -1,32 +1,6 @@
 
-modules = ["nodejs-20", "postgresql-16", "python-3.11"]
-run = "npm run dev"
+run = "node src/server.js"
+entrypoint = "src/server.js"
+
 [nix]
-channel = "stable-24_05"
-
-[[ports]]
-localPort = 3000
-externalPort = 3000
-
-[[ports]]
-localPort = 3001
-externalPort = 3001
-
-[[ports]]
-localPort = 3002
-externalPort = 3002
-
-[[ports]]
-localPort = 3003
-externalPort = 3003
-
-[[ports]]
-localPort = 3004
-externalPort = 80
-
-[[ports]]
-localPort = 8000
-externalPort = 8000
-
-[deployment]
-deploymentTarget = "cloudrun"
+channel = "stable-23_11"

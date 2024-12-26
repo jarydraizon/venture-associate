@@ -1,8 +1,9 @@
-require('dotenv').config(); // Load environment variables
+
+require('dotenv').config(); // Load environment variables first
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const authRoutes = require('./src/api/auth');
+const authRoutes = require('./api/auth'); // Fix the path
 
 const app = express();
 
@@ -10,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // Test database connection
-const pool = require('./src/db/config');
+const pool = require('./db/config');
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {
     console.error('Database connection error:', err);
