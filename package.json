@@ -5,7 +5,7 @@
   "proxy": "http://localhost:3001",
   "scripts": {
     "start": "HOST=0.0.0.0 PORT=3000 react-scripts start",
-    "server": "node server.js",
+    "server": "node src/server.js",
     "dev": "concurrently \"npm run server\" \"npm run start\"",
     "build": "react-scripts build"
   },
