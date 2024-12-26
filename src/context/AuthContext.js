@@ -39,8 +39,10 @@ export const AuthProvider = ({ children }) => {
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify(credentials)
       });
 
