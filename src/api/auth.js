@@ -1,43 +1,52 @@
+
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const pool = require('../db/config');
-const { hashPassword, comparePasswords, generateToken } = require('../utils/auth');
 
 router.post('/signup', async (req, res) => {
-  console.log('Signup endpoint hit');
   const { email, password } = req.body;
-
+  
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required' });
   }
 
   try {
-    // Check if the email already exists
-    const existingUserCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-    if (existingUserCheck.rows.length > 0) {
-      return res.status(409).json({ error: 'Email already in use' }); // Conflict status
+    // Check if user exists
+    const userCheck = await pool.query(
+      'SELECT * FROM users WHERE email = $1',
+      [email]
+    );
+
+    if (userCheck.rows.length > 0) {
+      return res.status(400).json({ error: 'User already exists' });
     }
 
-    const hashedPassword = await hashPassword(password);
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Insert user
     const result = await pool.query(
       'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id, email',
       [email, hashedPassword]
     );
 
-    const user = result.rows[0];
-    const token = generateToken(user.id);
+    const token = jwt.sign(
+      { userId: result.rows[0].id },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
 
-    return res.status(200).json({
+    res.status(201).json({
       success: true,
-      user: { id: user.id, email: user.email },
+      user: { id: result.rows[0].id, email: result.rows[0].email },
       token
     });
   } catch (err) {
-    console.error('Signup error:', err.message);
-    return res.status(500).json({
-      success: false,
-      error: err.message || 'Failed to create account'
-    });
+    console.error('Signup error:', err);
+    res.status(500).json({ error: 'Failed to create account' });
   }
 });
 
@@ -55,12 +64,17 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
     
-    const valid = await comparePasswords(password, result.rows[0].password);
+    const valid = await bcrypt.compare(password, result.rows[0].password);
     if (!valid) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
     
-    const token = generateToken(result.rows[0].id);
+    const token = jwt.sign(
+      { userId: result.rows[0].id },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+
     return res.status(200).json({
       success: true,
       user: { id: result.rows[0].id, email: result.rows[0].email },
@@ -68,10 +82,7 @@ router.post('/login', async (req, res) => {
     });
   } catch (err) {
     console.error('Login error:', err);
-    return res.status(500).json({
-      success: false,
-      error: 'Login failed'
-    });
+    return res.status(500).json({ error: 'Login failed' });
   }
 });
 
