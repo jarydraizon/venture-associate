@@ -1,3 +1,6 @@
-
 import '@testing-library/jest-dom';
-process.env.JWT_SECRET = JWT_SECRET;
+
+if (!process.env.JWT_SECRET) {
+  throw new Error('JWT_SECRET environment variable is not set');
+}
+process.env.JWT_SECRET = process.env.JWT_SECRET; // This line can be simplified or removed
