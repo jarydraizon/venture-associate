@@ -42,6 +42,6 @@ app.use((err, req, res, next) => {
 app.use(express.static('build'));
 
 const PORT = 3001;
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, 'localhost', () => {
   console.log(`Server running on port ${PORT}`);
 });
