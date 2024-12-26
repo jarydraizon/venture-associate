@@ -1,0 +1,88 @@
+~/venture-associate$ npm test
+
+> venture-associate@0.1.0 test
+> jest
+
+ FAIL  src/components/__tests__/AuthForm.test.js
+  ● Test suite failed to run
+
+    TypeError: Cannot read properties of undefined (reading 'testEnvironmentOptions')
+
+      at new JSDOMEnvironment (node_modules/jest-environment-jsdom/build/index.js:66:28)
+
+ FAIL  src/api/__tests__/auth.test.js
+  ● Test suite failed to run
+
+    TypeError: Cannot read properties of undefined (reading 'testEnvironmentOptions')
+
+      at new JSDOMEnvironment (node_modules/jest-environment-jsdom/build/index.js:66:28)
+
+Test Suites: 2 failed, 2 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        0.631s
+Ran all test suites.
+~/venture-associate$ npm test
+
+> venture-associate@0.1.0 test
+> jest
+
+ FAIL  src/components/__tests__/AuthForm.test.js
+  ● Test suite failed to run
+
+    TypeError: Cannot read properties of undefined (reading 'testEnvironmentOptions')
+
+      at new JSDOMEnvironment (node_modules/jest-environment-jsdom/build/index.js:66:28)
+
+ FAIL  src/api/__tests__/auth.test.js
+  ● Test suite failed to run
+
+    TypeError: Cannot read properties of undefined (reading 'testEnvironmentOptions')
+
+      at new JSDOMEnvironment (node_modules/jest-environment-jsdom/build/index.js:66:28)
+
+Test Suites: 2 failed, 2 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        0.653s
+Ran all test suites.
+~/venture-associate$ npm install @testing-library/jest-dom@latest @testing-library/react@latest jest-environment-jsdom@latest
+
+changed 1 package, and audited 2580 packages in 8s
+
+161 packages are looking for funding
+  run `npm fund` for details
+
+155 vulnerabilities (1 low, 122 moderate, 29 high, 3 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+~/venture-associate$ npm test
+
+> venture-associate@0.1.0 test
+> jest
+
+ FAIL  src/components/__tests__/AuthForm.test.js
+  ● Test suite failed to run
+
+    TypeError: Cannot read properties of undefined (reading 'testEnvironmentOptions')
+
+      at new JSDOMEnvironment (node_modules/jest-environment-jsdom/build/index.js:66:28)
+
+ FAIL  src/api/__tests__/auth.test.js
+  ● Test suite failed to run
+
+    TypeError: Cannot read properties of undefined (reading 'testEnvironmentOptions')
+
+      at new JSDOMEnvironment (node_modules/jest-environment-jsdom/build/index.js:66:28)
+
+Test Suites: 2 failed, 2 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        0.768s
+Ran all test suites.
