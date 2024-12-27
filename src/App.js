@@ -7,20 +7,24 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 function MainContent() {
   const { user, login, signup } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
-  
-  console.log("Current user state:", user); // Add debugging
 
   const handleSubmit = async (credentials) => {
-    if (isLogin) {
-      await login(credentials);
-    } else {
-      await signup(credentials);
+    try {
+      if (isLogin) {
+        await login(credentials);
+      } else {
+        await signup(credentials);
+      }
+    } catch (error) {
+      console.error('Auth error:', error);
     }
   };
 
-  return (
-    <main className="container">
-      {!user ? (
+  console.log("User state:", user);
+
+  if (!user) {
+    return (
+      <main className="container">
         <div className="auth-container">
           <h1>{isLogin ? 'Sign In' : 'Sign Up'}</h1>
           <AuthForm onSubmit={handleSubmit} isLogin={isLogin} />
@@ -31,13 +35,17 @@ function MainContent() {
             {isLogin ? 'Need an account? Sign up' : 'Have an account? Sign in'}
           </button>
         </div>
-      ) : (
-        <div className="main-content">
-          <h1>Welcome to Voogle</h1>
-          <p>Your AI-powered venture analysis assistant</p>
-          <VentureForm />
-        </div>
-      )}
+      </main>
+    );
+  }
+
+  return (
+    <main className="container">
+      <div className="main-content">
+        <h1>Welcome to Voogle</h1>
+        <p>Your AI-powered venture analysis assistant</p>
+        <VentureForm />
+      </div>
     </main>
   );
 }
