@@ -10,7 +10,12 @@ router.post('/', authenticateToken, async (req, res) => {
     if (!req.user || !req.user.user_id) {
       return res.status(401).json({ error: 'User not authenticated' });
     }
-    const userId = req.user.user_id;
+    const userId = req.user?.user_id;
+    
+    if (!userId) {
+      console.error('No user_id found in request:', req.user);
+      return res.status(401).json({ error: 'User ID not found in request' });
+    }
 
     if (!name || !description) {
       return res.status(400).json({ error: 'Name and description are required' });

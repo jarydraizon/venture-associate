@@ -10,6 +10,7 @@ const VentureForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const token = localStorage.getItem('token');
+        console.log('Token payload:', JSON.parse(atob(token.split('.')[1])));
 
         try {
             const response = await axios.post('/api/ventures', 

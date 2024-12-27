@@ -27,6 +27,10 @@ const authenticateToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded.user_id) {
+      console.error('No user_id in token:', decoded);
+      return res.status(401).json({ error: 'Invalid token format' });
+    }
     req.user = { user_id: decoded.user_id };
     next();
   } catch (err) {
