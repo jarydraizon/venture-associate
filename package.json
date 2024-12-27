@@ -8,7 +8,7 @@
     "server": "node server.js",
     "test": "jest",
     "dev": "concurrently \"npm run server\" \"npm run start\"",
-    "build": "react-scripts build"
+    "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build"
   },
   "dependencies": {
     "@babel/preset-env": "^7.26.0",
