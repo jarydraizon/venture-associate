@@ -2,6 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const authRoutes = require('./src/api/auth');
 const ventureRoutes = require('./src/api/ventures');
 
@@ -12,7 +13,7 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-app.use(express.static('build'));
+app.use(express.static(path.join(__dirname, 'build')));
 
 // Mount routes
 app.use('/api/auth', authRoutes);
