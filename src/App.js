@@ -7,6 +7,8 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 function MainContent() {
   const { user, login, signup } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
+  
+  console.log("Current user state:", user); // Add debugging
 
   const handleSubmit = async (credentials) => {
     if (isLogin) {

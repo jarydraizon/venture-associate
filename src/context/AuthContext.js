@@ -33,6 +33,7 @@ export const AuthProvider = ({ children }) => {
       
       setUser(userObj);
       localStorage.setItem('token', data.token);
+      localStorage.setItem('userEmail', credentials.email);
       return data;
     } catch (err) {
       console.error('Signup failed:', err);
