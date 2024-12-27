@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import AuthForm from './components/AuthForm';
+import VentureForm from './components/VentureForm'; // Importing the VentureForm
 import { AuthProvider, useAuth } from './context/AuthContext';
 
 function MainContent() {
@@ -33,6 +33,7 @@ function MainContent() {
         <>
           <h1>Welcome to Voogle</h1>
           <p>Your AI-powered venture analysis assistant</p>
+          <VentureForm /> {/* Rendering the VentureForm component */}
           <button>Get Started</button>
         </>
       )}
