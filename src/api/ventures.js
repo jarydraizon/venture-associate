@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const pool = require('../db/config');
@@ -8,6 +7,8 @@ const { authenticateToken } = require('../utils/auth');
 router.post('/', authenticateToken, async (req, res) => {
   try {
     const { name, description } = req.body;
+    const userId = req.user.user_id;
+
     if (!name || !description) {
       return res.status(400).json({ error: 'Name and description are required' });
     }
@@ -15,7 +16,7 @@ router.post('/', authenticateToken, async (req, res) => {
     // Check for existing venture with same name for this user
     const existingVenture = await pool.query(
       'SELECT * FROM ventures WHERE name = $1 AND user_id = $2',
-      [name, req.user.user_id]
+      [name, userId]
     );
 
     if (existingVenture.rows.length > 0) {
@@ -24,7 +25,7 @@ router.post('/', authenticateToken, async (req, res) => {
 
     const result = await pool.query(
       'INSERT INTO ventures (name, description, user_id) VALUES ($1, $2, $3) RETURNING venture_id',
-      [name, description, req.user.user_id]
+      [name, description, userId]
     );
 
     res.status(201).json({ success: true, ventureId: result.rows[0].venture_id });
