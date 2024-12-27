@@ -12,6 +12,16 @@ router.post('/', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'Name and description are required' });
     }
 
+    // Check for existing venture with same name for this user
+    const existingVenture = await pool.query(
+      'SELECT * FROM ventures WHERE name = $1 AND user_id = $2',
+      [name, req.user.user_id]
+    );
+
+    if (existingVenture.rows.length > 0) {
+      return res.status(400).json({ error: 'A venture with this name already exists' });
+    }
+
     const result = await pool.query(
       'INSERT INTO ventures (name, description, user_id) VALUES ($1, $2, $3) RETURNING venture_id',
       [name, description, req.user.user_id]
