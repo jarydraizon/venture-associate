@@ -3,11 +3,14 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const authRoutes = require('./src/api/auth');
+const ventureRoutes = require('./api/ventures'); // New import for ventures
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+pp.use('/api/auth', authRoutes); // Use the auth routes
+app.use('/api/ventures', ventureRoutes); // Use the venture routes
 
 // Test database connection
 const pool = require('./src/db/config');
