@@ -3,7 +3,10 @@ import React, { createContext, useState, useContext } from 'react';
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const token = localStorage.getItem('token');
+    return token ? { email: localStorage.getItem('userEmail') } : null;
+  });
   const [error, setError] = useState(null);
 
   const login = async (credentials) => {
@@ -22,7 +25,13 @@ export const AuthProvider = ({ children }) => {
         throw new Error(data.error || 'Login failed');
       }
 
-      setUser(data.user);
+      // Create user object with email
+      const userObj = {
+        email: credentials.email,
+        id: data.userId || data.user?.id
+      };
+      
+      setUser(userObj);
       localStorage.setItem('token', data.token);
       return data;
     } catch (err) {
