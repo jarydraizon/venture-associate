@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const pool = require('../db/config');
+const { verifyToken } = require('../utils/auth'); // Ensure this path is correct
 
 // This route handles new user registration
 router.post('/signup', async (req, res) => {
@@ -109,7 +110,6 @@ router.post('/login', async (req, res) => {
 module.exports = router;
 
 // CREATING A VENTURE
-const { verifyToken } = require('../utils/auth'); // Assuming you have a utility for JWT verification
 
 // Create a venture
 router.post('/', verifyToken, async (req, res) => {
