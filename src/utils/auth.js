@@ -1,4 +1,3 @@
-
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -23,16 +22,16 @@ const authenticateToken = (req, res, next) => {
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ error: 'Access token is required' });
+    return res.status(401).json({ error: 'Authentication required' });
   }
 
-  try {
-    const user = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = { user_id: user.id };
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ error: 'Invalid token' });
+    }
+    req.user = { user_id: decoded.userId };
     next();
-  } catch (error) {
-    return res.status(403).json({ error: 'Invalid or expired token' });
-  }
+  });
 };
 
 module.exports = { hashPassword, comparePasswords, generateToken, authenticateToken };
