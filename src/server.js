@@ -1,9 +1,9 @@
 
-require('dotenv').config();
+require('dotenv').config(); // Load environment variables first
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const authRoutes = require('./api/auth');
+const authRoutes = require('./api/auth'); // Fix the path
 
 const app = express();
 
@@ -32,15 +32,16 @@ app.use((req, res, next) => {
 // Mount routes
 app.use('/api/auth', authRoutes);
 
-// Serve static files
-app.use(express.static(path.join(__dirname, '../build')));
-
-// Catch-all route for SPA
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Server error:', err);
+  res.status(500).json({ error: err.message || 'Internal server error' });
 });
 
-const PORT = process.env.PORT || 3000;
+// Serve static files
+app.use(express.static('build'));
+
+const PORT = 3001;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
