@@ -20,20 +20,25 @@ export const AuthProvider = ({ children }) => {
       });
 
       const data = await response.json();
+      console.log('Login response:', data);
       
       if (!response.ok) {
         throw new Error(data.error || 'Login failed');
       }
 
-      // Create user object with email
-      const userObj = {
-        email: credentials.email,
-        id: data.userId || data.user?.id
-      };
-      
-      setUser(userObj);
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('userEmail', credentials.email);
+      // Create user object with email and ensure we have valid data
+      if (data.token) {
+        const userObj = {
+          email: credentials.email,
+          id: data.userId || data.user?.id
+        };
+        
+        setUser(userObj);
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userEmail', credentials.email);
+      } else {
+        throw new Error('Invalid login response');
+      }
       return data;
     } catch (err) {
       console.error('Signup failed:', err);

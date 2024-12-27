@@ -11,12 +11,14 @@ function MainContent() {
   const handleSubmit = async (credentials) => {
     try {
       if (isLogin) {
-        await login(credentials);
+        const response = await login(credentials);
+        console.log('Login success:', response);
       } else {
         await signup(credentials);
       }
     } catch (error) {
       console.error('Auth error:', error);
+      alert(error.message);
     }
   };
 
