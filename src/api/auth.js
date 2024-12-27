@@ -109,10 +109,6 @@ router.post('/login', async (req, res) => {
 module.exports = router;
 
 // CREATING A VENTURE
-
-const express = require('express');
-const router = express.Router();
-const pool = require('../db/config');
 const { verifyToken } = require('../utils/auth'); // Assuming you have a utility for JWT verification
 
 // Create a venture

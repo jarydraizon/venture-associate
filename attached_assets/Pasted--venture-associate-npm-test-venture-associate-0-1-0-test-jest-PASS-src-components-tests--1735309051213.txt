@@ -1,0 +1,170 @@
+~/venture-associate$ npm test
+
+> venture-associate@0.1.0 test
+> jest
+
+ PASS  src/components/__tests__/AuthForm.test.js
+ FAIL  src/api/__tests__/auth.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    SyntaxError: /home/runner/venture-associate/src/api/auth.js: Identifier 'express' has already been declared. (113:6)
+
+      111 | // CREATING A VENTURE
+      112 |
+    > 113 | const express = require('express');
+          |       ^
+      114 | const router = express.Router();
+      115 | const pool = require('../db/config');
+      116 | const { verifyToken } = require('../utils/auth'); // Assuming you have a utility for JWT verification
+
+      2 | const request = require('supertest');
+      3 | const express = require('express');
+    > 4 | const authRoutes = require('../auth');
+        |                    ^
+      5 |
+      6 | // Mock the database
+      7 | jest.mock('../../db/config', () => ({
+
+      at constructor (node_modules/@babel/parser/src/parse-error.ts:95:45)
+      at JSXParserMixin.toParseError [as raise] (node_modules/@babel/parser/src/tokenizer/index.ts:1496:19)
+      at ScopeHandler.raise [as checkRedeclarationInScope] (node_modules/@babel/parser/src/util/scope.ts:155:19)
+      at ScopeHandler.checkRedeclarationInScope [as declareName] (node_modules/@babel/parser/src/util/scope.ts:109:12)
+      at JSXParserMixin.declareName [as declareNameFromIdentifier] (node_modules/@babel/parser/src/parser/lval.ts:739:16)
+      at JSXParserMixin.declareNameFromIdentifier [as checkIdentifier] (node_modules/@babel/parser/src/parser/lval.ts:734:12)
+      at JSXParserMixin.checkIdentifier [as checkLVal] (node_modules/@babel/parser/src/parser/lval.ts:636:12)
+      at JSXParserMixin.checkLVal [as parseVarId] (node_modules/@babel/parser/src/parser/statement.ts:1592:10)
+      at JSXParserMixin.parseVarId [as parseVar] (node_modules/@babel/parser/src/parser/statement.ts:1545:12)
+      at JSXParserMixin.parseVar [as parseVarStatement] (node_modules/@babel/parser/src/parser/statement.ts:1214:10)
+      at JSXParserMixin.parseVarStatement [as parseStatementContent] (node_modules/@babel/parser/src/parser/statement.ts:566:21)
+      at JSXParserMixin.parseStatementContent [as parseStatementLike] (node_modules/@babel/parser/src/parser/statement.ts:437:17)
+      at JSXParserMixin.parseStatementLike [as parseModuleItem] (node_modules/@babel/parser/src/parser/statement.ts:374:17)
+      at JSXParserMixin.parseModuleItem [as parseBlockOrModuleBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1406:16)
+      at JSXParserMixin.parseBlockOrModuleBlockBody [as parseBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1380:10)
+      at JSXParserMixin.parseBlockBody [as parseProgram] (node_modules/@babel/parser/src/parser/statement.ts:225:10)
+      at JSXParserMixin.parseProgram [as parseTopLevel] (node_modules/@babel/parser/src/parser/statement.ts:203:25)
+      at JSXParserMixin.parseTopLevel [as parse] (node_modules/@babel/parser/src/parser/index.ts:47:10)
+      at parse (node_modules/@babel/parser/src/index.ts:66:38)
+      at parser (node_modules/@babel/core/src/parser/index.ts:28:19)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/src/transformation/normalize-file.ts:50:24)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/src/transformation/index.ts:40:36)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/src/transform.ts:29:20)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at fn (node_modules/@babel/core/src/errors/rewrite-stack-trace.ts:99:14)
+      at transformSync (node_modules/@babel/core/src/transform.ts:66:52)
+      at ScriptTransformer.transformSource (node_modules/@jest/transform/build/ScriptTransformer.js:545:31)
+      at ScriptTransformer._transformAndBuildScript (node_modules/@jest/transform/build/ScriptTransformer.js:674:40)
+      at ScriptTransformer.transform (node_modules/@jest/transform/build/ScriptTransformer.js:726:19)
+      at Object.require (src/api/__tests__/auth.test.js:4:20)
+
+ FAIL  src/api/__tests__/ventures.test.js
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    SyntaxError: /home/runner/venture-associate/src/api/auth.js: Identifier 'express' has already been declared. (113:6)
+
+      111 | // CREATING A VENTURE
+      112 |
+    > 113 | const express = require('express');
+          |       ^
+      114 | const router = express.Router();
+      115 | const pool = require('../db/config');
+      116 | const { verifyToken } = require('../utils/auth'); // Assuming you have a utility for JWT verification
+
+      4 | const cors = require('cors');
+      5 | const path = require('path');
+    > 6 | const authRoutes = require('./api/auth'); // Fix the path
+        |                    ^
+      7 |
+      8 | const app = express();
+      9 |
+
+      at constructor (node_modules/@babel/parser/src/parse-error.ts:95:45)
+      at JSXParserMixin.toParseError [as raise] (node_modules/@babel/parser/src/tokenizer/index.ts:1496:19)
+      at ScopeHandler.raise [as checkRedeclarationInScope] (node_modules/@babel/parser/src/util/scope.ts:155:19)
+      at ScopeHandler.checkRedeclarationInScope [as declareName] (node_modules/@babel/parser/src/util/scope.ts:109:12)
+      at JSXParserMixin.declareName [as declareNameFromIdentifier] (node_modules/@babel/parser/src/parser/lval.ts:739:16)
+      at JSXParserMixin.declareNameFromIdentifier [as checkIdentifier] (node_modules/@babel/parser/src/parser/lval.ts:734:12)
+      at JSXParserMixin.checkIdentifier [as checkLVal] (node_modules/@babel/parser/src/parser/lval.ts:636:12)
+      at JSXParserMixin.checkLVal [as parseVarId] (node_modules/@babel/parser/src/parser/statement.ts:1592:10)
+      at JSXParserMixin.parseVarId [as parseVar] (node_modules/@babel/parser/src/parser/statement.ts:1545:12)
+      at JSXParserMixin.parseVar [as parseVarStatement] (node_modules/@babel/parser/src/parser/statement.ts:1214:10)
+      at JSXParserMixin.parseVarStatement [as parseStatementContent] (node_modules/@babel/parser/src/parser/statement.ts:566:21)
+      at JSXParserMixin.parseStatementContent [as parseStatementLike] (node_modules/@babel/parser/src/parser/statement.ts:437:17)
+      at JSXParserMixin.parseStatementLike [as parseModuleItem] (node_modules/@babel/parser/src/parser/statement.ts:374:17)
+      at JSXParserMixin.parseModuleItem [as parseBlockOrModuleBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1406:16)
+      at JSXParserMixin.parseBlockOrModuleBlockBody [as parseBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1380:10)
+      at JSXParserMixin.parseBlockBody [as parseProgram] (node_modules/@babel/parser/src/parser/statement.ts:225:10)
+      at JSXParserMixin.parseProgram [as parseTopLevel] (node_modules/@babel/parser/src/parser/statement.ts:203:25)
+      at JSXParserMixin.parseTopLevel [as parse] (node_modules/@babel/parser/src/parser/index.ts:47:10)
+      at parse (node_modules/@babel/parser/src/index.ts:66:38)
+      at parser (node_modules/@babel/core/src/parser/index.ts:28:19)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/src/transformation/normalize-file.ts:50:24)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/src/transformation/index.ts:40:36)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/src/transform.ts:29:20)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at fn (node_modules/@babel/core/src/errors/rewrite-stack-trace.ts:99:14)
+      at transformSync (node_modules/@babel/core/src/transform.ts:66:52)
+      at ScriptTransformer.transformSource (node_modules/@jest/transform/build/ScriptTransformer.js:545:31)
+      at ScriptTransformer._transformAndBuildScript (node_modules/@jest/transform/build/ScriptTransformer.js:674:40)
+      at ScriptTransformer.transform (node_modules/@jest/transform/build/ScriptTransformer.js:726:19)
+      at Object.require (src/server.js:6:20)
+      at Object.require (src/api/__tests__/ventures.test.js:2:13)
+
+Test Suites: 2 failed, 1 passed, 3 total
+Tests:       2 passed, 2 total
+Snapshots:   0 total
+Time:        5.441 s
+Ran all test suites.
