@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       // Make API request to login endpoint
-      const response = await fetch('http://0.0.0.0:3001/api/auth/login', {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
   // Signup handler - creates new user and logs them in
   const signup = async (credentials) => {
     try {
-      const response = await fetch('http://0.0.0.0:3001/api/auth/signup', {
+      const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
