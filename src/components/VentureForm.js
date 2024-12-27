@@ -8,9 +8,13 @@ const VentureForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const token = localStorage.getItem('token');
 
         try {
-            const response = await axios.post('/api/ventures', { name, description });
+            const response = await axios.post('http://0.0.0.0:3001/api/ventures', 
+                { name, description },
+                { headers: { 'Authorization': `Bearer ${token}` }}
+            );
             setMessage(`Venture created successfully! (ID: ${response.data.ventureId})`);
             setName('');
             setDescription('');
