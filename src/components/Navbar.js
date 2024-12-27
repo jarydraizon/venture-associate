@@ -8,7 +8,7 @@ function Navbar() {
   return (
     <nav>
       <div className="container">
-        <div className="logo">VentureAssociate</div>
+        <div className="logo">Voogle</div>
         <div>
           {user ? (
             <>

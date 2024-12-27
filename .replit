@@ -1,6 +1,8 @@
 
 # run = "npm start"
-run = "NODE_ENV=production npm start"
+# run = "npm run server"
+# run = "NODE_ENV=production npm start"
+run = "NODE_ENV=production npm run server"
 entrypoint = "src/server.js"
 modules = ["postgresql-16"]
 
@@ -8,7 +10,8 @@ modules = ["postgresql-16"]
 channel = "stable-23_11"
 
 [deployment]
-run = ["sh", "-c", "npm start"]
+# run = ["sh", "-c", "npm start"]
+run = ["sh", "-c", "npm run server"]
 deploymentTarget = "cloudrun"
 
 [[ports]]
@@ -17,20 +20,28 @@ externalPort = 3000
 
 [[ports]]
 localPort = 3001
-externalPort = 3001
-
-[[ports]]
-localPort = 3002
-externalPort = 3002
-
-[[ports]]
-localPort = 3003
-externalPort = 3003
-
-[[ports]]
-localPort = 3004
 externalPort = 80
 
-[[ports]]
-localPort = 8000
-externalPort = 8000
+# [[ports]]
+# localPort = 3001
+# externalPort = 80
+
+# [[ports]]
+# localPort = 3001
+# externalPort = 3001
+
+# [[ports]]
+# localPort = 3002
+# externalPort = 3002
+
+# [[ports]]
+# localPort = 3003
+# externalPort = 3003
+
+# [[ports]]
+# localPort = 3004
+# externalPort = 80
+
+# [[ports]]
+# localPort = 8000
+# externalPort = 8000

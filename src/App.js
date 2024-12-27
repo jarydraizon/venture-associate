@@ -31,7 +31,7 @@ function MainContent() {
         </div>
       ) : (
         <>
-          <h1>Welcome to VentureAssociate</h1>
+          <h1>Welcome to Voogle</h1>
           <p>Your AI-powered venture analysis assistant</p>
           <button>Get Started</button>
         </>
