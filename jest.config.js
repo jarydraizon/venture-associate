@@ -14,6 +14,7 @@
 
 module.exports = {
   testEnvironment: 'jsdom',
+  setupFiles: ['dotenv/config'], // Add this line
   testEnvironmentOptions: {
     url: 'http://localhost' // Keep this as localhost since you're running locally
   },
