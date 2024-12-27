@@ -1,5 +1,6 @@
 
 run = "npm start"
+# run = "NODE_ENV=production npm start"
 entrypoint = "src/server.js"
 modules = ["postgresql-16"]
 
