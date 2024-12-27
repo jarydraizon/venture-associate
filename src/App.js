@@ -51,7 +51,7 @@ function MainContent() {
         <p>Your AI-powered venture analysis assistant</p>
         {/* <div style={{border: '2px solid red', padding: '10px', margin: '10px'}}> */}
           {/* <p>TEST TEXT - This should be visible</p> */}
-        </div>
+        {/* </div> */}
         <VentureForm />
       </div>
     </main>
