@@ -30,12 +30,11 @@ function MainContent() {
           </button>
         </div>
       ) : (
-        <>
+        <div className="main-content">
           <h1>Welcome to Voogle</h1>
           <p>Your AI-powered venture analysis assistant</p>
-          <VentureForm /> {/* Rendering the VentureForm component */}
-          <button>Get Started</button>
-        </>
+          <VentureForm />
+        </div>
       )}
     </main>
   );
