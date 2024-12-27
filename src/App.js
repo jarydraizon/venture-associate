@@ -49,8 +49,8 @@ function MainContent() {
       <div className="main-content">
         <h1>Welcome to Voogle</h1>
         <p>Your AI-powered venture analysis assistant</p>
-        <div style={{border: '2px solid red', padding: '10px', margin: '10px'}}>
-          <p>TEST TEXT - This should be visible</p>
+        {/* <div style={{border: '2px solid red', padding: '10px', margin: '10px'}}> */}
+          {/* <p>TEST TEXT - This should be visible</p> */}
         </div>
         <VentureForm />
       </div>
