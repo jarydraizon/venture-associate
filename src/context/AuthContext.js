@@ -7,7 +7,9 @@ export const AuthProvider = ({ children }) => {
   // Initialize user state from localStorage if token exists
   const [user, setUser] = useState(() => {
     const token = localStorage.getItem('token');
-    return token ? { email: localStorage.getItem('userEmail') } : null;
+    const initialUser = token ? { email: localStorage.getItem('userEmail') } : null;
+    console.log('Initial user state:', initialUser);
+    return initialUser;
   });
   const [error, setError] = useState(null);
 

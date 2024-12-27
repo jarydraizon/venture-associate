@@ -7,6 +7,9 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 function MainContent() {
   const { user, login, signup } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
+  
+  console.log('MainContent rendered, user state:', user);
+  console.log('Local Storage token:', localStorage.getItem('token'));
 
   const handleSubmit = async (credentials) => {
     try {

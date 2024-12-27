@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const VentureForm = () => {
+    console.log('VentureForm rendered');
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [message, setMessage] = useState('');
