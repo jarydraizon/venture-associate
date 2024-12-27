@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import AuthForm from './components/AuthForm';
-import VentureForm from './components/VentureForm'; // Importing the VentureForm
+import VentureForm from './components/VentureForm';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
 function MainContent() {
@@ -25,8 +26,6 @@ function MainContent() {
     }
   };
 
-  console.log("User state:", user);
-
   if (!user) {
     return (
       <main className="container">
@@ -44,6 +43,7 @@ function MainContent() {
     );
   }
 
+  // This is the authenticated view
   return (
     <main className="container">
       <div className="main-content">
