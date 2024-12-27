@@ -12,7 +12,7 @@ const VentureForm = () => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await axios.post('http://0.0.0.0:3001/api/ventures', 
+            const response = await axios.post('/api/ventures', 
                 { name, description },
                 { headers: { 'Authorization': `Bearer ${token}` }}
             );
