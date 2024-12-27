@@ -14,7 +14,7 @@ const generateToken = (userId) => {
   if (!secret) {
     throw new Error('JWT_SECRET environment variable is not set');
   }
-  return jwt.sign({ userId }, secret, { expiresIn: '1d' });
+  return jwt.sign({ user_id: userId }, secret, { expiresIn: '1d' });
 };
 
 const authenticateToken = (req, res, next) => {
@@ -27,7 +27,7 @@ const authenticateToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = { user_id: decoded.userId };
+    req.user = { user_id: decoded.user_id };
     next();
   } catch (err) {
     return res.status(403).json({ error: 'Invalid token' });

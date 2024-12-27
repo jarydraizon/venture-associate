@@ -7,6 +7,9 @@ const { authenticateToken } = require('../utils/auth');
 router.post('/', authenticateToken, async (req, res) => {
   try {
     const { name, description } = req.body;
+    if (!req.user || !req.user.user_id) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
     const userId = req.user.user_id;
 
     if (!name || !description) {
