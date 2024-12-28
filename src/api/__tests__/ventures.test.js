@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../../server'); // Adjust path if needed
+const app = require('../../../server'); // Path to root server.js
 const pool = require('../../db/config');
 
 describe('Venture API', () => {
