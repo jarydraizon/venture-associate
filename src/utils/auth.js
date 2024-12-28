@@ -72,7 +72,8 @@ const authenticateToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log('Token decoded:', decoded);
-    req.user = { user_id: decoded.userId }; // Changed from user_id to userId to match token
+    req.user = { user_id: decoded.userId }; 
+    req.user.user_id = decoded.userId; // Ensure user_id is set correctly
     console.log('User object set:', req.user);
     next();
   } catch (err) {
