@@ -12,6 +12,9 @@ router.post('/', authenticateToken, async (req, res) => {
     }
     const userId = req.user.user_id; // Ensure we are getting user_id from the request
 
+    // Logging details to help with debugging
+    console.log('Creating venture with user_id:', userId)
+
     if (!userId) {
       console.error('No user_id found in request:', req.user);
       return res.status(401).json({ error: 'User ID not found in request' });
