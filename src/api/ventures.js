@@ -31,10 +31,12 @@ router.post('/', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'A venture with this name already exists' });
     }
 
+    console.log('Creating venture with user_id:', userId);
     const result = await pool.query(
       'INSERT INTO ventures (name, description, user_id) VALUES ($1, $2, $3) RETURNING venture_id',
-      [name, description, userId] // Ensure userId is used here to insert
+      [name, description, userId]
     );
+    console.log('Venture created:', result.rows[0]);
 
     res.status(201).json({ success: true, ventureId: result.rows[0].venture_id });
   } catch (error) {
