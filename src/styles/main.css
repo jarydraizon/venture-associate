@@ -1,45 +1,33 @@
 
-/* Debug Styles */
-.debug-outline {
-  border: 2px solid red !important;
-}
-
-.sidebar {
-  border: 3px solid blue !important;
-  background: white;
-  min-height: 100vh;
-  width: 240px;
-  position: fixed;
-  left: 0;
-  top: 0;
-  padding: 1.5rem 1rem;
-  z-index: 1000;
-}
-
+/* Reset and base styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
 body {
-  background: #ffffff;
-  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f8f9fa;
 }
 
+/* Layout */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Sidebar styles */
 .sidebar {
-  background: white;
-  border-right: 1px solid #eee;
   width: 240px;
   height: 100vh;
+  background: white;
   position: fixed;
   left: 0;
   top: 0;
+  border-right: 1px solid #e2e8f0;
   padding: 1.5rem 1rem;
-  box-shadow: 2px 0 4px rgba(0,0,0,0.05);
-  display: flex;
-  flex-direction: column;
   z-index: 1000;
 }
 
@@ -56,16 +44,23 @@ body {
   gap: 2rem;
 }
 
-.sidebar-bottom {
-  padding: 1rem 0;
-  border-top: 1px solid #eee;
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2d3748;
+  padding: 0.5rem 0;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .nav-link {
   width: 100%;
   text-align: left;
   padding: 0.75rem 1rem;
-  margin: 0.25rem 0;
   border: none;
   border-radius: 6px;
   background: none;
@@ -86,10 +81,21 @@ body {
   font-weight: 500;
 }
 
+.sidebar-bottom {
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.user-email {
+  display: block;
+  color: #718096;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
 .sign-out-btn {
   width: 100%;
   padding: 0.75rem;
-  margin-top: 0.5rem;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
   background: white;
@@ -102,237 +108,26 @@ body {
   background: #f7fafc;
 }
 
-.user-email {
-  display: block;
-  color: #718096;
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
-}
-
-.sidebar-content {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.sidebar-top {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.sidebar-bottom {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem 0;
-  border-top: 1px solid #eee;
-}
-
-.app-container {
-  display: flex;
-  min-height: 100vh;
-  width: 100%;
-  position: relative;
-}
-
-.container {
-  width: calc(100% - 240px);
-  margin-left: 240px;
-  padding: 2rem;
-}
-
+/* Main content area */
 .main-content {
   flex: 1;
-  padding: 2rem;
-  background: #f8f9fa;
-  min-height: 100vh;
-  width: calc(100% - 240px);
   margin-left: 240px;
+  padding: 2rem;
+  width: calc(100% - 240px);
+  min-height: 100vh;
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  margin-left: 0.5rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 3px;
-  background: #ffffff;
-  color: #000000;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.2s ease;
-}
-
-button:hover {
-  background: #f5f5f5;
-}
-
-main {
-  padding: 4rem 0;
-  text-align: center;
-}
-
-main h1 {
-  margin-bottom: 1rem;
-  font-size: 2.5rem;
-  font-weight: 600;
-}
-
-main p {
-  margin-bottom: 2rem;
-  color: #666666;
-  font-size: 1.1rem;
-}
-
-main button {
-  background: #000000;
-  color: #ffffff;
-  border: none;
-  padding: 0.75rem 1.5rem;
-}
-
-main button:hover {
-  background: #333333;
-}
-
+/* Auth container */
 .auth-container {
   max-width: 400px;
-  margin: 0 auto;
+  margin: 2rem auto;
   padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin: 2rem 0;
-}
-
-.auth-form input {
-  padding: 0.75rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 3px;
-  font-size: 1rem;
-}
-
-.switch-auth {
-  background: none;
-  border: none;
-  color: #666;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.user-email {
-  margin-right: 1rem;
-  color: #666;
-}
-
-.nav-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.nav-link {
-  background: none;
-  border: none;
-  color: #666;
-  cursor: pointer;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  transition: all 0.2s;
-  text-align: left;
-  border-radius: 6px;
-  width: 100%;
-}
-
-.nav-link:hover {
-  background: #f5f7f9;
-  color: #0066cc;
-}
-
-.nav-link.active {
-  background: #edf2ff;
-  color: #0066cc;
-  font-weight: 500;
-}
-
-.error-message {
-  color: #ff0000;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
-
-.main-content {
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.main-content form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.main-content input,
-.main-content textarea {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.main-content button {
-  padding: 10px;
-  background: #0066cc;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.venture-list {
-    margin-top: 2rem;
-    padding: 1rem;
-    background: #f9f9f9;
-    border-radius: 8px;
-}
-
-.venture-list h2 {
-    color: #333;
-    margin-bottom: 1rem;
-}
-
-.ventures {
-    display: grid;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.venture-item {
-    border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 4px;
-}
-
-.venture-item.active {
-    border-color: #4CAF50;
-    background-color: #f0fff0;
-}
-
-.venture-item button {
-    margin-top: 1rem;
-}
-
-.error {
-    color: red;
-    margin: 1rem 0;
+/* Debug outline (only for development) */
+.debug-outline * {
+  outline: 0px solid rgba(255,0,0,0.1);
 }

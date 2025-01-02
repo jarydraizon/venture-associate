@@ -2,8 +2,9 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import '../styles/main.css';
 
-function Navbar() {
+const Navbar = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const location = useLocation();
@@ -29,12 +30,16 @@ function Navbar() {
           </div>
         </div>
         <div className="sidebar-bottom">
-          <span className="user-email">{user?.email}</span>
-          <button className="sign-out-btn" onClick={logout}>Sign Out</button>
+          {user && (
+            <>
+              <span className="user-email">{user.email}</span>
+              <button className="sign-out-btn" onClick={logout}>Sign Out</button>
+            </>
+          )}
         </div>
       </div>
     </nav>
   );
-}
+};
 
 export default Navbar;

@@ -39,27 +39,29 @@ function MainContent() {
 function AppContent() {
   const { user } = useAuth();
   return (
-    <div className="app-container debug-outline">
+    <div className="app-container">
       {user && <Navbar />}
-      <Routes>
-        <Route path="/" element={<MainContent />} />
-        <Route 
-          path="/ventures" 
-          element={
-            <PrivateRoute>
-              <VenturesPage />
-            </PrivateRoute>
-          } 
-        />
-        <Route 
-          path="/insights" 
-          element={
-            <PrivateRoute>
-              <InsightsPage />
-            </PrivateRoute>
-          } 
-        />
-      </Routes>
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<MainContent />} />
+          <Route 
+            path="/ventures" 
+            element={
+              <PrivateRoute>
+                <VenturesPage />
+              </PrivateRoute>
+            } 
+          />
+          <Route 
+            path="/insights" 
+            element={
+              <PrivateRoute>
+                <InsightsPage />
+              </PrivateRoute>
+            } 
+          />
+        </Routes>
+      </main>
     </div>
   );
 }
