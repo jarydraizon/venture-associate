@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const pool = require('../db/config');
 const { authenticateToken } = require('../utils/auth');
 
 // Debug route
