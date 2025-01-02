@@ -148,3 +148,32 @@ main button:hover {
   border-radius: 4px;
   cursor: pointer;
 }
+.venture-list {
+    margin-top: 2rem;
+}
+
+.ventures {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.venture-item {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.venture-item.active {
+    border-color: #4CAF50;
+    background-color: #f0fff0;
+}
+
+.venture-item button {
+    margin-top: 1rem;
+}
+
+.error {
+    color: red;
+    margin: 1rem 0;
+}

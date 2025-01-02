@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import AuthForm from './components/AuthForm';
 import VentureForm from './components/VentureForm';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import VentureList from './components/VentureList'; // Added import
 
 function MainContent() {
   const { user, login, signup } = useAuth();
@@ -49,10 +49,8 @@ function MainContent() {
       <div className="main-content">
         <h1>Welcome to boola</h1>
         <p>Your AI-powered venture analysis assistant</p>
-        {/* <div style={{border: '2px solid red', padding: '10px', margin: '10px'}}> */}
-          {/* <p>TEST TEXT - This should be visible</p> */}
-        {/* </div> */}
         <VentureForm />
+        <VentureList /> {/* Added VentureList */}
       </div>
     </main>
   );

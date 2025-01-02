@@ -52,13 +52,47 @@ router.post('/', authenticateToken, async (req, res) => {
 router.get('/', authenticateToken, async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT venture_id, name, description, created_at FROM ventures WHERE user_id = $1 ORDER BY created_at DESC',
+      'SELECT venture_id, name, description, created_at, active FROM ventures WHERE user_id = $1 ORDER BY created_at DESC',
       [req.user.user_id]
     );
     res.json({ ventures: result.rows });
   } catch (error) {
     console.error('Error fetching ventures:', error);
     res.status(500).json({ error: 'Failed to fetch ventures' });
+  }
+});
+
+// Toggle venture active status
+router.put('/:id/toggle', authenticateToken, async (req, res) => {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    
+    // Deactivate all ventures for this user
+    await client.query(
+      'UPDATE ventures SET active = false WHERE user_id = $1',
+      [req.user.user_id]
+    );
+    
+    // Activate the selected venture
+    const result = await client.query(
+      'UPDATE ventures SET active = true WHERE venture_id = $1 AND user_id = $2 RETURNING *',
+      [req.params.id, req.user.user_id]
+    );
+    
+    await client.query('COMMIT');
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Venture not found' });
+    }
+    
+    res.json({ venture: result.rows[0] });
+  } catch (error) {
+    await client.query('ROLLBACK');
+    console.error('Error toggling venture:', error);
+    res.status(500).json({ error: 'Failed to toggle venture' });
+  } finally {
+    client.release();
   }
 });
 
