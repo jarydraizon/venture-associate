@@ -36,38 +36,39 @@ function MainContent() {
   return <Navigate to="/ventures" />;
 }
 
-function App() {
+function AppContent() {
   const { user } = useAuth();
-  
-  console.log('App rendering, user:', user);
-  
+  return (
+    <div className="app-container debug-outline">
+      {user && <Navbar />}
+      <Routes>
+        <Route path="/" element={<MainContent />} />
+        <Route 
+          path="/ventures" 
+          element={
+            <PrivateRoute>
+              <VenturesPage />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/insights" 
+          element={
+            <PrivateRoute>
+              <InsightsPage />
+            </PrivateRoute>
+          } 
+        />
+      </Routes>
+    </div>
+  );
+}
+
+function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="app-container debug-outline">
-          {user && <Navbar />}
-          <div className="main-content">
-            <Routes>
-              <Route path="/" element={<MainContent />} />
-              <Route 
-                path="/ventures" 
-                element={
-                  <PrivateRoute>
-                    <VenturesPage />
-                  </PrivateRoute>
-                } 
-              />
-              <Route 
-                path="/insights" 
-                element={
-                  <PrivateRoute>
-                    <InsightsPage />
-                  </PrivateRoute>
-                } 
-              />
-            </Routes>
-          </div>
-        </div>
+        <AppContent />
       </Router>
     </AuthProvider>
   );
