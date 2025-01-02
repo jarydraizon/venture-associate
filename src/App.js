@@ -50,7 +50,10 @@ function MainContent() {
         <h1>Welcome to boola</h1>
         <p>Your AI-powered venture analysis assistant</p>
         <VentureForm />
-        <VentureList /> {/* Added VentureList */}
+        <VentureList />
+        <div className="venture-helper">
+          <p>Create a venture above to get started!</p>
+        </div> {/* Added VentureList */}
       </div>
     </main>
   );

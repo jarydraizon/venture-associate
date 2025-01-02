@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -32,7 +31,7 @@ const VentureList = () => {
 
     useEffect(() => {
         fetchVentures();
-    }, []);
+    }, [ventures]);
 
     return (
         <div className="venture-list">

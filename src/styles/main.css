@@ -150,6 +150,14 @@ main button:hover {
 }
 .venture-list {
     margin-top: 2rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.venture-list h2 {
+    color: #333;
+    margin-bottom: 1rem;
 }
 
 .ventures {
