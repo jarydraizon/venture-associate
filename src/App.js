@@ -39,10 +39,12 @@ function MainContent() {
 function App() {
   const { user } = useAuth();
   
+  console.log('App rendering, user:', user);
+  
   return (
     <AuthProvider>
       <Router>
-        <div className="app-container">
+        <div className="app-container debug-outline">
           {user && <Navbar />}
           <div className="main-content">
             <Routes>

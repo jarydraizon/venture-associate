@@ -1,12 +1,16 @@
-
-import React from 'react';
-import { useAuth } from '../context/AuthContext';
+import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Navbar() {
-  const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const location = useLocation();
+
+  useEffect(() => {
+    console.log('Navbar rendered with user:', user);
+    console.log('Current location:', location.pathname);
+  }, [user, location]);
 
   return (
     <nav className="sidebar">
