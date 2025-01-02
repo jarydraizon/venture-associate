@@ -45,6 +45,12 @@ body {
 .container {
   margin-left: 240px;
   padding: 2rem;
+  max-width: none;
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .logo {
