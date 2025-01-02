@@ -1,0 +1,99 @@
+~/venture-associate$ npm test
+
+> venture-associate@0.1.0 test
+> jest
+
+ PASS  src/components/__tests__/AuthForm.test.js
+ FAIL  src/api/__tests__/ventures.test.js
+  ● Test suite failed to run
+
+    ReferenceError: TextEncoder is not defined
+
+      1 |
+    > 2 | const { Pool } = require('pg');
+        |                  ^
+      3 |
+      4 | // Create a new connection pool to the database
+      5 | // This is more efficient than creating new connections for every request
+
+      at Object.<anonymous> (node_modules/pg/lib/crypto/utils-webcrypto.js:22:21)
+      at Object.<anonymous> (node_modules/pg/lib/crypto/utils.js:8:20)
+      at Object.<anonymous> (node_modules/pg/lib/crypto/sasl.js:2:16)
+      at Object.<anonymous> (node_modules/pg/lib/client.js:5:12)
+      at Object.<anonymous> (node_modules/pg/lib/index.js:3:14)
+      at Object.require (src/db/config.js:2:18)
+      at Object.require (src/api/auth.js:6:14)
+      at Object.require (src/server.js:6:20)
+      at Object.require (src/api/__tests__/ventures.test.js:2:13)
+
+ FAIL  src/api/__tests__/auth.test.js
+  ● Test suite failed to run
+
+    Route.post() requires a callback function but got a [object Undefined]
+
+      113 |
+      114 | // Create a venture
+    > 115 | router.post('/', verifyToken, async (req, res) => {
+          |        ^
+      116 |     const { name, description } = req.body;
+      117 |     const userId = req.userId; // Retrieve user ID from the verified token
+      118 |
+
+      at Route.<computed> [as post] (node_modules/express/lib/router/route.js:216:15)
+      at Function.proto.<computed> [as post] (node_modules/express/lib/router/index.js:521:19)
+      at Object.post (src/api/auth.js:115:8)
+      at Object.require (src/api/__tests__/auth.test.js:4:20)
+
+Test Suites: 2 failed, 1 passed, 3 total
+Tests:       2 passed, 2 total
+Snapshots:   0 total
+Time:        4.967 s
+Ran all test suites.
+~/venture-associate$ npm test
+
+> venture-associate@0.1.0 test
+> jest
+
+ PASS  src/components/__tests__/AuthForm.test.js
+ FAIL  src/api/__tests__/auth.test.js
+  ● Test suite failed to run
+
+    Route.post() requires a callback function but got a [object Undefined]
+
+      113 |
+      114 | // Create a venture
+    > 115 | router.post('/', verifyToken, async (req, res) => {
+          |        ^
+      116 |     const { name, description } = req.body;
+      117 |     const userId = req.userId; // Retrieve user ID from the verified token
+      118 |
+
+      at Route.<computed> [as post] (node_modules/express/lib/router/route.js:216:15)
+      at Function.proto.<computed> [as post] (node_modules/express/lib/router/index.js:521:19)
+      at Object.post (src/api/auth.js:115:8)
+      at Object.require (src/api/__tests__/auth.test.js:4:20)
+
+ FAIL  src/api/__tests__/ventures.test.js
+  ● Test suite failed to run
+
+    Route.post() requires a callback function but got a [object Undefined]
+
+      113 |
+      114 | // Create a venture
+    > 115 | router.post('/', verifyToken, async (req, res) => {
+          |        ^
+      116 |     const { name, description } = req.body;
+      117 |     const userId = req.userId; // Retrieve user ID from the verified token
+      118 |
+
+      at Route.<computed> [as post] (node_modules/express/lib/router/route.js:216:15)
+      at Function.proto.<computed> [as post] (node_modules/express/lib/router/index.js:521:19)
+      at Object.post (src/api/auth.js:115:8)
+      at Object.require (src/server.js:6:20)
+      at Object.require (src/api/__tests__/ventures.test.js:2:13)
+
+Test Suites: 2 failed, 1 passed, 3 total
+Tests:       2 passed, 2 total
+Snapshots:   0 total
+Time:        8.559 s
+Ran all test suites.

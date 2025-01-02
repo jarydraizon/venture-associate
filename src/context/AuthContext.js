@@ -1,14 +1,62 @@
+
 import React, { createContext, useState, useContext } from 'react';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  // Initialize user state from localStorage if token exists
+  const [user, setUser] = useState(() => {
+    const token = localStorage.getItem('token');
+    const initialUser = token ? { email: localStorage.getItem('userEmail') } : null;
+    console.log('Initial user state:', initialUser);
+    return initialUser;
+  });
   const [error, setError] = useState(null);
 
+  // Login handler - authenticates user and stores token
   const login = async (credentials) => {
     try {
-      const response = await fetch('http://0.0.0.0:3001/api/auth/login', {
+      // Make API request to login endpoint
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials)
+      });
+
+      const data = await response.json();
+      
+      // Handle unsuccessful login
+      if (!response.ok) {
+        throw new Error(data.error || 'Login failed');
+      }
+
+      // Only set user state if we received a valid token
+      if (data.token) {
+        const userObj = {
+          email: credentials.email,
+          id: data.user_id || data.user?.id
+        };
+        
+        // Store auth data in localStorage and state
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userEmail', credentials.email);
+        setUser(userObj);
+      } else {
+        throw new Error('Invalid login response');
+      }
+      return data;
+    } catch (err) {
+      setError(err.message);
+      throw new Error(err.message);
+    }
+  };
+
+  // Signup handler - creates new user and logs them in
+  const signup = async (credentials) => {
+    try {
+      const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -19,52 +67,20 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       
       if (!response.ok) {
-        throw new Error(data.error || 'Login failed');
-      }
-
-      setUser(data.user);
-      localStorage.setItem('token', data.token);
-      return data;
-    } catch (err) {
-      console.error('Signup failed:', err);
-      const errorMessage = err.message || 'Failed to create account';
-      setError(errorMessage);
-      throw new Error(errorMessage);
-    }
-  };
-
-  const signup = async (credentials) => {
-    try {
-      console.log('Sending signup request:', credentials);
-      const response = await fetch('http://0.0.0.0:3001/api/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify(credentials)
-      });
-
-      console.log('Response status:', response.status);
-      const data = await response.json();
-      console.log('Response data:', data);
-      
-      if (!response.ok) {
         throw new Error(data.error || 'Signup failed');
       }
 
+      // Store user data and token after successful signup
       setUser(data.user);
       localStorage.setItem('token', data.token);
       return data;
     } catch (err) {
-      console.error('Signup failed:', err);
-      const errorMessage = err.message || 'Failed to create account';
-      setError(errorMessage);
-      throw new Error(errorMessage);
+      setError(err.message);
+      throw new Error(err.message);
     }
   };
 
+  // Logout handler - clears auth state
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
