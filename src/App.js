@@ -1,37 +1,27 @@
-import React, { useState } from 'react';
+
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import AuthForm from './components/AuthForm';
-import VentureForm from './components/VentureForm';
+import VenturesPage from './pages/VenturesPage';
+import InsightsPage from './pages/InsightsPage';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import VentureList from './components/VentureList'; // Added import
+
+function PrivateRoute({ children }) {
+  const { user } = useAuth();
+  return user ? children : <Navigate to="/" />;
+}
 
 function MainContent() {
   const { user, login, signup } = useAuth();
-  const [isLogin, setIsLogin] = useState(true);
-  
-  console.log('MainContent rendered, user state:', user);
-  console.log('Local Storage token:', localStorage.getItem('token'));
-
-  const handleSubmit = async (credentials) => {
-    try {
-      if (isLogin) {
-        const response = await login(credentials);
-        console.log('Login success:', response);
-      } else {
-        await signup(credentials);
-      }
-    } catch (error) {
-      console.error('Auth error:', error);
-      alert(error.message);
-    }
-  };
+  const [isLogin, setIsLogin] = React.useState(true);
 
   if (!user) {
     return (
       <main className="container">
         <div className="auth-container">
           <h1>{isLogin ? 'Sign In' : 'Sign Up'}</h1>
-          <AuthForm onSubmit={handleSubmit} isLogin={isLogin} />
+          <AuthForm onSubmit={isLogin ? login : signup} isLogin={isLogin} />
           <button 
             className="switch-auth" 
             onClick={() => setIsLogin(!isLogin)}
@@ -43,29 +33,36 @@ function MainContent() {
     );
   }
 
-  // This is the authenticated view
-  return (
-    <main className="container">
-      <div className="main-content">
-        <h1>Welcome to boola</h1>
-        <p>Your AI-powered venture analysis assistant</p>
-        <VentureForm />
-        <VentureList />
-        <div className="venture-helper">
-          <p>Create a venture above to get started!</p>
-        </div> {/* Added VentureList */}
-      </div>
-    </main>
-  );
+  return <Navigate to="/ventures" />;
 }
 
 function App() {
   return (
     <AuthProvider>
-      <div>
-        <Navbar />
-        <MainContent />
-      </div>
+      <Router>
+        <div>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<MainContent />} />
+            <Route 
+              path="/ventures" 
+              element={
+                <PrivateRoute>
+                  <VenturesPage />
+                </PrivateRoute>
+              } 
+            />
+            <Route 
+              path="/insights" 
+              element={
+                <PrivateRoute>
+                  <InsightsPage />
+                </PrivateRoute>
+              } 
+            />
+          </Routes>
+        </div>
+      </Router>
     </AuthProvider>
   );
 }

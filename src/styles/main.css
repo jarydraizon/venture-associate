@@ -114,6 +114,26 @@ main button:hover {
   color: #666;
 }
 
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  margin: 0 2rem;
+}
+
+.nav-link {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+.nav-link.active {
+  color: #0066cc;
+  border-bottom: 2px solid #0066cc;
+}
+
 .error-message {
   color: #ff0000;
   margin-bottom: 1rem;
