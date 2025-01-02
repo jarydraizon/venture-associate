@@ -10,28 +10,41 @@ body {
   color: #000000;
 }
 
-nav {
+.sidebar {
   background: white;
-  border-bottom: 1px solid #eee;
-  padding: 1rem 0;
-  margin-bottom: 2rem;
-  position: sticky;
+  border-right: 1px solid #eee;
+  width: 240px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
   top: 0;
+  padding: 1.5rem 1rem;
+}
+
+.sidebar-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar-top {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  border-top: 1px solid #eee;
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-nav .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  margin-left: 240px;
+  padding: 2rem;
 }
 
 .logo {
@@ -119,8 +132,8 @@ main button:hover {
 
 .nav-links {
   display: flex;
-  gap: 1rem;
-  margin: 0 2rem;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .nav-link {
@@ -128,18 +141,23 @@ main button:hover {
   border: none;
   color: #666;
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
   font-size: 1rem;
   transition: all 0.2s;
+  text-align: left;
+  border-radius: 6px;
+  width: 100%;
 }
 
 .nav-link:hover {
+  background: #f5f7f9;
   color: #0066cc;
 }
 
 .nav-link.active {
+  background: #edf2ff;
   color: #0066cc;
-  border-bottom: 2px solid #0066cc;
+  font-weight: 500;
 }
 
 .error-message {

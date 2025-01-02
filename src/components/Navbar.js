@@ -9,33 +9,33 @@ function Navbar() {
   const location = useLocation();
 
   return (
-    <nav>
-      <div className="container">
-        <div className="logo">boola</div>
+    <nav className="sidebar">
+      <div className="sidebar-content">
+        <div className="sidebar-top">
+          <div className="logo">boola</div>
+          {user && (
+            <div className="nav-links">
+              <button 
+                className={`nav-link ${location.pathname === '/ventures' ? 'active' : ''}`}
+                onClick={() => navigate('/ventures')}
+              >
+                Ventures
+              </button>
+              <button 
+                className={`nav-link ${location.pathname === '/insights' ? 'active' : ''}`}
+                onClick={() => navigate('/insights')}
+              >
+                Insights
+              </button>
+            </div>
+          )}
+        </div>
         {user && (
-          <div className="nav-links">
-            <button 
-              className={`nav-link ${location.pathname === '/ventures' ? 'active' : ''}`}
-              onClick={() => navigate('/ventures')}
-            >
-              Ventures
-            </button>
-            <button 
-              className={`nav-link ${location.pathname === '/insights' ? 'active' : ''}`}
-              onClick={() => navigate('/insights')}
-            >
-              Insights
-            </button>
+          <div className="sidebar-bottom">
+            <span className="user-email">{user.email}</span>
+            <button className="sign-out-btn" onClick={logout}>Sign Out</button>
           </div>
         )}
-        <div>
-          {user ? (
-            <>
-              <span className="user-email">{user.email}</span>
-              <button onClick={logout}>Sign Out</button>
-            </>
-          ) : null}
-        </div>
       </div>
     </nav>
   );
