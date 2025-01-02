@@ -29,7 +29,7 @@ router.post('/signup', async (req, res) => {
     );
 
     // Change here
-    const token = jwt.sign({ userId: result.rows[0].id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ user_id: result.rows[0].id }, process.env.JWT_SECRET);
     res.status(201).json({ user: result.rows[0], token });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -52,7 +52,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Change here
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ user_id: user.id }, process.env.JWT_SECRET);
     res.json({ user: { id: user.id, email: user.email }, token });
   } catch (error) {
     res.status(500).json({ error: error.message });
