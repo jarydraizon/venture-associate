@@ -37,6 +37,75 @@ body {
   left: 0;
   top: 0;
   padding: 1.5rem 1rem;
+  box-shadow: 2px 0 4px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar-top {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sidebar-bottom {
+  padding: 1rem 0;
+  border-top: 1px solid #eee;
+}
+
+.nav-link {
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  margin: 0.25rem 0;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: #4a5568;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-link:hover {
+  background: #f7fafc;
+  color: #2d3748;
+}
+
+.nav-link.active {
+  background: #ebf4ff;
+  color: #3182ce;
+  font-weight: 500;
+}
+
+.sign-out-btn {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: white;
+  color: #4a5568;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sign-out-btn:hover {
+  background: #f7fafc;
+}
+
+.user-email {
+  display: block;
+  color: #718096;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
 }
 
 .sidebar-content {
