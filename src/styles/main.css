@@ -8,47 +8,47 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background-color: #f8f9fa;
 }
 
-/* Layout */
+/* App Layout */
 .app-container {
   display: flex;
   min-height: 100vh;
-  position: relative;
 }
 
-/* Sidebar styles */
+.main-content {
+  flex-grow: 1;
+  padding: 2rem;
+  margin-left: 250px;
+}
+
+/* Sidebar Navigation */
 .sidebar {
-  width: 240px;
-  height: 100vh;
-  background: white;
   position: fixed;
   left: 0;
   top: 0;
-  border-right: 1px solid #e2e8f0;
-  padding: 1.5rem 1rem;
-  z-index: 1000;
+  bottom: 0;
+  width: 250px;
+  background-color: #1a1a1a;
+  color: white;
+  padding: 1rem;
 }
 
 .sidebar-content {
-  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  height: 100%;
 }
 
 .sidebar-top {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  flex-grow: 1;
 }
 
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #2d3748;
-  padding: 0.5rem 0;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
 }
 
 .nav-links {
@@ -58,122 +58,100 @@ body {
 }
 
 .nav-link {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 6px;
+  border: none;
+  background: none;
   width: 100%;
   text-align: left;
-  padding: 0.75rem 1rem;
-  border: none;
-  border-radius: 6px;
-  background: none;
-  color: #4a5568;
-  font-size: 1rem;
   cursor: pointer;
-  transition: all 0.2s;
+  font-size: 1rem;
 }
 
 .nav-link:hover {
-  background: #f7fafc;
-  color: #2d3748;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .nav-link.active {
-  background: #ebf4ff;
-  color: #3182ce;
-  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .sidebar-bottom {
-  padding-top: 1rem;
-  border-top: 1px solid #e2e8f0;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .user-email {
   display: block;
-  color: #718096;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   margin-bottom: 0.5rem;
+  color: #888;
 }
 
 .sign-out-btn {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #e2e8f0;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
   border-radius: 6px;
-  background: white;
-  color: #4a5568;
   cursor: pointer;
-  transition: all 0.2s;
 }
 
 .sign-out-btn:hover {
-  background: #f7fafc;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Main content area */
-.main-content {
-  flex: 1;
-  margin-left: 240px;
-  padding: 2rem;
-  width: calc(100% - 240px);
-  min-height: 100vh;
+/* Venture List Styles */
+.venture-list {
+  margin-top: 2rem;
 }
 
-/* Auth container */
-.auth-container {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-/* Debug outline (only for development) */
-.debug-outline * {
-  outline: 0px solid rgba(255,0,0,0.1);
-}
-/* Table Styles */
 .table-container {
-    margin: 20px 0;
-    overflow-x: auto;
+  margin: 20px 0;
+  overflow-x: auto;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 th {
-    background-color: #f7fafc;
-    font-weight: 600;
-    color: #4a5568;
+  background-color: #f7fafc;
+  font-weight: 600;
+  color: #4a5568;
 }
 
 tr:hover {
-    background-color: #f7fafc;
+  background-color: #f7fafc;
 }
 
 button.activate {
-    background-color: #48bb78;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
+  background-color: #48bb78;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 button.deactivate {
-    background-color: #f56565;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
+  background-color: #f56565;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
 }
