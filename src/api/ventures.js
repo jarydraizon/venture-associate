@@ -1,7 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../db/config');
 const { authenticateToken } = require('../utils/auth');
+
+// Debug route
+router.get('/debug', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM ventures');
+    res.json({ ventures: result.rows });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch ventures' });
+  }
+});
 
 // Create a new venture
 router.post('/', authenticateToken, async (req, res) => {
