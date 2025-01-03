@@ -93,6 +93,20 @@ body {
 
 .sign-out-btn {
   width: 100%;
+  padding: 0.5rem;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.sign-out-btn:hover {
+  background: #444;
+}
+
+.sign-out-btn {
+  width: 100%;
   padding: 0.75rem;
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
