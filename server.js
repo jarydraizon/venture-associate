@@ -13,17 +13,18 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+
+// Mount API routes first
+app.use('/api/auth', authRoutes);
+app.use('/api/ventures', ventureRoutes);
+
 // Serve static files from the build directory
 app.use(express.static(path.join(__dirname, 'build')));
 
-// Always serve index.html for client-side routing
-app.get('/*', (req, res) => {
+// Always serve index.html for any other routes (client-side routing)
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-
-// Mount routes
-app.use('/api/auth', authRoutes);
-app.use('/api/ventures', ventureRoutes);
 
 // Debug middleware
 app.use((req, res, next) => {
