@@ -6,6 +6,18 @@ const VentureList = () => {
     const [ventures, setVentures] = useState([]);
     const [error, setError] = useState('');
 
+    const toggleActive = async (ventureId) => {
+        try {
+            const token = localStorage.getItem('token');
+            await axios.patch(`/api/ventures/${ventureId}/toggle`, {}, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            await fetchVentures(); // Refresh the list
+        } catch (err) {
+            setError('Failed to toggle venture status');
+        }
+    };
+
     const fetchVentures = async () => {
         try {
             const token = localStorage.getItem('token');
