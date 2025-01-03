@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -39,7 +38,7 @@ function AppContent() {
         <Routes>
           <Route path="/ventures" element={<VenturesPage />} />
           <Route path="/insights" element={<InsightsPage />} />
-          <Route path="/" element={<Navigate to="/ventures" />} />
+          <Route path="/" element={<Navigate to="/ventures" />} /> {/* Redirect to /ventures on default */}
         </Routes>
       </div>
     </div>
