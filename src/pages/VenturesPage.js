@@ -1,25 +1,37 @@
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './VenturesPage.css'; // Optional: if you have specific styles
+import './VenturesPage.css';
 
 const VenturesPage = () => {
     const [ventures, setVentures] = useState([]);
+    const [error, setError] = useState(null);
     const token = localStorage.getItem('token');
 
     useEffect(() => {
         const fetchVentures = async () => {
             try {
                 const response = await axios.get('/api/ventures', {
-                    headers: { 'Authorization': `Bearer ${token}` }
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
                 });
                 setVentures(response.data.ventures);
             } catch (error) {
                 console.error('Error fetching ventures:', error);
+                setError(error.response?.data?.error || 'Failed to fetch ventures');
             }
         };
 
-        fetchVentures();
+        if (token) {
+            fetchVentures();
+        }
     }, [token]);
+
+    if (error) {
+        return <div className="error">{error}</div>;
+    }
 
     return (
         <div className="venture-list">
