@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './VenturesPage.css';
@@ -6,10 +5,15 @@ import './VenturesPage.css';
 const VenturesPage = () => {
     const [ventures, setVentures] = useState([]);
     const [error, setError] = useState(null);
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token'); // Get the token from local storage
 
     useEffect(() => {
         const fetchVentures = async () => {
+            if (!token) {
+                setError("Authentication required. Please log in.");
+                return;
+            }
+
             try {
                 const response = await axios.get('/api/ventures', {
                     headers: { 
@@ -24,9 +28,7 @@ const VenturesPage = () => {
             }
         };
 
-        if (token) {
-            fetchVentures();
-        }
+        fetchVentures();
     }, [token]);
 
     if (error) {
