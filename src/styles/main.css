@@ -32,8 +32,6 @@ body {
   background-color: #1a1a1a;
   color: white;
   padding: 1rem;
-  z-index: 1000;
-  display: block;
 }
 
 .sidebar-content {

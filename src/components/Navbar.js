@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
-  console.log('Navbar component rendering');
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const location = useLocation();
