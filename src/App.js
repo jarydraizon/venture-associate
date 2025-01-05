@@ -38,7 +38,16 @@ function AppContent() {
         <Routes>
           <Route path="/ventures" element={<VenturesPage />} />
           <Route path="/insights" element={<InsightsPage />} />
-          <Route path="/" element={<Navigate to="/ventures" />} /> {/* Redirect to /ventures on default */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={
+            <div className="auth-container">
+              <h1>Sign In</h1>
+              <AuthForm onSubmit={login} isLogin={true} />
+              <button className="switch-auth" onClick={() => navigate('/signup')}>
+                Need an account? Sign up
+              </button>
+            </div>
+          } />
         </Routes>
       </div>
     </div>
