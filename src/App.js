@@ -1,70 +1,66 @@
-
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import AuthForm from './components/AuthForm';
-import VentureForm from './components/VentureForm';
+import VenturesPage from './pages/VenturesPage';
+import InsightsPage from './pages/InsightsPage';
+import HomePage from './pages/HomePage'; // Import HomePage component
 import { AuthProvider, useAuth } from './context/AuthContext';
+import './styles/main.css';
 
-function MainContent() {
+function PrivateRoute({ children }) {
+  const { user } = useAuth();
+  return user ? children : <Navigate to="/" />;
+}
+
+function AppContent() {
   const { user, login, signup } = useAuth();
-  const [isLogin, setIsLogin] = useState(true);
-  
-  console.log('MainContent rendered, user state:', user);
-  console.log('Local Storage token:', localStorage.getItem('token'));
+  const [isLogin, setIsLogin] = React.useState(true);
 
-  const handleSubmit = async (credentials) => {
-    try {
-      if (isLogin) {
-        const response = await login(credentials);
-        console.log('Login success:', response);
-      } else {
-        await signup(credentials);
-      }
-    } catch (error) {
-      console.error('Auth error:', error);
-      alert(error.message);
-    }
-  };
-
-  if (!user) {
-    return (
-      <main className="container">
-        <div className="auth-container">
-          <h1>{isLogin ? 'Sign In' : 'Sign Up'}</h1>
-          <AuthForm onSubmit={handleSubmit} isLogin={isLogin} />
-          <button 
-            className="switch-auth" 
-            onClick={() => setIsLogin(!isLogin)}
-          >
-            {isLogin ? 'Need an account? Sign up' : 'Have an account? Sign in'}
-          </button>
-        </div>
-      </main>
-    );
-  }
-
-  // This is the authenticated view
   return (
-    <main className="container">
+    <div className="app-container">
+      {user && <Navbar />}
       <div className="main-content">
-        <h1>Welcome to boola</h1>
-        <p>Your AI-powered venture analysis assistant</p>
-        {/* <div style={{border: '2px solid red', padding: '10px', margin: '10px'}}> */}
-          {/* <p>TEST TEXT - This should be visible</p> */}
-        {/* </div> */}
-        <VentureForm />
+        <Routes>
+          <Route path="/ventures" element={
+            <PrivateRoute>
+              <VenturesPage />
+            </PrivateRoute>
+          } />
+          <Route path="/insights" element={
+            <PrivateRoute>
+              <InsightsPage />
+            </PrivateRoute>
+          } />
+          <Route path="/" element={
+            user ? <Navigate to="/ventures" /> : <HomePage />
+          } />
+          <Route path="/login" element={
+            user ? <Navigate to="/ventures" /> : (
+              <div className="auth-container">
+                <h1>{isLogin ? 'Sign In' : 'Sign Up'}</h1>
+                <AuthForm onSubmit={isLogin ? login : signup} isLogin={isLogin} />
+                <button 
+                  className="switch-auth" 
+                  onClick={() => setIsLogin(!isLogin)}
+                >
+                  {isLogin ? 'Need an account? Sign up' : 'Have an account? Sign in'}
+                </button>
+              </div>
+            )
+          } />
+        </Routes>
       </div>
-    </main>
+    </div>
   );
 }
 
 function App() {
   return (
     <AuthProvider>
-      <div>
-        <Navbar />
-        <MainContent />
-      </div>
+      <Router>
+        <AppContent />
+      </Router>
     </AuthProvider>
   );
 }

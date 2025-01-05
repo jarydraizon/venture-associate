@@ -1,150 +1,216 @@
 
+/* Reset and base styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
 body {
-  background: #ffffff;
-  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
-nav {
-  background: #ffffff;
-  padding: 1rem;
-  border-bottom: 1px solid #e0e0e0;
-  position: sticky;
-  top: 0;
-}
-
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-nav .container {
+/* Home Page */
+.home-page {
+  min-height: 100vh;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  color: white;
 }
 
-.logo {
-  color: #000000;
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  margin-left: 0.5rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 3px;
-  background: #ffffff;
-  color: #000000;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.2s ease;
-}
-
-button:hover {
-  background: #f5f5f5;
-}
-
-main {
-  padding: 4rem 0;
+.hero-section {
   text-align: center;
-}
-
-main h1 {
-  margin-bottom: 1rem;
-  font-size: 2.5rem;
-  font-weight: 600;
-}
-
-main p {
-  margin-bottom: 2rem;
-  color: #666666;
-  font-size: 1.1rem;
-}
-
-main button {
-  background: #000000;
-  color: #ffffff;
-  border: none;
-  padding: 0.75rem 1.5rem;
-}
-
-main button:hover {
-  background: #333333;
-}
-
-.auth-container {
-  max-width: 400px;
-  margin: 0 auto;
   padding: 2rem;
+  max-width: 800px;
 }
 
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin: 2rem 0;
-}
-
-.auth-form input {
-  padding: 0.75rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 3px;
-  font-size: 1rem;
-}
-
-.switch-auth {
-  background: none;
-  border: none;
-  color: #666;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.user-email {
-  margin-right: 1rem;
-  color: #666;
-}
-
-.error-message {
-  color: #ff0000;
+.hero-section h1 {
+  font-size: 3.5rem;
   margin-bottom: 1rem;
-  font-size: 0.9rem;
+  background: linear-gradient(45deg, #4CAF50, #2196F3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-section h2 {
+  font-size: 1.5rem;
+  color: #888;
+  margin-bottom: 2rem;
+}
+
+.cta-button {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background: linear-gradient(45deg, #4CAF50, #2196F3);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+}
+
+/* App Layout */
+.app-container {
+  display: flex;
+  min-height: 100vh;
 }
 
 .main-content {
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
+  flex-grow: 1;
+  padding: 2rem;
+  margin-left: 250px;
 }
 
-.main-content form {
+/* Sidebar Navigation */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 250px;
+  background-color: #1a1a1a;
+  color: white;
+  padding: 1rem;
+}
+
+.sidebar-content {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
+  height: 100%;
 }
 
-.main-content input,
-.main-content textarea {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+.sidebar-top {
+  flex-grow: 1;
 }
 
-.main-content button {
-  padding: 10px;
-  background: #0066cc;
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 6px;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-bottom {
+  padding: 1rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-email {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: #888;
+}
+
+.sign-out-btn {
+  width: 100%;
+  padding: 0.5rem;
+  background: #333;
   color: white;
   border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.sign-out-btn:hover {
+  background: #444;
+}
+
+.sign-out-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.sign-out-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Venture List Styles */
+.venture-list {
+  margin-top: 2rem;
+}
+
+.table-container {
+  margin: 20px 0;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+  background-color: #f7fafc;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+tr:hover {
+  background-color: #f7fafc;
+}
+
+button.activate {
+  background-color: #48bb78;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button.deactivate {
+  background-color: #f56565;
+  color: white;
+  border: none;
+  padding: 6px 12px;
   border-radius: 4px;
   cursor: pointer;
 }
