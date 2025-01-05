@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import AuthForm from './components/AuthForm';
 import VenturesPage from './pages/VenturesPage';
 import InsightsPage from './pages/InsightsPage';
+import HomePage from './pages/HomePage'; // Import HomePage component
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './styles/main.css';
 
@@ -38,7 +39,7 @@ function AppContent() {
         <Routes>
           <Route path="/ventures" element={<VenturesPage />} />
           <Route path="/insights" element={<InsightsPage />} />
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} /> {/* Corrected root route */}
           <Route path="/login" element={
             <div className="auth-container">
               <h1>Sign In</h1>
