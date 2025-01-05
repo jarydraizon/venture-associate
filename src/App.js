@@ -44,7 +44,7 @@ function AppContent() {
             <div className="auth-container">
               <h1>Sign In</h1>
               <AuthForm onSubmit={login} isLogin={true} />
-              <button className="switch-auth" onClick={() => navigate('/signup')}>
+              <button className="switch-auth" onClick={() => setIsLogin(false)}>
                 Need an account? Sign up
               </button>
             </div>
