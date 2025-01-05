@@ -17,37 +17,37 @@ function AppContent() {
   const { user, login, signup } = useAuth();
   const [isLogin, setIsLogin] = React.useState(true);
 
-  if (!user) {
-    return (
-      <div className="auth-container">
-        <h1>{isLogin ? 'Sign In' : 'Sign Up'}</h1>
-        <AuthForm onSubmit={isLogin ? login : signup} isLogin={isLogin} />
-        <button 
-          className="switch-auth" 
-          onClick={() => setIsLogin(!isLogin)}
-        >
-          {isLogin ? 'Need an account? Sign up' : 'Have an account? Sign in'}
-        </button>
-      </div>
-    );
-  }
-
   return (
     <div className="app-container">
-      <Navbar />
+      {user && <Navbar />}
       <div className="main-content">
         <Routes>
-          <Route path="/ventures" element={<VenturesPage />} />
-          <Route path="/insights" element={<InsightsPage />} />
-          <Route path="/" element={<HomePage />} /> {/* Corrected root route */}
+          <Route path="/ventures" element={
+            <PrivateRoute>
+              <VenturesPage />
+            </PrivateRoute>
+          } />
+          <Route path="/insights" element={
+            <PrivateRoute>
+              <InsightsPage />
+            </PrivateRoute>
+          } />
+          <Route path="/" element={
+            user ? <Navigate to="/ventures" /> : <HomePage />
+          } />
           <Route path="/login" element={
-            <div className="auth-container">
-              <h1>Sign In</h1>
-              <AuthForm onSubmit={login} isLogin={true} />
-              <button className="switch-auth" onClick={() => setIsLogin(false)}>
-                Need an account? Sign up
-              </button>
-            </div>
+            user ? <Navigate to="/ventures" /> : (
+              <div className="auth-container">
+                <h1>{isLogin ? 'Sign In' : 'Sign Up'}</h1>
+                <AuthForm onSubmit={isLogin ? login : signup} isLogin={isLogin} />
+                <button 
+                  className="switch-auth" 
+                  onClick={() => setIsLogin(!isLogin)}
+                >
+                  {isLogin ? 'Need an account? Sign up' : 'Have an account? Sign in'}
+                </button>
+              </div>
+            )
           } />
         </Routes>
       </div>
