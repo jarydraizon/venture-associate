@@ -1,0 +1,72 @@
+Updated Database Schema
+1. Users Table
+The existing users table will remain to maintain user information.
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+2. Ventures Table
+The existing ventures table will include a foreign key to users.
+
+CREATE TABLE ventures (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    user_id INTEGER REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+3. Other Companies Table
+This table will be linked to the ventures table and will allow users to categorize them as competitors/collaborators.
+
+CREATE TABLE other_companies (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    type VARCHAR(50) CHECK (type IN ('competitor', 'collaborator')),
+    venture_id INTEGER REFERENCES ventures(id),
+    user_id INTEGER REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+4. Files Table
+This table will hold files related to ventures and other companies.
+
+CREATE TABLE files (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    url TEXT NOT NULL,
+    venture_id INTEGER REFERENCES ventures(id),
+    other_company_id INTEGER REFERENCES other_companies(id),
+    user_id INTEGER REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+5. Web URLs Table
+This table will hold web URLs related to ventures and other companies.
+
+CREATE TABLE web_urls (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    url TEXT NOT NULL,
+    venture_id INTEGER REFERENCES ventures(id),
+    other_company_id INTEGER REFERENCES other_companies(id),
+    user_id INTEGER REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+6. YouTube URLs Table
+This table will hold YouTube URLs related to ventures and other companies.
+
+CREATE TABLE youtube_urls (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    url TEXT NOT NULL,
+    venture_id INTEGER REFERENCES ventures(id),
+    other_company_id INTEGER REFERENCES other_companies(id),
+    user_id INTEGER REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+Explanation
+Users continue to be linked to multiple ventures.
+Ventures can have multiple associated files, websites, and YouTube URLs.
+Other Companies are linked to specific ventures and can have their own multiple files, websites, and YouTube URLs, clearly categorized as either a competitor or collaborator.
+Each of the new tables (files, web_urls, youtube_urls) include foreign keys to associate them either with a venture or other companies, and all maintain a relationship to users.
