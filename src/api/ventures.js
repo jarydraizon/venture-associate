@@ -63,7 +63,7 @@ router.get('/', authenticateToken, async (req, res) => {
   try {
     console.log('Fetching ventures for user:', req.user.user_id);
     const result = await pool.query(
-      'SELECT venture_id, name, description, created_at, active FROM ventures WHERE user_id = $1 ORDER BY created_at DESC',
+      'SELECT venture_id, name, description, created_at, COALESCE(active, false) as active FROM ventures WHERE user_id = $1 ORDER BY created_at DESC',
       [req.user.user_id]
     );
     console.log('Ventures found:', result.rows.length);
