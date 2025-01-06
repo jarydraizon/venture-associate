@@ -61,14 +61,16 @@ router.post('/', authenticateToken, async (req, res) => {
 // Get all ventures for the authenticated user
 router.get('/', authenticateToken, async (req, res) => {
   try {
+    console.log('Fetching ventures for user:', req.user.user_id);
     const result = await pool.query(
       'SELECT venture_id, name, description, created_at, active FROM ventures WHERE user_id = $1 ORDER BY created_at DESC',
       [req.user.user_id]
     );
+    console.log('Ventures found:', result.rows.length);
     res.json({ ventures: result.rows });
   } catch (error) {
     console.error('Error fetching ventures:', error);
-    res.status(500).json({ error: 'Failed to fetch ventures' });
+    res.status(500).json({ error: `Failed to fetch ventures: ${error.message}` });
   }
 });
 

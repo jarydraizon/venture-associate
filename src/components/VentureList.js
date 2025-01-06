@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -13,7 +12,13 @@ const VentureList = () => {
     const fetchData = async () => {
         try {
             const token = localStorage.getItem('token');
+            if (!token) {
+                setError('No authentication token found');
+                return;
+            }
+            
             const headers = { 'Authorization': `Bearer ${token}` };
+            console.log('Fetching data with token:', token);
             
             const [venturesRes, filesRes, webRes, youtubeRes, companiesRes] = await Promise.all([
                 axios.get('/api/ventures', { headers }),
@@ -23,13 +28,14 @@ const VentureList = () => {
                 axios.get('/api/ventures/other-companies', { headers })
             ]);
 
-            setVentures(venturesRes.data.ventures);
-            setFiles(filesRes.data.files);
-            setWebUrls(webRes.data.webUrls);
-            setYoutubeUrls(youtubeRes.data.youtubeUrls);
-            setOtherCompanies(companiesRes.data.companies);
+            setVentures(venturesRes.data.ventures || []);
+            setFiles(filesRes.data.files || []);
+            setWebUrls(webRes.data.webUrls || []);
+            setYoutubeUrls(youtubeRes.data.youtubeUrls || []);
+            setOtherCompanies(companiesRes.data.companies || []);
         } catch (error) {
-            setError('Failed to fetch data');
+            console.error('Error fetching data:', error.response || error);
+            setError(error.response?.data?.error || 'Failed to fetch data');
         }
     };
 
