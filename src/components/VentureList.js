@@ -48,33 +48,36 @@ const VentureList = () => {
         fetchData();
     }, []);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const token = localStorage.getItem('token');
-        const headers = { 'Authorization': `Bearer ${token}` };
-
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         try {
-            switch(activeModal) {
+            const token = localStorage.getItem('token');
+            const headers = { 'Authorization': `Bearer ${token}` };
+            let endpoint;
+            
+            switch (activeModal) {
                 case 'file':
-                    await axios.post('/api/ventures/files', formData, { headers });
+                    endpoint = '/api/ventures/files';
                     break;
                 case 'webUrl':
-                    await axios.post('/api/ventures/web-urls', formData, { headers });
+                    endpoint = '/api/ventures/web-urls';
                     break;
                 case 'youtubeUrl':
-                    await axios.post('/api/ventures/youtube-urls', formData, { headers });
+                    endpoint = '/api/ventures/youtube-urls';
                     break;
                 case 'company':
-                    await axios.post('/api/ventures/other-companies', formData, { headers });
+                    endpoint = '/api/ventures/other-companies';
                     break;
                 default:
-                    return;
+                    throw new Error('Invalid modal type');
             }
             
+            await axios.post(endpoint, formData, { headers });
             fetchData();
             setActiveModal(null);
             setFormData({});
         } catch (error) {
+            console.error('Submission error:', error);
             setError(error.response?.data?.error || 'Failed to add item');
         }
     };
