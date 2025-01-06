@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from './Modal';
@@ -85,6 +84,29 @@ const VentureList = () => {
             <h2>Your Ventures</h2>
             {error && <p className="error">{error}</p>}
             
+            <div className="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Created At</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {ventures.map(venture => (
+                            <tr key={venture.venture_id}>
+                                <td>{venture.name}</td>
+                                <td>{venture.description}</td>
+                                <td>{new Date(venture.created_at).toLocaleDateString()}</td>
+                                <td>{venture.active ? 'Active' : 'Inactive'}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
             <h3>Files</h3>
             <button className="add-button" onClick={() => setActiveModal('file')}>Add New File</button>
             <div className="table-container">
