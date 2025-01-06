@@ -1,0 +1,78 @@
+~/venture-associate$ psql $DATABASE_URL -c "
+> DROP TABLE IF EXISTS youtube_urls;
+> DROP TABLE IF EXISTS web_urls;
+> DROP TABLE IF EXISTS files;
+> DROP TABLE IF EXISTS other_companies;
+> DROP TABLE IF EXISTS ventures CASCADE;
+> DROP TABLE IF EXISTS users CASCADE;
+> 
+> CREATE TABLE users (
+>     user_id SERIAL PRIMARY KEY,
+>     email VARCHAR(255) UNIQUE NOT NULL,
+>     password VARCHAR(255) NOT NULL,
+>     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+> );
+> 
+> CREATE TABLE ventures (
+>     venture_id SERIAL PRIMARY KEY,
+>     name VARCHAR(255) NOT NULL,
+>     description TEXT NOT NULL,
+>     user_id INTEGER REFERENCES users(user_id),
+>     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+> );
+> 
+> CREATE TABLE other_companies (
+>     company_id SERIAL PRIMARY KEY,
+>     name VARCHAR(255) NOT NULL,
+>     type VARCHAR(50) CHECK (type IN ('competitor', 'collaborator')),
+>     venture_id INTEGER REFERENCES ventures(venture_id),
+>     user_id INTEGER REFERENCES users(user_id),
+>     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+> );
+> 
+> CREATE TABLE files (
+>     file_id SERIAL PRIMARY KEY,
+>     name VARCHAR(255) NOT NULL,
+>     url TEXT NOT NULL,
+>     venture_id INTEGER REFERENCES ventures(venture_id),
+>     other_company_id INTEGER REFERENCES other_companies(company_id),
+>     user_id INTEGER REFERENCES users(user_id),
+>     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+> );
+> 
+> CREATE TABLE web_urls (
+>     url_id SERIAL PRIMARY KEY,
+>     name VARCHAR(255) NOT NULL,
+>     url TEXT NOT NULL,
+>     venture_id INTEGER REFERENCES ventures(venture_id),
+>     other_company_id INTEGER REFERENCES other_companies(company_id),
+>     user_id INTEGER REFERENCES users(user_id),
+>     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+> );
+> 
+> CREATE TABLE youtube_urls (
+>     youtube_id SERIAL PRIMARY KEY,
+>     name VARCHAR(255) NOT NULL,
+>     url TEXT NOT NULL,
+>     venture_id INTEGER REFERENCES ventures(venture_id),
+>     other_company_id INTEGER REFERENCES other_companies(company_id),
+>     user_id INTEGER REFERENCES users(user_id),
+>     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+> );"
+NOTICE:  table "youtube_urls" does not exist, skipping
+NOTICE:  table "web_urls" does not exist, skipping
+NOTICE:  table "files" does not exist, skipping
+DROP TABLE
+NOTICE:  table "other_companies" does not exist, skipping
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+~/venture-associate$ 
