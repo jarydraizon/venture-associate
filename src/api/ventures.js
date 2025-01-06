@@ -107,6 +107,58 @@ router.put('/:id/toggle', authenticateToken, async (req, res) => {
 });
 
 // Get a specific venture by ID
+// Get files for user
+router.get('/files', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM files WHERE user_id = $1 ORDER BY created_at DESC',
+      [req.user.user_id]
+    );
+    res.json({ files: result.rows });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch files' });
+  }
+});
+
+// Get web URLs for user
+router.get('/web-urls', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM web_urls WHERE user_id = $1 ORDER BY created_at DESC',
+      [req.user.user_id]
+    );
+    res.json({ webUrls: result.rows });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch web URLs' });
+  }
+});
+
+// Get YouTube URLs for user
+router.get('/youtube-urls', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM youtube_urls WHERE user_id = $1 ORDER BY created_at DESC',
+      [req.user.user_id]
+    );
+    res.json({ youtubeUrls: result.rows });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch YouTube URLs' });
+  }
+});
+
+// Get other companies for user
+router.get('/other-companies', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM other_companies WHERE user_id = $1 ORDER BY created_at DESC',
+      [req.user.user_id]
+    );
+    res.json({ companies: result.rows });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch companies' });
+  }
+});
+
 router.get('/:id', authenticateToken, async (req, res) => {
   try {
     const result = await pool.query(
