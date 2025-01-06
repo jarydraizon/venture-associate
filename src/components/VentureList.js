@@ -1,5 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Modal from './Modal';
 
 const VentureList = () => {
     const [ventures, setVentures] = useState([]);
@@ -8,6 +10,10 @@ const VentureList = () => {
     const [youtubeUrls, setYoutubeUrls] = useState([]);
     const [otherCompanies, setOtherCompanies] = useState([]);
     const [error, setError] = useState('');
+    
+    // Modal states
+    const [activeModal, setActiveModal] = useState(null);
+    const [formData, setFormData] = useState({});
 
     const fetchData = async () => {
         try {
@@ -43,15 +49,34 @@ const VentureList = () => {
         fetchData();
     }, []);
 
-    const toggleActive = async (ventureId) => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const token = localStorage.getItem('token');
+        const headers = { 'Authorization': `Bearer ${token}` };
+
         try {
-            const token = localStorage.getItem('token');
-            await axios.put(`/api/ventures/${ventureId}/toggle`, {}, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            await fetchData();
-        } catch (err) {
-            setError('Failed to toggle venture status');
+            switch(activeModal) {
+                case 'file':
+                    await axios.post('/api/ventures/files', formData, { headers });
+                    break;
+                case 'webUrl':
+                    await axios.post('/api/ventures/web-urls', formData, { headers });
+                    break;
+                case 'youtubeUrl':
+                    await axios.post('/api/ventures/youtube-urls', formData, { headers });
+                    break;
+                case 'company':
+                    await axios.post('/api/ventures/other-companies', formData, { headers });
+                    break;
+                default:
+                    return;
+            }
+            
+            fetchData();
+            setActiveModal(null);
+            setFormData({});
+        } catch (error) {
+            setError(error.response?.data?.error || 'Failed to add item');
         }
     };
 
@@ -60,40 +85,8 @@ const VentureList = () => {
             <h2>Your Ventures</h2>
             {error && <p className="error">{error}</p>}
             
-            <h3>Ventures</h3>
-            <div className="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Created At</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {ventures.map(venture => (
-                            <tr key={venture.venture_id}>
-                                <td>{venture.name}</td>
-                                <td>{venture.description}</td>
-                                <td>{new Date(venture.created_at).toLocaleDateString()}</td>
-                                <td>{venture.active ? 'Active' : 'Inactive'}</td>
-                                <td>
-                                    <button 
-                                        onClick={() => toggleActive(venture.venture_id)}
-                                        className={venture.active ? 'deactivate' : 'activate'}
-                                    >
-                                        {venture.active ? 'Deactivate' : 'Activate'}
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
             <h3>Files</h3>
+            <button className="add-button" onClick={() => setActiveModal('file')}>Add New File</button>
             <div className="table-container">
                 <table>
                     <thead>
@@ -116,6 +109,7 @@ const VentureList = () => {
             </div>
 
             <h3>Web URLs</h3>
+            <button className="add-button" onClick={() => setActiveModal('webUrl')}>Add New Web URL</button>
             <div className="table-container">
                 <table>
                     <thead>
@@ -138,6 +132,7 @@ const VentureList = () => {
             </div>
 
             <h3>YouTube URLs</h3>
+            <button className="add-button" onClick={() => setActiveModal('youtubeUrl')}>Add New YouTube URL</button>
             <div className="table-container">
                 <table>
                     <thead>
@@ -160,6 +155,7 @@ const VentureList = () => {
             </div>
 
             <h3>Related Companies</h3>
+            <button className="add-button" onClick={() => setActiveModal('company')}>Add New Company</button>
             <div className="table-container">
                 <table>
                     <thead>
@@ -180,6 +176,102 @@ const VentureList = () => {
                     </tbody>
                 </table>
             </div>
+
+            <Modal
+                isOpen={activeModal === 'file'}
+                onClose={() => setActiveModal(null)}
+                title="Add New File"
+            >
+                <form onSubmit={handleSubmit} className="modal-form">
+                    <input
+                        type="text"
+                        placeholder="File Name"
+                        value={formData.name || ''}
+                        onChange={e => setFormData({...formData, name: e.target.value})}
+                        required
+                    />
+                    <input
+                        type="url"
+                        placeholder="File URL"
+                        value={formData.url || ''}
+                        onChange={e => setFormData({...formData, url: e.target.value})}
+                        required
+                    />
+                    <button type="submit">Add File</button>
+                </form>
+            </Modal>
+
+            <Modal
+                isOpen={activeModal === 'webUrl'}
+                onClose={() => setActiveModal(null)}
+                title="Add New Web URL"
+            >
+                <form onSubmit={handleSubmit} className="modal-form">
+                    <input
+                        type="text"
+                        placeholder="URL Name"
+                        value={formData.name || ''}
+                        onChange={e => setFormData({...formData, name: e.target.value})}
+                        required
+                    />
+                    <input
+                        type="url"
+                        placeholder="Web URL"
+                        value={formData.url || ''}
+                        onChange={e => setFormData({...formData, url: e.target.value})}
+                        required
+                    />
+                    <button type="submit">Add Web URL</button>
+                </form>
+            </Modal>
+
+            <Modal
+                isOpen={activeModal === 'youtubeUrl'}
+                onClose={() => setActiveModal(null)}
+                title="Add New YouTube URL"
+            >
+                <form onSubmit={handleSubmit} className="modal-form">
+                    <input
+                        type="text"
+                        placeholder="Video Name"
+                        value={formData.name || ''}
+                        onChange={e => setFormData({...formData, name: e.target.value})}
+                        required
+                    />
+                    <input
+                        type="url"
+                        placeholder="YouTube URL"
+                        value={formData.url || ''}
+                        onChange={e => setFormData({...formData, url: e.target.value})}
+                        required
+                    />
+                    <button type="submit">Add YouTube URL</button>
+                </form>
+            </Modal>
+
+            <Modal
+                isOpen={activeModal === 'company'}
+                onClose={() => setActiveModal(null)}
+                title="Add Related Company"
+            >
+                <form onSubmit={handleSubmit} className="modal-form">
+                    <input
+                        type="text"
+                        placeholder="Company Name"
+                        value={formData.name || ''}
+                        onChange={e => setFormData({...formData, name: e.target.value})}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Company Type"
+                        value={formData.type || ''}
+                        onChange={e => setFormData({...formData, type: e.target.value})}
+                        required
+                    />
+                    <button type="submit">Add Company</button>
+                </form>
+            </Modal>
         </div>
     );
 };
