@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
       if (data.token) {
         const userObj = {
           email: credentials.email,
-          id: data.user_id || data.user?.id
+          user_id: data.user_id || data.user?.user_id
         };
         
         // Store auth data in localStorage and state
