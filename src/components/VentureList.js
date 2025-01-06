@@ -54,7 +54,6 @@ const VentureList = () => {
             const token = localStorage.getItem('token');
             const headers = { 'Authorization': `Bearer ${token}` };
             let endpoint;
-            
             switch (activeModal) {
                 case 'file':
                     endpoint = '/api/ventures/files';
@@ -71,8 +70,11 @@ const VentureList = () => {
                 default:
                     throw new Error('Invalid modal type');
             }
+            // Log formData for debugging
+            console.log('Submitting form data:', formData);
+            const response = await axios.post(endpoint, formData, { headers });
+            console.log('Response from submission:', response.data);
             
-            await axios.post(endpoint, formData, { headers });
             fetchData();
             setActiveModal(null);
             setFormData({});
