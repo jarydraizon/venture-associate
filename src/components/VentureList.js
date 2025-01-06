@@ -79,6 +79,17 @@ const VentureList = () => {
         }
     };
 
+    const handleToggleActive = async (ventureId) => {
+        try {
+            const token = localStorage.getItem('token');
+            const headers = { 'Authorization': `Bearer ${token}` };
+            await axios.put(`/api/ventures/${ventureId}/toggle-active`, {}, { headers });
+            fetchData();
+        } catch (error) {
+            setError(error.response?.data?.error || 'Failed to toggle active status');
+        }
+    };
+
     return (
         <div className="venture-list">
             <h2>Your Ventures</h2>
@@ -100,7 +111,17 @@ const VentureList = () => {
                                 <td>{venture.name}</td>
                                 <td>{venture.description}</td>
                                 <td>{new Date(venture.created_at).toLocaleDateString()}</td>
-                                <td>{venture.active ? 'Active' : 'Inactive'}</td>
+                                <td>
+                                    {venture.active ? (
+                                        <button className="deactivate" onClick={() => handleToggleActive(venture.venture_id)}>
+                                            Deactivate
+                                        </button>
+                                    ) : (
+                                        <button className="activate" onClick={() => handleToggleActive(venture.venture_id)}>
+                                            Activate
+                                        </button>
+                                    )}
+                                </td>
                             </tr>
                         ))}
                     </tbody>
