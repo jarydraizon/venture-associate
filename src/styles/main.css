@@ -167,7 +167,19 @@ body {
 
 /* Venture List Styles */
 .venture-list {
-  margin-top: 2rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px;
+  padding: 24px;
+}
+
+.venture-list h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: rgb(55, 53, 47);
+  margin-bottom: 1rem;
 }
 
 .table-container {
@@ -179,41 +191,57 @@ table {
   width: 100%;
   border-collapse: collapse;
   background: white;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  font-size: 14px;
 }
 
 th, td {
   padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+  color: rgb(55, 53, 47);
 }
 
 th {
-  background-color: #f7fafc;
-  font-weight: 600;
-  color: #4a5568;
+  background-color: #f7f6f3;
+  font-weight: 500;
+  color: rgb(55, 53, 47);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 tr:hover {
-  background-color: #f7fafc;
+  background-color: rgba(55, 53, 47, 0.03);
 }
 
 button.activate {
-  background-color: #48bb78;
+  background-color: #2ecc71;
   color: white;
   border: none;
   padding: 6px 12px;
-  border-radius: 4px;
+  border-radius: 3px;
   cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s;
 }
 
 button.deactivate {
-  background-color: #f56565;
+  background-color: #e74c3c;
   color: white;
   border: none;
   padding: 6px 12px;
-  border-radius: 4px;
+  border-radius: 3px;
   cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s;
+}
+
+button.activate:hover {
+  background-color: #27ae60;
+}
+
+button.deactivate:hover {
+  background-color: #c0392b;
 }
 .modal-overlay {
   position: fixed;
