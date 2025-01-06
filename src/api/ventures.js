@@ -75,7 +75,7 @@ router.get('/', authenticateToken, async (req, res) => {
 });
 
 // Toggle venture active status
-router.put('/:id/toggle', authenticateToken, async (req, res) => {
+router.put('/:id/toggle-active', authenticateToken, async (req, res) => {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');

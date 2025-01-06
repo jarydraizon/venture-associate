@@ -83,13 +83,17 @@ const VentureList = () => {
         try {
             const token = localStorage.getItem('token');
             const headers = { 'Authorization': `Bearer ${token}` };
-            await axios.put(`/api/ventures/${ventureId}/toggle-active`, {}, { headers });
-            fetchData();
-        } catch (error) {
-            setError(error.response?.data?.error || 'Failed to toggle active status');
-        }
-    };
+            const response = await  axios.put(`/api/ventures/${ventureId}/toggle-active`, {}, { headers });
 
+            // Log response for debugging
+            console.log('Toggle Active Response:', response.data);
+            
+            fetchData();
+            } catch (error) {
+                console.error('Error toggling active status:', error.response || error);
+                setError(error.response?.data?.error || 'Failed to toggle active status');                }
+         };
+    
     return (
         <div className="venture-list">
             <h2>Your Ventures</h2>
