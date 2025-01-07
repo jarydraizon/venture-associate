@@ -1,3 +1,4 @@
+
 /* Reset and base styles */
 * {
   margin: 0;
@@ -6,10 +7,7 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #ffffff;
-  color: #000000;
-  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 /* Home Page */
@@ -18,43 +16,44 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
-  color: #000000;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  color: white;
 }
 
 .hero-section {
   text-align: center;
   padding: 2rem;
+  /* max-width: 800px; */
   max-width: 100%;
 }
 
 .hero-section h1 {
   font-size: 3.5rem;
   margin-bottom: 1rem;
-  color: #000000;
-  font-weight: 500;
+  background: linear-gradient(45deg, #4CAF50, #2196F3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero-section h2 {
   font-size: 1.5rem;
-  color: #333333;
+  color: #888;
   margin-bottom: 2rem;
-  font-weight: 400;
 }
 
 .cta-button {
   padding: 1rem 2rem;
   font-size: 1.2rem;
-  background: #000000;
+  background: linear-gradient(45deg, #4CAF50, #2196F3);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 30px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s;
 }
 
 .cta-button:hover {
-  background: #333333;
+  transform: translateY(-2px);
 }
 
 /* App Layout */
@@ -67,7 +66,6 @@ body {
   flex-grow: 1;
   padding: 2rem;
   margin-left: 250px;
-  background: #ffffff;
 }
 
 /* Sidebar Navigation */
@@ -77,8 +75,8 @@ body {
   top: 0;
   bottom: 0;
   width: 250px;
-  background-color: #f5f5f5;
-  color: #000000;
+  background-color: #1a1a1a;
+  color: white;
   padding: 1rem;
 }
 
@@ -94,10 +92,9 @@ body {
 
 .logo {
   font-size: 1.5rem;
-  font-weight: 500;
+  font-weight: bold;
   padding: 1rem 0;
   margin-bottom: 2rem;
-  color: #000000;
 }
 
 .nav-links {
@@ -109,9 +106,9 @@ body {
 .nav-link {
   display: block;
   padding: 0.75rem 1rem;
-  color: #000000;
+  color: #ffffff;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 6px;
   border: none;
   background: none;
   width: 100%;
@@ -121,37 +118,51 @@ body {
 }
 
 .nav-link:hover {
-  background-color: #eeeeee;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .nav-link.active {
-  background-color: #e0e0e0;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .sidebar-bottom {
   padding: 1rem 0;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .user-email {
   display: block;
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
-  color: #666666;
+  color: #888;
 }
 
 .sign-out-btn {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #000000;
-  color: #ffffff;
+  padding: 0.5rem;
+  background: #333;
+  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
 .sign-out-btn:hover {
-  background-color: #333333;
+  background: #444;
+}
+
+.sign-out-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.sign-out-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Venture List Styles */
@@ -159,16 +170,16 @@ body {
   margin: 2rem auto;
   max-width: 1200px;
   background-color: #ffffff;
-  border-radius: 4px;
-  border: 1px solid #e0e0e0;
-  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px;
+  padding: 24px;
 }
 
 .venture-list h2 {
   font-size: 1.5rem;
-  font-weight: 500;
-  color: #000000;
-  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: rgb(55, 53, 47);
+  margin-bottom: 1rem;
 }
 
 .table-container {
@@ -179,45 +190,59 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
-  background: #ffffff;
+  background: white;
   font-size: 14px;
 }
 
 th, td {
-  padding: 1rem;
+  padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #e0e0e0;
-  color: #000000;
+  border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+  color: rgb(55, 53, 47);
 }
 
 th {
-  background-color: #f5f5f5;
+  background-color: #f7f6f3;
   font-weight: 500;
-  font-size: 0.875rem;
+  color: rgb(55, 53, 47);
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 tr:hover {
-  background-color: #f9f9f9;
+  background-color: rgba(55, 53, 47, 0.03);
 }
 
-.add-button {
-  background-color: #000000;
-  color: #ffffff;
+button.activate {
+  background-color: #2ecc71;
+  color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
+  padding: 6px 12px;
+  border-radius: 3px;
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 12px;
   transition: background-color 0.2s;
 }
 
-.add-button:hover {
-  background-color: #333333;
+button.deactivate {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s;
 }
 
-/* Modal Styles */
+button.activate:hover {
+  background-color: #27ae60;
+}
+
+button.deactivate:hover {
+  background-color: #c0392b;
+}
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -232,9 +257,9 @@ tr:hover {
 }
 
 .modal-content {
-  background: #ffffff;
-  padding: 2rem;
-  border-radius: 4px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
   width: 90%;
   max-width: 500px;
   max-height: 90vh;
@@ -245,41 +270,51 @@ tr:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 20px;
 }
 
 .modal-close {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 24px;
   cursor: pointer;
-  color: #000000;
+}
+
+.modal-body {
+  margin-bottom: 20px;
+}
+
+.add-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.add-button:hover {
+  background-color: #45a049;
 }
 
 .modal-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 10px;
 }
 
-.modal-form input, 
-.modal-form textarea {
-  padding: 0.75rem;
-  border: 1px solid #e0e0e0;
+.modal-form input, .modal-form textarea {
+  padding: 8px;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 0.875rem;
 }
 
 .modal-form button {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: #4CAF50;
+  color: white;
   border: none;
-  padding: 0.75rem;
+  padding: 10px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.875rem;
-}
-
-.modal-form button:hover {
-  background-color: #333333;
 }
