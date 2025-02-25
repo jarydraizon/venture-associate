@@ -166,20 +166,79 @@ body {
 }
 
 /* Venture List Styles */
-.venture-list {
-  margin: 2rem auto;
-  max-width: 1200px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px;
-  padding: 24px;
+body {
+  background-color: #1a1a1a;
+  color: #ffffff;
 }
 
-.venture-list h2 {
-  font-size: 1.5rem;
+.ventures-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.welcome-title {
+  font-size: 2.5rem;
   font-weight: 600;
-  color: rgb(55, 53, 47);
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  color: #ffffff;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+}
+
+.venture-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.venture-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.venture-card:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.venture-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.venture-card .meta {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+button {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.create-new {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .table-container {
