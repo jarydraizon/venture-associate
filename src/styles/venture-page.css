@@ -1,115 +1,60 @@
 .venture-page {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: #1a1a1a;
-  color: #fff;
+    height: 100vh;
+    background-color: #1e1e1e;
+    color: #ffffff;
 }
 
 .content-layout {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
+    display: flex;
+    height: calc(100vh - 60px);
+    padding: 20px;
+    gap: 20px;
 }
 
 .sources-panel {
-  width: 25%;
-  border-right: 1px solid #333;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
+    flex: 1;
+    background-color: #2d2d2d;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .chat-panel {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid #333;
-  padding: 1rem;
+    flex: 2;
+    background-color: #2d2d2d;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .actions-panel {
-  width: 25%;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
+    flex: 1;
+    background-color: #2d2d2d;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .panel-header {
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #333;
-}
-
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  margin-bottom: 1rem;
-}
-
-.chat-input-container {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.chat-input {
-  flex: 1;
-  padding: 0.75rem;
-  background: #2a2a2a;
-  border: 1px solid #444;
-  border-radius: 4px;
-  color: #fff;
-}
-
-.send-btn {
-  padding: 0.75rem 1.5rem;
-  background: #0097FB;
-  border: none;
-  color: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.add-source-btn {
-  width: 100%;
-  padding: 0.75rem;
-  background: transparent;
-  border: 1px solid #444;
-  color: #fff;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-  cursor: pointer;
-}
-
-.add-source-btn:hover {
-  background: #2a2a2a;
-}
-
-.actions-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.action-btn {
-  width: 100%;
-  padding: 0.75rem;
-  background: transparent;
-  border: 1px solid #444;
-  color: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-  text-align: left;
-}
-
-.action-btn:hover {
-  background: #2a2a2a;
+    margin-bottom: 20px;
 }
 
 .panel-header h2 {
+    font-size: 1.2rem;
     margin: 0;
-    font-size: 1.1rem;
-    font-weight: 500;
+}
+
+.add-source-btn {
+    background-color: #4a4a4a;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
 }
 
 .empty-panel {
@@ -118,72 +63,64 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
-    text-align: center;
     color: #888;
 }
 
 .empty-icon {
     font-size: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
 }
 
 .subtitle {
     font-size: 0.9rem;
-    line-height: 1.4;
+    margin-top: 5px;
 }
 
-.sources-list, .actions-list {
-    padding: 1rem;
+.chat-messages {
+    flex: 1;
     overflow-y: auto;
-}
-
-.source-item {
-    padding: 1rem;
-    border: 1px solid #333;
-    border-radius: 4px;
-    margin-bottom: 1rem;
-}
-
-
-.venture-page h1 {
     margin-bottom: 20px;
-    color: #333;
 }
 
-.description {
-    font-size: 1.1em;
-    color: #666;
-    margin-bottom: 30px;
-}
-
-.sources-section {
-    background: #f5f5f5;
-    padding: 20px;
-    border-radius: 8px;
-}
-
-.error {
-    color: #ff4444;
-    padding: 10px;
-    margin: 10px 0;
-    background: #ffe5e5;
-    border-radius: 4px;
-}
-
-.venture-header {
+.chat-input-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    border-bottom: 1px solid #333;
+    gap: 10px;
 }
 
-.header-actions button {
-    margin-left: 1rem;
-    padding: 0.5rem 1rem;
-    background: transparent;
-    border: 1px solid #444;
-    color: #fff;
+.chat-input {
+    flex: 1;
+    background-color: #3d3d3d;
+    border: 1px solid #4a4a4a;
     border-radius: 4px;
+    padding: 10px;
+    color: white;
+}
+
+.send-btn {
+    background-color: #007aff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.actions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.action-btn {
+    background-color: #3d3d3d;
+    border: 1px solid #4a4a4a;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.action-btn:hover {
+    background-color: #4a4a4a;
 }
