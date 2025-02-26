@@ -40,6 +40,26 @@ router.post('/', authenticateToken, async (req, res) => {
       [name, userId]
     );
 
+// Get a specific venture by name
+router.get('/:name', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM ventures WHERE name = $1 AND user_id = $2',
+      [req.params.name, req.user.user_id]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Venture not found' });
+    }
+    
+    res.json({ venture: result.rows[0] });
+  } catch (error) {
+    console.error('Error fetching venture:', error);
+    res.status(500).json({ error: 'Failed to fetch venture' });
+  }
+});
+
+
     if (existingVenture.rows.length > 0) {
       return res.status(400).json({ error: 'A venture with this name already exists' });
     }
