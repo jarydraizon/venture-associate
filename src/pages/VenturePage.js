@@ -27,26 +27,54 @@ const VenturePage = () => {
         }]);
 
         try {
-            const response = await fetch('/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: chatInput })
-            });
+            // Check if the message is a URL (for landing page analysis)
+            const isURL = chatInput.startsWith('http://') || chatInput.startsWith('https://');
+            
+            if (isURL && chatMessages[chatMessages.length - 2]?.text.includes('provide the URL')) {
+                // Handle landing page analysis
+                const response = await fetch('/api/analyzeLandingPage', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: chatInput })
+                });
 
-            if (!response.ok) {
-                throw new Error('Failed to get response');
+                if (!response.ok) {
+                    throw new Error('Failed to analyze landing page');
+                }
+
+                const data = await response.json();
+                
+                // Remove loading message and add analysis response
+                setChatMessages(prev => {
+                    const filtered = prev.filter(msg => !msg.isLoading);
+                    return [...filtered, { 
+                        text: data.analysis,
+                        sender: 'assistant'
+                    }];
+                });
+            } else {
+                // Handle regular chat
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: chatInput })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to get response');
+                }
+
+                const data = await response.json();
+
+                // Remove loading message and add response
+                setChatMessages(prev => {
+                    const filtered = prev.filter(msg => !msg.isLoading);
+                    return [...filtered, { 
+                        text: data.response,
+                        sender: 'assistant'
+                    }];
+                });
             }
-
-            const data = await response.json();
-
-            // Remove loading message and add response
-            setChatMessages(prev => {
-                const filtered = prev.filter(msg => !msg.isLoading);
-                return [...filtered, { 
-                    text: data.response,
-                    sender: 'assistant'
-                }];
-            });
         } catch (error) {
             console.error('Chat error:', error);
             setChatMessages(prev => {
@@ -66,7 +94,13 @@ const VenturePage = () => {
         { id: 4, label: 'Create SWOT Analysis' },
         { id: 5, label: 'Generate Business Model Canvas' },
         { id: 6, label: 'Assess Market Fit' },
-        { id: 7, label: 'Financial Projections' },
+        { id: 7, label: 'Analyze Landing Page', onClick: async () => {
+            // Send initial message to start landing page analysis
+            setChatMessages(prev => [...prev, {
+                text: "Your new task is to analyze a landing page. Please provide the URL you'd like me to analyze.",
+                sender: 'assistant'
+            }]);
+        }},
         { id: 8, label: 'Risk Assessment' }
     ];
 

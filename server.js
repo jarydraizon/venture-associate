@@ -14,6 +14,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use('/api/chat', require('./src/api/chat.js'));
+app.use('/api', require('./src/api/landingPageAnalyzer.js'));
 
 // Mount API routes first
 app.use('/api/auth', authRoutes);
