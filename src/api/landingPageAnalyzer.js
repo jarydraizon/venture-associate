@@ -1,21 +1,30 @@
 
 const express = require('express');
 const router = express.Router();
-const { WebCrawlerTool } = require('beeai');
+const puppeteer = require('puppeteer');
 const OpenAI = require('openai');
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-const crawler = WebCrawlerTool.create();
+async function crawlPage(url) {
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
+  const page = await browser.newPage();
+  await page.goto(url);
+  const content = await page.evaluate(() => document.body.innerText);
+  await browser.close();
+  return content;
+}
 
 router.post('/analyzeLandingPage', async (req, res) => {
   try {
     const { url } = req.body;
 
     // Crawl the landing page
-    const pageContent = await crawler.crawl(url);
+    const pageContent = await crawlPage(url);
 
     // Analyze with OpenAI
     const completion = await openai.chat.completions.create({
