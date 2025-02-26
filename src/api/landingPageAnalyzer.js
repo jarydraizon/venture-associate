@@ -3,6 +3,11 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs').promises;
 const path = require('path');
+const OpenAI = require('openai');
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
 
 async function analyzeLandingPage(url) {
   try {
@@ -26,46 +31,36 @@ async function analyzeLandingPage(url) {
       'utf8'
     );
 
-    // Construct LLM prompt using BeeAI framework
-    const prompt = `
-<context>
-I am analyzing a landing page against established best practices.
-
+    // Send to OpenAI for analysis
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4",
+      messages: [
+        {
+          role: "system",
+          content: "You are a landing page analysis expert. Analyze the given landing page content against the provided guidelines and provide specific, actionable feedback."
+        },
+        {
+          role: "user",
+          content: `
 Landing page content:
 ${JSON.stringify(pageContent, null, 2)}
 
 Guidelines:
 ${guidelines}
-</context>
 
-<goal>
-Assess how well this landing page follows best practices and provide specific recommendations for improvement.
-</goal>
+Please analyze this landing page against the guidelines and provide:
+1. A score out of 10
+2. Key strengths
+3. Areas for improvement
+4. Specific recommendations
+`
+        }
+      ],
+      temperature: 0.7,
+    });
 
-<constraints>
-- Focus on the key principles: Desire - (Labor + Confusion)
-- Evaluate each essential element listed in the guidelines
-- Provide actionable recommendations
-</constraints>
+    return completion.choices[0].message.content;
 
-<examples>
-Good header: "Groceries delivered in 1 hour"
-Bad header: "Revolutionize your shopping"
-
-Good CTA: "Start learning now"
-Bad CTA: "Click here"
-</examples>
-
-<output_format>
-{
-  "score": 1-10,
-  "strengths": ["..."],
-  "weaknesses": ["..."],
-  "recommendations": ["..."]
-}
-</output_format>`;
-
-    return prompt;
   } catch (error) {
     console.error('Error analyzing landing page:', error);
     throw error;
