@@ -29,8 +29,9 @@
 .panels-container {
     display: flex;
     gap: 20px;
-    flex: 1 1 auto;
+    flex: 1;
     min-height: 0; /* Critical for flex children to be able to scroll */
+    max-height: calc(100vh - 100px); /* Adjust based on header height */
     overflow: hidden;
     position: relative;
 }
@@ -44,21 +45,11 @@
     background: #2a2a2a;
     border-radius: 8px;
     padding: 16px;
-    overflow: hidden; /* Hide overflow at panel level */
+    overflow: auto; /* Enable scrolling within individual panels */
     position: relative;
+    flex: 1; /* Distribute space evenly among panels */
 }
 
-.sources-panel {
-    flex: 1;
-}
-
-.chat-panel {
-    flex: 2;
-}
-
-.actions-panel {
-    flex: 1;
-}
 
 /* Panel headers should not shrink */
 .panel-header {
@@ -88,21 +79,10 @@ h2 {
 
 /* Scrollable content areas */
 .sources-list, .chat-messages, .actions-list {
-    flex: 1 1 auto;
+    flex: 1;
     min-height: 0; /* Critical fix for flex overflow */
     overflow-y: auto;
 }
-
-
-.panels-container {
-    display: flex;
-    gap: 20px;
-    flex: 1;
-    min-height: 0; /* Critical for proper flex child behavior */
-    max-height: calc(100vh - 100px); /* Adjust based on header height */
-    overflow: hidden;
-}
-
 
 .empty-state {
     color: #666;
