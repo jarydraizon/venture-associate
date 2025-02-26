@@ -30,7 +30,7 @@ function AppContent() {
           } />
           <Route path="/venture/:ventureName" element={
             <PrivateRoute>
-              <VenturePage />
+              <VenturesPage />
             </PrivateRoute>
           } />
           <Route path="/insights" element={
