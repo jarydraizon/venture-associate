@@ -7,6 +7,7 @@ const VenturePage = () => {
     const { ventureName } = useParams();
     const [sources, setSources] = useState([]);
     const [chatInput, setChatInput] = useState('');
+    const [venture, setVenture] = useState(null);
 
     const agentActions = [
         { id: 1, label: 'Generate Value Proposition' },
@@ -19,8 +20,29 @@ const VenturePage = () => {
         { id: 8, label: 'Risk Assessment' }
     ];
 
+    useEffect(() => {
+        const fetchVenture = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`/api/ventures/${ventureName}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                setVenture(data);
+            } catch (error) {
+                console.error('Error fetching venture:', error);
+            }
+        };
+        fetchVenture();
+    }, [ventureName]);
+
     return (
         <div className="venture-page">
+            <div className="venture-header">
+                <h1>{venture?.name || 'Loading...'}</h1>
+                <p>{venture?.description}</p>
+            </div>
+            
             <div className="content-layout">
                 <div className="sources-panel">
                     <div className="panel-header">
@@ -37,8 +59,7 @@ const VenturePage = () => {
                         <div className="sources-list">
                             {sources.map(source => (
                                 <div key={source.id} className="source-item">
-                                    <h3>{source.title}</h3>
-                                    <p>{source.summary}</p>
+                                    {source.title}
                                 </div>
                             ))}
                         </div>
