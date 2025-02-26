@@ -10,17 +10,6 @@ const VenturePage = () => {
     const [chatInput, setChatInput] = useState('');
     const [chatMessages, setChatMessages] = useState([]);
 
-    const agentActions = [
-        { id: 1, label: 'Generate Value Proposition' },
-        { id: 2, label: 'Size the Market' },
-        { id: 3, label: 'Analyze Competition' },
-        { id: 4, label: 'Create SWOT Analysis' },
-        { id: 5, label: 'Generate Business Model Canvas' },
-        { id: 6, label: 'Assess Market Fit' },
-        { id: 7, label: 'Financial Projections' },
-        { id: 8, label: 'Risk Assessment' }
-    ];
-
     useEffect(() => {
         const fetchVenture = async () => {
             try {
@@ -46,14 +35,19 @@ const VenturePage = () => {
     };
 
     const handleAddSource = () => {
-        // Implement source addition logic
         console.log('Add source clicked');
     };
 
-    const handleActionClick = (action) => {
-        // Implement action click logic
-        console.log('Action clicked:', action.label);
-    };
+    const agentActions = [
+        { id: 1, label: 'Generate Value Proposition' },
+        { id: 2, label: 'Size the Market' },
+        { id: 3, label: 'Analyze Competition' },
+        { id: 4, label: 'Create SWOT Analysis' },
+        { id: 5, label: 'Generate Business Model Canvas' },
+        { id: 6, label: 'Assess Market Fit' },
+        { id: 7, label: 'Financial Projections' },
+        { id: 8, label: 'Risk Assessment' }
+    ];
 
     return (
         <div className="venture-page">
@@ -63,7 +57,6 @@ const VenturePage = () => {
             </div>
             
             <div className="content-layout">
-                {/* Sources Panel */}
                 <div className="sources-panel">
                     <div className="panel-header">
                         <h2>Sources</h2>
@@ -86,7 +79,6 @@ const VenturePage = () => {
                     )}
                 </div>
 
-                {/* Chat Panel */}
                 <div className="chat-panel">
                     <div className="panel-header">
                         <h2>Chat</h2>
@@ -110,7 +102,6 @@ const VenturePage = () => {
                     </form>
                 </div>
 
-                {/* Actions Panel */}
                 <div className="actions-panel">
                     <div className="panel-header">
                         <h2>Actions</h2>
@@ -120,7 +111,7 @@ const VenturePage = () => {
                             <button
                                 key={action.id}
                                 className="action-btn"
-                                onClick={() => handleActionClick(action)}
+                                onClick={() => console.log('Action clicked:', action.label)}
                             >
                                 {action.label}
                             </button>
