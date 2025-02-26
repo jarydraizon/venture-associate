@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/venture-page.css';
@@ -30,10 +29,14 @@ const VenturePage = () => {
 
     return (
         <div className="venture-page">
-            <h1 className="venture-header">{ventureName}</h1>
+            <div className="venture-header">
+                <h1>{ventureName}</h1>
+            </div>
             <div className="panels-container">
                 <div className="sources-panel">
-                    <h2>Sources</h2>
+                    <div className="panel-header">
+                        <h2>Sources</h2>
+                    </div>
                     <button className="add-button">+ Add source</button>
                     <div className="sources-list">
                         {sources.length === 0 ? (
@@ -52,13 +55,22 @@ const VenturePage = () => {
                 </div>
 
                 <div className="chat-panel">
-                    <h2>Chat</h2>
+                    <div className="panel-header">
+                        <h2>Chat</h2>
+                    </div>
                     <div className="chat-messages">
-                        {chatMessages.map((msg, index) => (
-                            <div key={index} className={`message ${msg.sender}`}>
-                                {msg.text}
+                        {chatMessages.length === 0 ? (
+                            <div className="empty-state">
+                                <div>No messages yet</div>
+                                <div>Start a conversation</div>
                             </div>
-                        ))}
+                        ) : (
+                            chatMessages.map((msg, index) => (
+                                <div key={index} className={`message ${msg.sender}`}>
+                                    {msg.text}
+                                </div>
+                            ))
+                        )}
                     </div>
                     <form onSubmit={handleChatSubmit} className="chat-input-form">
                         <input
@@ -73,7 +85,9 @@ const VenturePage = () => {
                 </div>
 
                 <div className="actions-panel">
-                    <h2>Actions</h2>
+                    <div className="panel-header">
+                        <h2>Actions</h2>
+                    </div>
                     <div className="actions-list">
                         {agentActions.map((action) => (
                             <button
