@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Navbar from './components/Navbar';
 import AuthForm from './components/AuthForm';
 import VenturesPage from './pages/VenturesPage';
+import VenturePage from './pages/VenturePage';
 import InsightsPage from './pages/InsightsPage';
 import HomePage from './pages/HomePage'; // Import HomePage component
 import { AuthProvider, useAuth } from './context/AuthContext';
