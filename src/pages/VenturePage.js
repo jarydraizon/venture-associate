@@ -1,54 +1,51 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import '../styles/venture-page.css';
 
 const VenturePage = () => {
     const { ventureName } = useParams();
     const [sources, setSources] = useState([]);
+    const [venture, setVenture] = useState(null);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        const fetchVentureData = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const headers = { 'Authorization': `Bearer ${token}` };
+                const response = await axios.get(`/api/ventures/${ventureName}`, { headers });
+                setVenture(response.data.venture);
+            } catch (err) {
+                setError(err.response?.data?.error || 'Failed to fetch venture data');
+            }
+        };
+
+        fetchVentureData();
+    }, [ventureName]);
 
     return (
         <div className="venture-page">
-            <header className="venture-header">
-                <h1>{ventureName}</h1>
-                <div className="header-actions">
-                    <button className="share-btn">Share</button>
-                    <button className="settings-btn">Settings</button>
-                </div>
-            </header>
-            
-            <div className="content-layout">
-                <div className="sources-panel">
-                    <div className="sources-header">
+            {error && <p className="error">{error}</p>}
+            {venture && (
+                <>
+                    <h1>{venture.name}</h1>
+                    <p className="description">{venture.description}</p>
+                    <div className="sources-section">
                         <h2>Sources</h2>
-                        <button className="add-source-btn">+ Add source</button>
-                    </div>
-                    {sources.length === 0 ? (
-                        <div className="empty-sources">
-                            <div className="placeholder-icon">📄</div>
-                            <p>Saved sources will appear here</p>
-                            <p className="subtitle">Click Add source above to add PDFs, websites, text, videos or audio files. Or import a file directly from Google Drive.</p>
-                        </div>
-                    ) : (
+                        <button className="add-source-btn">Add Source</button>
                         <div className="sources-list">
                             {sources.map(source => (
                                 <div key={source.id} className="source-item">
-                                    {source.title}
+                                    <h3>{source.title}</h3>
+                                    <p>{source.content}</p>
                                 </div>
                             ))}
                         </div>
-                    )}
-                </div>
-                
-                <div className="chat-panel">
-                    <div className="empty-chat">
-                        <div className="upload-prompt">
-                            <div className="upload-icon">⬆️</div>
-                            <h2>Add a source to get started</h2>
-                            <button className="upload-btn">Upload a source</button>
-                        </div>
                     </div>
-                </div>
-            </div>
+                </>
+            )}
         </div>
     );
 };

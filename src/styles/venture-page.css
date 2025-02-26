@@ -105,3 +105,59 @@
     border-radius: 4px;
     cursor: pointer;
 }
+.venture-page {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.venture-page h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.description {
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.sources-section {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.add-source-btn {
+    background: #0097FB;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.add-source-btn:hover {
+    background: #0078c8;
+}
+
+.sources-list {
+    display: grid;
+    gap: 20px;
+}
+
+.source-item {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.error {
+    color: #ff4444;
+    padding: 10px;
+    margin: 10px 0;
+    background: #ffe5e5;
+    border-radius: 4px;
+}
