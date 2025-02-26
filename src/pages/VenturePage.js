@@ -12,12 +12,17 @@ const VenturePage = () => {
 
     useEffect(() => {
         const fetchVentureData = async () => {
+            if (!ventureName) return;
+            
             try {
                 const token = localStorage.getItem('token');
                 const headers = { 'Authorization': `Bearer ${token}` };
-                const response = await axios.get(`/api/ventures/${ventureName}`, { headers });
+                console.log('Fetching venture:', ventureName);
+                const response = await axios.get(`/api/ventures/${encodeURIComponent(ventureName)}`, { headers });
+                console.log('Venture response:', response.data);
                 setVenture(response.data.venture);
             } catch (err) {
+                console.error('Fetch error:', err);
                 setError(err.response?.data?.error || 'Failed to fetch venture data');
             }
         };

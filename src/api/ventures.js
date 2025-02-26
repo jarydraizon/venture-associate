@@ -181,11 +181,11 @@ router.get('/other-companies', authenticateToken, async (req, res) => {
   }
 });
 
-router.get('/:id', authenticateToken, async (req, res) => {
+router.get('/:name', authenticateToken, async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM ventures WHERE venture_id = $1 AND user_id = $2',
-      [req.params.id, req.user.user_id]
+      'SELECT * FROM ventures WHERE name = $1 AND user_id = $2',
+      [req.params.name, req.user.user_id]
     );
 
     if (result.rows.length === 0) {
