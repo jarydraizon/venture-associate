@@ -5,63 +5,57 @@ import '../styles/venture-page.css';
 const VenturePage = () => {
     const { ventureName } = useParams();
     const [sources, setSources] = useState([]);
-    const [chatMessages, setChatMessages] = useState([]);
+    const [chatMessages, setChatMessages] = useState([{
+        text: "Hello! I'm your AI assistant. How can I help you today?",
+        sender: 'assistant'
+    }]);
     const [chatInput, setChatInput] = useState('');
 
     const handleChatSubmit = async (e) => {
         e.preventDefault();
         if (!chatInput.trim()) return;
-        
+
         const userMessage = { text: chatInput, sender: 'user' };
         setChatMessages(prev => [...prev, userMessage]);
         setChatInput('');
 
-        // Check if previous message was requesting URL
-        const lastMessage = chatMessages[chatMessages.length - 1];
-        if (lastMessage?.text === "Please provide your landing page URL") {
-            try {
-                // Add loading message
-                setChatMessages(prev => [...prev, { 
-                    text: "Analyzing landing page...", 
-                    sender: 'assistant',
-                    isLoading: true
-                }]);
+        // Add loading indicator
+        setChatMessages(prev => [...prev, { 
+            text: "Thinking...", 
+            sender: 'assistant',
+            isLoading: true
+        }]);
 
-                const response = await fetch('/api/analyze-landing-page', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: chatInput })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const analysis = await response.json();
-                
-                // Remove loading message and add analysis
-                setChatMessages(prev => {
-                    const filtered = prev.filter(msg => !msg.isLoading);
-                    return [...filtered, { 
-                        text: typeof analysis === 'string' ? analysis : JSON.stringify(analysis, null, 2),
-                        sender: 'assistant'
-                    }];
-                });
-            } catch (error) {
-                console.error('Landing page analysis error:', error);
-                setChatMessages(prev => {
-                    const filtered = prev.filter(msg => !msg.isLoading);
-                    return [...filtered, {
-                        text: `Error analyzing landing page: ${error.message || 'Please check the URL and try again'}`,
-                        sender: 'assistant'
-                    }];
-                });
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: chatInput })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to get response');
             }
-        } else {
-            setChatMessages(prev => [...prev, {
-                text: "I'm here to help analyze landing pages. Click the 'Analyze My Landing Page' button to get started!",
-                sender: 'assistant'
-            }]);
+
+            const data = await response.json();
+
+            // Remove loading message and add response
+            setChatMessages(prev => {
+                const filtered = prev.filter(msg => !msg.isLoading);
+                return [...filtered, { 
+                    text: data.response,
+                    sender: 'assistant'
+                }];
+            });
+        } catch (error) {
+            console.error('Chat error:', error);
+            setChatMessages(prev => {
+                const filtered = prev.filter(msg => !msg.isLoading);
+                return [...filtered, {
+                    text: "I apologize, but I'm having trouble responding right now. Please try again.",
+                    sender: 'assistant'
+                }];
+            });
         }
     };
 
@@ -126,7 +120,7 @@ const VenturePage = () => {
                             type="text"
                             value={chatInput}
                             onChange={(e) => setChatInput(e.target.value)}
-                            placeholder="Ask anything about this venture..."
+                            placeholder="Ask anything..."
                             className="chat-input"
                         />
                         <button type="submit" className="send-button">Send</button>
@@ -137,18 +131,7 @@ const VenturePage = () => {
                     <div className="panel-header">
                         <h2>Actions</h2>
                     </div>
-                    <button 
-                        className="analyze-landing-btn"
-                        onClick={() => {
-                            setChatMessages([...chatMessages, {
-                                text: "Please provide your landing page URL",
-                                sender: "assistant"
-                            }]);
-                        }}
-                    >
-                        Analyze My Landing Page
-                    </button>
-                    <div className="actions-list">
+                    <div className="actions-list"> {/*Removed Analyze My Landing Page button*/}
                         {agentActions.map((action) => (
                             <button
                                 key={action.id}

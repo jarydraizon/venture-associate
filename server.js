@@ -13,6 +13,7 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+app.use('/api/chat', require('./src/api/chat.js'));
 
 // Mount API routes first
 app.use('/api/auth', authRoutes);
