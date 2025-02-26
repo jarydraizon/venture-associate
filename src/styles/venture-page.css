@@ -6,15 +6,19 @@
 
 .venture-page {
     padding: 20px;
-    height: calc(100vh - 60px);
+    height: 100vh;
     background-color: #1a1a1a;
     color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .panels-container {
     display: flex;
     gap: 20px;
-    height: calc(100vh - 120px);
+    flex: 1;
+    min-height: 0;
 }
 
 .sources-panel {
@@ -84,31 +88,25 @@
     height: calc(100vh - 100px);
 }
 
-.sources-panel {
-    flex: 1;
+.sources-panel, .chat-panel, .actions-panel {
     background: #2a2a2a;
     border-radius: 8px;
     padding: 16px;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+}
+
+.sources-panel {
+    flex: 1;
 }
 
 .chat-panel {
     flex: 2;
-    background: #2a2a2a;
-    border-radius: 8px;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
 }
 
 .actions-panel {
     flex: 1;
-    background: #2a2a2a;
-    border-radius: 8px;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
 }
 
 h2 {
