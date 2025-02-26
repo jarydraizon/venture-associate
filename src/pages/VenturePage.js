@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/venture-page.css';
 
 const VenturePage = () => {
     const { ventureName } = useParams();
     const [sources, setSources] = useState([]);
-    const [chatInput, setChatInput] = useState('');
     const [chatMessages, setChatMessages] = useState([]);
+    const [chatInput, setChatInput] = useState('');
 
     const handleChatSubmit = (e) => {
         e.preventDefault();
