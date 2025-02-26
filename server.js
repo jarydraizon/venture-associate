@@ -1,3 +1,4 @@
+
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -6,10 +7,12 @@ const authRoutes = require('./src/api/auth');
 const ventureRoutes = require('./src/api/ventures');
 
 const app = express();
-app.use(express.json());
 
-const quicklinkRouter = require('./src/api/quicklink');
-app.use('/api/quicklink', quicklinkRouter);
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
+app.use(express.json());
 
 // Mount API routes first
 app.use('/api/auth', authRoutes);
