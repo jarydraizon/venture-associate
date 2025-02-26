@@ -1,0 +1,107 @@
+
+.venture-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+.venture-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #333;
+}
+
+.header-actions button {
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.content-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.sources-panel {
+    width: 300px;
+    border-right: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+}
+
+.sources-header {
+    padding: 1rem;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-source-btn {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.empty-sources {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    color: #888;
+}
+
+.placeholder-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.chat-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.empty-chat {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-prompt {
+    text-align: center;
+}
+
+.upload-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.upload-btn {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: #0097FB;
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}

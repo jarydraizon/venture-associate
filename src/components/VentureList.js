@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const VentureList = () => {
+    const navigate = useNavigate();
     const [ventures, setVentures] = useState([]);
     const [error, setError] = useState('');
 
@@ -30,7 +32,7 @@ const VentureList = () => {
         <div className="venture-list">
             {error && <p className="error">{error}</p>}
             {ventures.map(venture => (
-                <div key={venture.venture_id} className="venture-card">
+                <div key={venture.venture_id} className="venture-card" onClick={() => navigate(`/venture/${venture.name}`)}>
                     <h3>{venture.name}</h3>
                     <p>{venture.description}</p>
                     <div className="meta">

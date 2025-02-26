@@ -27,6 +27,11 @@ function AppContent() {
               <VenturesPage />
             </PrivateRoute>
           } />
+          <Route path="/venture/:ventureName" element={
+            <PrivateRoute>
+              <VenturePage />
+            </PrivateRoute>
+          } />
           <Route path="/insights" element={
             <PrivateRoute>
               <InsightsPage />
