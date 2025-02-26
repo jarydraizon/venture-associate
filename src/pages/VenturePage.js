@@ -170,7 +170,7 @@ const VenturePage = () => {
                             <button
                                 key={action.id}
                                 className="action-button"
-                                onClick={() => console.log(`Action clicked: ${action.label}`)}
+                                onClick={action.onClick || (() => console.log(`Action clicked: ${action.label}`))}
                             >
                                 {action.label}
                             </button>

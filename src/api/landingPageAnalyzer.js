@@ -10,7 +10,13 @@ const openai = new OpenAI({
 
 async function crawlPage(url) {
   const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    headless: 'new',
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--single-process'
+    ]
   });
   const page = await browser.newPage();
   await page.goto(url);
