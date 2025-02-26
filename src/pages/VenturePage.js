@@ -7,6 +7,7 @@ const VenturePage = () => {
     const [sources, setSources] = useState([]);
     const [chatMessages, setChatMessages] = useState([]);
     const [chatInput, setChatInput] = useState('');
+    const [showQuickLinkModal, setShowQuickLinkModal] = useState(false);
 
     const handleChatSubmit = (e) => {
         e.preventDefault();
@@ -37,7 +38,21 @@ const VenturePage = () => {
                     <div className="panel-header">
                         <h2>Sources</h2>
                     </div>
-                    <button className="add-button">+ Add source</button>
+                    <button className="add-button" onClick={() => setShowQuickLinkModal(true)}>+ Add source</button>
+                    {showQuickLinkModal && (
+                        <div className="modal-overlay">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h2>Add Source</h2>
+                                    <button className="modal-close" onClick={() => setShowQuickLinkModal(false)}>×</button>
+                                </div>
+                                <QuickLinkSync onSourceAdded={(links) => {
+                                    setSources(prev => [...prev, ...links.map(link => ({ title: link }))]);
+                                    setShowQuickLinkModal(false);
+                                }} />
+                            </div>
+                        </div>
+                    )}
                     <div className="sources-list">
                         {sources.length === 0 ? (
                             <div className="empty-state">

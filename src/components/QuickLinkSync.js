@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 
-const QuickLinkSync = () => {
+const QuickLinkSync = ({ onSourceAdded }) => {
   const [url, setUrl] = useState('');
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -19,6 +19,7 @@ const QuickLinkSync = () => {
       });
       const data = await response.json();
       setLinks(data.links);
+      onSourceAdded(data.links);
     } catch (error) {
       console.error('Error:', error);
     }
