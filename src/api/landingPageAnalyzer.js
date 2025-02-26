@@ -1,7 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { WebCrawlerTool } = require('@beeai/tools');
+const { WebCrawlerTool } = require('beeai');
 const OpenAI = require('openai');
 
 const openai = new OpenAI({
