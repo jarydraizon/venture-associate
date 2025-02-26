@@ -34,37 +34,41 @@ router.post('/analyzeLandingPage', async (req, res) => {
   try {
     const { userMessage } = req.body;
   
-  // Extract URL from user message
-  const urlMatch = userMessage.match(/(https?:\/\/[^\s]+)/);
-  if (!urlMatch) {
-    return res.status(400).json({ error: 'No valid URL found in message' });
-  }
-  const url = urlMatch[0];
+    // Extract URL from user message
+    const urlMatch = userMessage.match(/(https?:\/\/[^\s]+)/);
+    if (!urlMatch) {
+      return res.status(400).json({ error: 'No valid URL found in message' });
+    }
+    const url = urlMatch[0];
 
-  try {
-    // Crawl the landing page
-    const pageContent = await crawlPage(url);
+    try {
+      // Crawl the landing page
+      const pageContent = await crawlPage(url);
 
-    // Analyze with OpenAI
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4",
-      messages: [
-        {
-          role: "system",
-          content: "You are a landing page analysis expert. Your task is to analyze a landing page. Focus on effectiveness, strengths, and areas for improvement."
-        },
-        {
-          role: "user",
-          content: `Analyze this landing page content and provide specific recommendations:\n\n${pageContent}`
-        }
-      ],
-      temperature: 0.7,
-    });
+      // Analyze with OpenAI
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4",
+        messages: [
+          {
+            role: "system",
+            content: "You are a landing page analysis expert. Your task is to analyze a landing page. Focus on effectiveness, strengths, and areas for improvement."
+          },
+          {
+            role: "user",
+            content: `Analyze this landing page content and provide specific recommendations:\n\n${pageContent}`
+          }
+        ],
+        temperature: 0.7,
+      });
 
-    res.json({ analysis: completion.choices[0].message.content });
+      res.json({ analysis: completion.choices[0].message.content });
+    } catch (error) {
+      console.error('Landing page analysis error:', error);
+      res.status(500).json({ error: 'Failed to analyze landing page' });
+    }
   } catch (error) {
-    console.error('Landing page analysis error:', error);
-    res.status(500).json({ error: 'Failed to analyze landing page' });
+    console.error('Request processing error:', error);
+    res.status(500).json({ error: 'Failed to process request' });
   }
 });
 
