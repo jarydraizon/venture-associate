@@ -1,4 +1,3 @@
-
 .ventures-page {
     padding: 2rem;
     max-width: 1400px;
@@ -27,44 +26,157 @@
 }
 
 .venture-page {
-    padding: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-    min-height: 100vh;
-    background: #1a1a1a;
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #1a1a1a;
+    color: #ffffff;
 }
 
 .venture-header {
-    margin-bottom: 2rem;
+    margin-bottom: 20px;
 }
 
 .venture-header h1 {
-    font-size: 2.5rem;
-    color: #ffffff;
-    margin-bottom: 1rem;
+    margin: 0;
+    font-size: 24px;
 }
 
-.venture-header p {
-    color: #aaa;
-    font-size: 1.1rem;
+.panels-container {
+    display: flex;
+    flex: 1;
+    gap: 20px;
+    height: calc(100vh - 100px);
 }
 
-.content-layout {
-    display: grid;
-    grid-template-columns: 300px 1fr 300px;
-    gap: 2rem;
-    height: calc(100vh - 200px);
-    min-height: 600px;
-}
-
-.sources-panel,
-.chat-panel,
-.actions-panel {
-    background: rgba(255, 255, 255, 0.05);
+.sources-panel {
+    flex: 1;
+    background: #2a2a2a;
     border-radius: 8px;
-    overflow: hidden;
+    padding: 16px;
     display: flex;
     flex-direction: column;
+}
+
+.chat-panel {
+    flex: 2;
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.actions-panel {
+    flex: 1;
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+}
+
+.add-button {
+    background: #3a3a3a;
+    border: 1px solid #4a4a4a;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 16px;
+}
+
+.sources-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.empty-state {
+    color: #666;
+    text-align: center;
+    padding: 20px;
+}
+
+.source-item {
+    padding: 8px;
+    background: #3a3a3a;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 16px;
+}
+
+.message {
+    padding: 8px 12px;
+    margin: 8px 0;
+    border-radius: 4px;
+    max-width: 80%;
+}
+
+.message.user {
+    background: #2b5876;
+    margin-left: auto;
+}
+
+.message.assistant {
+    background: #3a3a3a;
+    margin-right: auto;
+}
+
+.chat-input-form {
+    display: flex;
+    gap: 8px;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #4a4a4a;
+    background: #3a3a3a;
+    color: white;
+}
+
+.send-button {
+    padding: 8px 16px;
+    background: #2b5876;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.actions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+}
+
+.action-button {
+    width: 100%;
+    padding: 12px;
+    background: #3a3a3a;
+    border: 1px solid #4a4a4a;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s;
+}
+
+.action-button:hover {
+    background: #4a4a4a;
 }
 
 .panel-header {
@@ -108,45 +220,11 @@
     color: #666;
 }
 
-.chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1rem;
-}
-
-.message {
-    margin-bottom: 1rem;
-    padding: 0.75rem;
-    border-radius: 8px;
-    max-width: 80%;
-}
-
-.message.user {
-    background: #007AFF;
-    color: white;
-    margin-left: auto;
-}
-
-.message.assistant {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    margin-right: auto;
-}
-
 .chat-input-container {
     padding: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     gap: 1rem;
-}
-
-.chat-input {
-    flex: 1;
-    padding: 0.75rem;
-    border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
-    color: white;
 }
 
 .send-btn {
@@ -156,14 +234,6 @@
     border-radius: 4px;
     color: white;
     cursor: pointer;
-}
-
-.actions-list {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    overflow-y: auto;
 }
 
 .action-btn {
