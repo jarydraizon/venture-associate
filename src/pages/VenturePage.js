@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/venture-page.css';
@@ -16,33 +17,30 @@ const VenturePage = () => {
         }
     };
 
-    const handleAddSource = () => {
-        // TODO: Implement source addition
-        console.log('Add source clicked');
-    };
-
     const agentActions = [
         { id: 1, label: 'Generate Value Proposition' },
         { id: 2, label: 'Size the Market' },
         { id: 3, label: 'Analyze Competition' },
         { id: 4, label: 'Create SWOT Analysis' },
-        { id: 5, label: 'Generate Business Model Canvas' }
+        { id: 5, label: 'Generate Business Model Canvas' },
+        { id: 6, label: 'Assess Market Fit' },
+        { id: 7, label: 'Financial Projections' },
+        { id: 8, label: 'Risk Assessment' }
     ];
 
     return (
         <div className="venture-page">
-            <div className="venture-header">
-                <h1>{ventureName}</h1>
-            </div>
+            <h1 className="venture-header">{ventureName}</h1>
             <div className="panels-container">
                 <div className="sources-panel">
                     <h2>Sources</h2>
-                    <button onClick={handleAddSource} className="add-button">
-                        + Add Source
-                    </button>
+                    <button className="add-button">+ Add source</button>
                     <div className="sources-list">
                         {sources.length === 0 ? (
-                            <div className="empty-state">No sources added yet</div>
+                            <div className="empty-state">
+                                <div>No sources yet</div>
+                                <div>Add sources to get started</div>
+                            </div>
                         ) : (
                             sources.map((source, index) => (
                                 <div key={index} className="source-item">
@@ -54,7 +52,7 @@ const VenturePage = () => {
                 </div>
 
                 <div className="chat-panel">
-                    <h2>Chat Interface</h2>
+                    <h2>Chat</h2>
                     <div className="chat-messages">
                         {chatMessages.map((msg, index) => (
                             <div key={index} className={`message ${msg.sender}`}>
@@ -67,7 +65,7 @@ const VenturePage = () => {
                             type="text"
                             value={chatInput}
                             onChange={(e) => setChatInput(e.target.value)}
-                            placeholder="Type your message..."
+                            placeholder="Ask anything about this venture..."
                             className="chat-input"
                         />
                         <button type="submit" className="send-button">Send</button>
@@ -75,7 +73,7 @@ const VenturePage = () => {
                 </div>
 
                 <div className="actions-panel">
-                    <h2>Agent Actions</h2>
+                    <h2>Actions</h2>
                     <div className="actions-list">
                         {agentActions.map((action) => (
                             <button

@@ -32,7 +32,7 @@ const VentureList = () => {
         <div className="venture-list">
             {error && <p className="error">{error}</p>}
             {ventures.map(venture => (
-                <div key={venture.venture_id} className="venture-card" onClick={() => navigate(`/venture/${venture.name}`)}>
+                <div key={venture.venture_id} className="venture-card" onClick={() => navigate(`/ventures/${venture.name}`)}>
                     <h3>{venture.name}</h3>
                     <p>{venture.description}</p>
                     <div className="meta">
