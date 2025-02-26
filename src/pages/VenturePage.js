@@ -17,6 +17,73 @@ const VenturePage = () => {
         }
     };
 
+    const agentActions = [
+        { id: 1, label: 'Generate Value Proposition' },
+        { id: 2, label: 'Size the Market' },
+        { id: 3, label: 'Analyze Competition' },
+        { id: 4, label: 'Create SWOT Analysis' },
+        { id: 5, label: 'Generate Business Model Canvas' }
+    ];
+
+    return (
+        <div className="venture-page">
+            <h1>{ventureName}</h1>
+            <div className="panels-container">
+                <div className="sources-panel">
+                    <h2>Sources</h2>
+                    <button onClick={() => console.log('Add source')}>+ Add Source</button>
+                    {sources.length === 0 ? (
+                        <p>No sources yet</p>
+                    ) : (
+                        sources.map((source, index) => (
+                            <div key={index}>{source.title}</div>
+                        ))
+                    )}
+                </div>
+
+                <div className="chat-panel">
+                    <h2>Chat</h2>
+                    <div className="chat-messages">
+                        {chatMessages.map((msg, index) => (
+                            <div key={index} className={`message ${msg.sender}`}>
+                                {msg.text}
+                            </div>
+                        ))}
+                    </div>
+                    <form onSubmit={handleChatSubmit}>
+                        <input
+                            type="text"
+                            value={chatInput}
+                            onChange={(e) => setChatInput(e.target.value)}
+                            placeholder="Type your message..."
+                        />
+                        <button type="submit">Send</button>
+                    </form>
+                </div>
+
+                <div className="actions-panel">
+                    <h2>Actions</h2>
+                    {agentActions.map((action) => (
+                        <button
+                            key={action.id}
+                            onClick={() => console.log(`Action: ${action.label}`)}
+                        >
+                            {action.label}
+                        </button>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default VenturePage;
+        if (chatInput.trim()) {
+            setChatMessages([...chatMessages, { text: chatInput, sender: 'user' }]);
+            setChatInput('');
+        }
+    };
+
     const handleAddSource = () => {
         // TODO: Implement source addition
         console.log('Add source clicked');
