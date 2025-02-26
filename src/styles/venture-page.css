@@ -70,10 +70,13 @@
     flex-direction: column;
     background-color: #1a1a1a;
     color: #ffffff;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .venture-header {
     margin-bottom: 20px;
+    flex-shrink: 0;
 }
 
 .venture-header h1 {
@@ -85,7 +88,7 @@
     display: flex;
     flex: 1;
     gap: 20px;
-    height: calc(100vh - 100px);
+    min-height: 0;
 }
 
 .sources-panel, .chat-panel, .actions-panel {
@@ -94,7 +97,7 @@
     padding: 16px;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .sources-panel {
