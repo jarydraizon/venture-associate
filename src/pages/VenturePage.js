@@ -12,30 +12,56 @@ const VenturePage = () => {
         e.preventDefault();
         if (!chatInput.trim()) return;
         
-        setChatMessages([...chatMessages, { text: chatInput, sender: 'user' }]);
+        const userMessage = { text: chatInput, sender: 'user' };
+        setChatMessages(prev => [...prev, userMessage]);
         setChatInput('');
 
         // Check if previous message was requesting URL
         const lastMessage = chatMessages[chatMessages.length - 1];
         if (lastMessage?.text === "Please provide your landing page URL") {
             try {
+                // Add loading message
+                setChatMessages(prev => [...prev, { 
+                    text: "Analyzing landing page...", 
+                    sender: 'assistant',
+                    isLoading: true
+                }]);
+
                 const response = await fetch('/api/analyze-landing-page', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ url: chatInput })
                 });
                 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const analysis = await response.json();
-                setChatMessages(prev => [...prev, { 
-                    text: `Analysis Results:\n${JSON.stringify(analysis, null, 2)}`,
-                    sender: 'assistant'
-                }]);
+                
+                // Remove loading message and add analysis
+                setChatMessages(prev => {
+                    const filtered = prev.filter(msg => !msg.isLoading);
+                    return [...filtered, { 
+                        text: typeof analysis === 'string' ? analysis : JSON.stringify(analysis, null, 2),
+                        sender: 'assistant'
+                    }];
+                });
             } catch (error) {
-                setChatMessages(prev => [...prev, {
-                    text: "Sorry, I encountered an error analyzing the landing page.",
-                    sender: 'assistant'
-                }]);
+                console.error('Landing page analysis error:', error);
+                setChatMessages(prev => {
+                    const filtered = prev.filter(msg => !msg.isLoading);
+                    return [...filtered, {
+                        text: `Error analyzing landing page: ${error.message || 'Please check the URL and try again'}`,
+                        sender: 'assistant'
+                    }];
+                });
             }
+        } else {
+            setChatMessages(prev => [...prev, {
+                text: "I'm here to help analyze landing pages. Click the 'Analyze My Landing Page' button to get started!",
+                sender: 'assistant'
+            }]);
         }
     };
 

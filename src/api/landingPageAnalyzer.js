@@ -11,8 +11,17 @@ const openai = new OpenAI({
 
 async function analyzeLandingPage(url) {
   try {
-    // Fetch page content
-    const response = await axios.get(url);
+    // Validate URL
+    const urlObj = new URL(url);
+    if (!urlObj.protocol.startsWith('http')) {
+      throw new Error('Invalid URL protocol. Please use http:// or https://');
+    }
+
+    // Fetch page content with timeout
+    const response = await axios.get(url, {
+      timeout: 10000,
+      validateStatus: status => status === 200
+    });
     const $ = cheerio.load(response.data);
 
     // Extract key elements
