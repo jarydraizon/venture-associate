@@ -8,11 +8,34 @@ const VenturePage = () => {
     const [chatMessages, setChatMessages] = useState([]);
     const [chatInput, setChatInput] = useState('');
 
-    const handleChatSubmit = (e) => {
+    const handleChatSubmit = async (e) => {
         e.preventDefault();
-        if (chatInput.trim()) {
-            setChatMessages([...chatMessages, { text: chatInput, sender: 'user' }]);
-            setChatInput('');
+        if (!chatInput.trim()) return;
+        
+        setChatMessages([...chatMessages, { text: chatInput, sender: 'user' }]);
+        setChatInput('');
+
+        // Check if previous message was requesting URL
+        const lastMessage = chatMessages[chatMessages.length - 1];
+        if (lastMessage?.text === "Please provide your landing page URL") {
+            try {
+                const response = await fetch('/api/analyze-landing-page', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: chatInput })
+                });
+                
+                const analysis = await response.json();
+                setChatMessages(prev => [...prev, { 
+                    text: `Analysis Results:\n${JSON.stringify(analysis, null, 2)}`,
+                    sender: 'assistant'
+                }]);
+            } catch (error) {
+                setChatMessages(prev => [...prev, {
+                    text: "Sorry, I encountered an error analyzing the landing page.",
+                    sender: 'assistant'
+                }]);
+            }
         }
     };
 
@@ -88,6 +111,17 @@ const VenturePage = () => {
                     <div className="panel-header">
                         <h2>Actions</h2>
                     </div>
+                    <button 
+                        className="analyze-landing-btn"
+                        onClick={() => {
+                            setChatMessages([...chatMessages, {
+                                text: "Please provide your landing page URL",
+                                sender: "assistant"
+                            }]);
+                        }}
+                    >
+                        Analyze My Landing Page
+                    </button>
                     <div className="actions-list">
                         {agentActions.map((action) => (
                             <button
