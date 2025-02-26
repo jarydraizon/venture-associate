@@ -7,6 +7,7 @@ import InsightsPage from './pages/InsightsPage';
 import HomePage from './pages/HomePage'; // Import HomePage component
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './styles/main.css';
+import VenturePage from './pages/VenturePage'; // Added import for VenturePage
 
 function PrivateRoute({ children }) {
   const { user } = useAuth();
@@ -27,9 +28,9 @@ function AppContent() {
               <VenturesPage />
             </PrivateRoute>
           } />
-          <Route path="/venture/:ventureName" element={
+          <Route path="/ventures/:ventureName" element={ // Updated path
             <PrivateRoute>
-              <VenturesPage />
+              <VenturePage />
             </PrivateRoute>
           } />
           <Route path="/insights" element={
