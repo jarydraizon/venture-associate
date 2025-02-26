@@ -95,9 +95,8 @@ const VenturePage = () => {
         { id: 5, label: 'Generate Business Model Canvas' },
         { id: 6, label: 'Assess Market Fit' },
         { id: 7, label: 'Analyze Landing Page', onClick: async () => {
-            // Send initial message to start landing page analysis
             setChatMessages(prev => [...prev, {
-                text: "Your new task is to analyze a landing page. Please provide the URL you'd like me to analyze.",
+                text: "Please provide the URL you'd like me to analyze.",
                 sender: 'assistant'
             }]);
         }},

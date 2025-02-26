@@ -43,11 +43,11 @@ router.post('/analyzeLandingPage', async (req, res) => {
       messages: [
         {
           role: "system",
-          content: "You are a landing page analysis expert. Analyze the provided landing page content and provide insights on its effectiveness, strengths, and areas for improvement."
+          content: "You are a landing page analysis expert. Your task is to analyze a landing page. Focus on effectiveness, strengths, and areas for improvement."
         },
         {
           role: "user",
-          content: `Please analyze this landing page content:\n\n${pageContent}`
+          content: `Analyze this landing page content and provide specific recommendations:\n\n${pageContent}`
         }
       ],
       temperature: 0.7,
