@@ -24,11 +24,11 @@ router.post('/signup', async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const result = await pool.query(
-      'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id, email',
+      'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING user_id, email',
       [email, hashedPassword]
     );
     
-    const token = jwt.sign({ user_id: result.rows[0].id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ user_id: result.rows[0].user_id }, process.env.JWT_SECRET);
     res.status(201).json({ user: result.rows[0], token });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -50,8 +50,8 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
     
-    const token = jwt.sign({ user_id: user.id }, process.env.JWT_SECRET);
-    res.json({ user: { id: user.id, email: user.email }, token });
+    const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET);
+    res.json({ user: { user_id: user.user_id, email: user.email }, token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

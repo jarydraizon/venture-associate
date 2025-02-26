@@ -1,74 +1,45 @@
-
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const VentureList = () => {
+    const navigate = useNavigate();
     const [ventures, setVentures] = useState([]);
     const [error, setError] = useState('');
 
-    const toggleActive = async (ventureId) => {
+    const fetchData = async () => {
         try {
             const token = localStorage.getItem('token');
-            await axios.patch(`/api/ventures/${ventureId}/toggle`, {}, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            await fetchVentures(); // Refresh the list
-        } catch (err) {
-            setError('Failed to toggle venture status');
-        }
-    };
+            if (!token) {
+                setError('No authentication token found');
+                return;
+            }
 
-    const fetchVentures = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await axios.get('/api/ventures', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            setVentures(response.data.ventures);
+            const headers = { 'Authorization': `Bearer ${token}` };
+            const venturesRes = await axios.get('/api/ventures', { headers });
+            setVentures(venturesRes.data.ventures || []);
         } catch (error) {
-            setError('Failed to fetch ventures');
+            console.error('Error fetching data:', error.response || error);
+            setError(error.response?.data?.error || 'Failed to fetch data');
         }
     };
 
     useEffect(() => {
-        fetchVentures();
+        fetchData();
     }, []);
 
     return (
         <div className="venture-list">
-            <h2>Your Ventures</h2>
             {error && <p className="error">{error}</p>}
-            <div className="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Created At</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {ventures.map(venture => (
-                            <tr key={venture.venture_id}>
-                                <td>{venture.name}</td>
-                                <td>{venture.description}</td>
-                                <td>{new Date(venture.created_at).toLocaleDateString()}</td>
-                                <td>{venture.active ? 'Active' : 'Inactive'}</td>
-                                <td>
-                                    <button 
-                                        onClick={() => toggleActive(venture.venture_id)}
-                                        className={venture.active ? 'deactivate' : 'activate'}
-                                    >
-                                        {venture.active ? 'Deactivate' : 'Activate'}
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            {ventures.map(venture => (
+                <div key={venture.venture_id} className="venture-card" onClick={() => navigate(`/ventures/${venture.name}`)}>
+                    <h3>{venture.name}</h3>
+                    <p>{venture.description}</p>
+                    <div className="meta">
+                        {new Date(venture.created_at).toLocaleDateString()} · {venture.active ? 'Active' : 'Inactive'}
+                    </div>
+                </div>
+            ))}
         </div>
     );
 };

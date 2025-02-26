@@ -1,0 +1,158 @@
+/* Reset any potential conflicts from main.css */
+.venture-page {
+    padding: 20px;
+    height: 100vh;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-sizing: border-box;
+    /* Override any potential inheritance issues */
+    position: relative;
+    width: 100%;
+    margin: 0;
+}
+
+/* Ensure the header takes up minimal space */
+.venture-header {
+    flex: 0 0 auto;
+    margin-bottom: 20px;
+}
+
+.venture-header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* Fix the panels container to take remaining space */
+.panels-container {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+    min-height: 0; /* Critical for flex children to be able to scroll */
+    max-height: calc(100vh - 100px); /* Adjust based on header height */
+    overflow: hidden;
+    position: relative;
+}
+
+/* Consistent panel styling with proper overflow handling */
+.sources-panel,
+.chat-panel,
+.actions-panel {
+    display: flex;
+    flex-direction: column;
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 16px;
+    overflow: auto; /* Enable scrolling within individual panels */
+    position: relative;
+    flex: 1; /* Distribute space evenly among panels */
+}
+
+
+/* Panel headers should not shrink */
+.panel-header {
+    flex: 0 0 auto;
+    margin-bottom: 16px;
+}
+
+h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+/* Override global button styles */
+.venture-page button {
+    background: #3a3a3a;
+    border: 1px solid #4a4a4a;
+    color: white;
+}
+
+.add-button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 16px;
+    flex: 0 0 auto;
+}
+
+/* Scrollable content areas */
+.sources-list, .chat-messages, .actions-list {
+    flex: 1;
+    min-height: 0; /* Critical fix for flex overflow */
+    overflow-y: auto;
+}
+
+.empty-state {
+    color: #666;
+    text-align: center;
+    padding: 20px;
+}
+
+.source-item {
+    padding: 8px;
+    background: #3a3a3a;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.message {
+    padding: 8px 12px;
+    margin: 8px 0;
+    border-radius: 4px;
+    max-width: 80%;
+}
+
+.message.user {
+    background: #2b5876;
+    margin-left: auto;
+}
+
+.message.assistant {
+    background: #3a3a3a;
+    margin-right: auto;
+}
+
+/* Form elements should not flex */
+.chat-input-form {
+    display: flex;
+    gap: 8px;
+    flex: 0 0 auto;
+    margin-top: 16px;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #4a4a4a;
+    background: #3a3a3a;
+    color: white;
+}
+
+.send-button {
+    padding: 8px 16px;
+    background: #2b5876;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.action-button {
+    width: 100%;
+    padding: 12px;
+    background: #3a3a3a;
+    border: 1px solid #4a4a4a;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s;
+    margin-bottom: 8px;
+}
+
+.action-button:hover {
+    background: #4a4a4a;
+}

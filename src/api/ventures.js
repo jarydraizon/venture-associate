@@ -40,6 +40,26 @@ router.post('/', authenticateToken, async (req, res) => {
       [name, userId]
     );
 
+// Get a specific venture by name
+router.get('/:name', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM ventures WHERE name = $1 AND user_id = $2',
+      [req.params.name, req.user.user_id]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Venture not found' });
+    }
+    
+    res.json({ venture: result.rows[0] });
+  } catch (error) {
+    console.error('Error fetching venture:', error);
+    res.status(500).json({ error: 'Failed to fetch venture' });
+  }
+});
+
+
     if (existingVenture.rows.length > 0) {
       return res.status(400).json({ error: 'A venture with this name already exists' });
     }
@@ -61,19 +81,21 @@ router.post('/', authenticateToken, async (req, res) => {
 // Get all ventures for the authenticated user
 router.get('/', authenticateToken, async (req, res) => {
   try {
+    console.log('Fetching ventures for user:', req.user.user_id);
     const result = await pool.query(
-      'SELECT venture_id, name, description, created_at, active FROM ventures WHERE user_id = $1 ORDER BY created_at DESC',
+      'SELECT venture_id, name, description, created_at, COALESCE(active, false) as active FROM ventures WHERE user_id = $1 ORDER BY created_at DESC',
       [req.user.user_id]
     );
+    console.log('Ventures found:', result.rows.length);
     res.json({ ventures: result.rows });
   } catch (error) {
     console.error('Error fetching ventures:', error);
-    res.status(500).json({ error: 'Failed to fetch ventures' });
+    res.status(500).json({ error: `Failed to fetch ventures: ${error.message}` });
   }
 });
 
 // Toggle venture active status
-router.put('/:id/toggle', authenticateToken, async (req, res) => {
+router.put('/:id/toggle-active', authenticateToken, async (req, res) => {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
@@ -107,11 +129,63 @@ router.put('/:id/toggle', authenticateToken, async (req, res) => {
 });
 
 // Get a specific venture by ID
-router.get('/:id', authenticateToken, async (req, res) => {
+// Get files for user
+router.get('/files', authenticateToken, async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM ventures WHERE venture_id = $1 AND user_id = $2',
-      [req.params.id, req.user.user_id]
+      'SELECT * FROM files WHERE user_id = $1 ORDER BY created_at DESC',
+      [req.user.user_id]
+    );
+    res.json({ files: result.rows });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch files' });
+  }
+});
+
+// Get web URLs for user
+router.get('/web-urls', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM web_urls WHERE user_id = $1 ORDER BY created_at DESC',
+      [req.user.user_id]
+    );
+    res.json({ webUrls: result.rows });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch web URLs' });
+  }
+});
+
+// Get YouTube URLs for user
+router.get('/youtube-urls', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM youtube_urls WHERE user_id = $1 ORDER BY created_at DESC',
+      [req.user.user_id]
+    );
+    res.json({ youtubeUrls: result.rows });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch YouTube URLs' });
+  }
+});
+
+// Get other companies for user
+router.get('/other-companies', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM other_companies WHERE user_id = $1 ORDER BY created_at DESC',
+      [req.user.user_id]
+    );
+    res.json({ companies: result.rows });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch companies' });
+  }
+});
+
+router.get('/:name', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM ventures WHERE name = $1 AND user_id = $2',
+      [req.params.name, req.user.user_id]
     );
 
     if (result.rows.length === 0) {
