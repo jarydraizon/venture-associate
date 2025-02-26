@@ -5,9 +5,9 @@ import '../styles/venture-page.css';
 
 const VenturePage = () => {
     const { ventureName } = useParams();
+    const [venture, setVenture] = useState(null);
     const [sources, setSources] = useState([]);
     const [chatInput, setChatInput] = useState('');
-    const [venture, setVenture] = useState(null);
 
     const agentActions = [
         { id: 1, label: 'Generate Value Proposition' },
