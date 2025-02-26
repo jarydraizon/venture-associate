@@ -32,8 +32,16 @@ async function crawlPage(url) {
 
 router.post('/analyzeLandingPage', async (req, res) => {
   try {
-    const { url } = req.body;
+    const { userMessage } = req.body;
+  
+  // Extract URL from user message
+  const urlMatch = userMessage.match(/(https?:\/\/[^\s]+)/);
+  if (!urlMatch) {
+    return res.status(400).json({ error: 'No valid URL found in message' });
+  }
+  const url = urlMatch[0];
 
+  try {
     // Crawl the landing page
     const pageContent = await crawlPage(url);
 

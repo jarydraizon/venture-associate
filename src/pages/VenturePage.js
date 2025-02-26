@@ -27,15 +27,13 @@ const VenturePage = () => {
         }]);
 
         try {
-            // Check if the message is a URL (for landing page analysis)
-            const isURL = chatInput.startsWith('http://') || chatInput.startsWith('https://');
-            
-            if (isURL && chatMessages[chatMessages.length - 2]?.text.includes('provide the URL')) {
+            // Check if this is a response to the URL request
+            if (chatMessages[chatMessages.length - 2]?.text.includes('provide the URL')) {
                 // Handle landing page analysis
                 const response = await fetch('/api/analyzeLandingPage', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: chatInput })
+                    body: JSON.stringify({ userMessage: chatInput })
                 });
 
                 if (!response.ok) {
