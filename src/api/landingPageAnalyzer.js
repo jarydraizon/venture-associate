@@ -12,15 +12,26 @@ const openai = new OpenAI({
 async function analyzeLandingPage(url) {
   try {
     // Validate URL
-    const urlObj = new URL(url);
-    if (!urlObj.protocol.startsWith('http')) {
-      throw new Error('Invalid URL protocol. Please use http:// or https://');
+    let urlObj;
+    try {
+      urlObj = new URL(url);
+      if (!urlObj.protocol.startsWith('http')) {
+        throw new Error('Invalid URL protocol. Please use http:// or https://');
+      }
+    } catch (e) {
+      throw new Error('Invalid URL format. Please provide a valid URL.');
     }
 
-    // Fetch page content with timeout
+    // Fetch page content with timeout and proper error handling
     const response = await axios.get(url, {
       timeout: 10000,
-      validateStatus: status => status === 200
+      maxRedirects: 5,
+      validateStatus: function (status) {
+        return status >= 200 && status < 300;
+      },
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      }
     });
     const $ = cheerio.load(response.data);
 
