@@ -8,6 +8,7 @@ const VenturePage = () => {
     const [venture, setVenture] = useState(null);
     const [sources, setSources] = useState([]);
     const [chatInput, setChatInput] = useState('');
+    const [chatMessages, setChatMessages] = useState([]);
 
     const agentActions = [
         { id: 1, label: 'Generate Value Proposition' },
@@ -36,6 +37,24 @@ const VenturePage = () => {
         fetchVenture();
     }, [ventureName]);
 
+    const handleChatSubmit = (e) => {
+        e.preventDefault();
+        if (chatInput.trim()) {
+            setChatMessages([...chatMessages, { text: chatInput, sender: 'user' }]);
+            setChatInput('');
+        }
+    };
+
+    const handleAddSource = () => {
+        // Implement source addition logic
+        console.log('Add source clicked');
+    };
+
+    const handleActionClick = (action) => {
+        // Implement action click logic
+        console.log('Action clicked:', action.label);
+    };
+
     return (
         <div className="venture-page">
             <div className="venture-header">
@@ -44,11 +63,12 @@ const VenturePage = () => {
             </div>
             
             <div className="content-layout">
+                {/* Sources Panel */}
                 <div className="sources-panel">
                     <div className="panel-header">
                         <h2>Sources</h2>
                     </div>
-                    <button className="add-source-btn">+ Add source</button>
+                    <button className="add-source-btn" onClick={handleAddSource}>+ Add source</button>
                     {sources.length === 0 ? (
                         <div className="empty-panel">
                             <div className="empty-icon">📄</div>
@@ -66,14 +86,19 @@ const VenturePage = () => {
                     )}
                 </div>
 
+                {/* Chat Panel */}
                 <div className="chat-panel">
                     <div className="panel-header">
                         <h2>Chat</h2>
                     </div>
                     <div className="chat-messages">
-                        {/* Chat messages will appear here */}
+                        {chatMessages.map((message, index) => (
+                            <div key={index} className={`message ${message.sender}`}>
+                                {message.text}
+                            </div>
+                        ))}
                     </div>
-                    <div className="chat-input-container">
+                    <form onSubmit={handleChatSubmit} className="chat-input-container">
                         <input
                             type="text"
                             value={chatInput}
@@ -81,17 +106,22 @@ const VenturePage = () => {
                             placeholder="Ask anything about this venture..."
                             className="chat-input"
                         />
-                        <button className="send-btn">Send</button>
-                    </div>
+                        <button type="submit" className="send-btn">Send</button>
+                    </form>
                 </div>
 
+                {/* Actions Panel */}
                 <div className="actions-panel">
                     <div className="panel-header">
                         <h2>Actions</h2>
                     </div>
                     <div className="actions-list">
                         {agentActions.map(action => (
-                            <button key={action.id} className="action-btn">
+                            <button
+                                key={action.id}
+                                className="action-btn"
+                                onClick={() => handleActionClick(action)}
+                            >
                                 {action.label}
                             </button>
                         ))}
