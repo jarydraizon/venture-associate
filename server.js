@@ -5,6 +5,9 @@ const cors = require('cors');
 const path = require('path');
 const authRoutes = require('./src/api/auth');
 const ventureRoutes = require('./src/api/ventures');
+const ventureFilesRoutes = require('./src/api/ventureFiles');
+const chatRoutes = require('./src/api/chat');
+const landingPageAnalyzerRoutes = require('./src/api/landingPageAnalyzer');
 
 const app = express();
 
@@ -23,9 +26,9 @@ app.use((req, res, next) => {
 // Mount API routes first
 app.use('/api/auth', authRoutes);
 app.use('/api/ventures', ventureRoutes);
-app.use('/api/venture-files', require('./src/api/ventureFiles.js'));
-app.use('/api/chat', require('./src/api/chat.js'));
-app.use('/api', require('./src/api/landingPageAnalyzer.js'));
+app.use('/api/venture-files', ventureFilesRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api', landingPageAnalyzerRoutes);
 
 // Serve static files from the build directory
 app.use(express.static(path.join(__dirname, 'build')));

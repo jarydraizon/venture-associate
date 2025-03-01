@@ -1,37 +1,33 @@
-
 const express = require('express');
 const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
+const authenticateToken = require('../utils/authenticateToken');
+const pool = require('../db/config');
+const { v4: uuidv4 } = require('uuid');
 
-// Configure storage
+// Configure multer for file uploads
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const userId = req.user.user_id;
-    const { ventureName } = req.params;
-    const { competitorId } = req.query;
-    
-    let dir;
-    if (competitorId) {
-      dir = path.join(__dirname, '../../uploads', userId.toString(), ventureName, 'competitors', competitorId);
-    } else {
-      dir = path.join(__dirname, '../../uploads', userId.toString(), ventureName);
-    }
-    
-    // Create directory if it doesn't exist
+  destination: function (req, file, cb) {
+    const ventureName = req.params.ventureName;
+    const userId = req.user.id;
+    const dir = path.join(__dirname, '../../uploads', userId.toString(), ventureName);
+
+    // Create the directory if it doesn't exist
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
-    
     cb(null, dir);
   },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  }
+  filename: function (req, file, cb) {
+    const uniqueFilename = `${Date.now()}-${file.originalname}`;
+    cb(null, uniqueFilename);
+  },
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
+
 
 // Authentication middleware
 const authenticateUser = (req, res, next) => {
@@ -59,7 +55,7 @@ router.get('/:ventureName/files', authenticateUser, (req, res) => {
     const userId = req.user.user_id;
     const { ventureName } = req.params;
     const { competitorId } = req.query;
-    
+
     let dir;
     if (competitorId) {
       dir = path.join(__dirname, '../../uploads', userId.toString(), ventureName, 'competitors', competitorId);
