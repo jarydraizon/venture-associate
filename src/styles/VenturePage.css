@@ -1,0 +1,31 @@
+.venture-page {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.venture-tabs {
+    display: flex;
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.tab-button:hover {
+    color: #0056b3;
+}
+
+.tab-button.active {
+    color: #0056b3;
+    border-bottom: 2px solid #0056b3;
+    font-weight: bold;
+}

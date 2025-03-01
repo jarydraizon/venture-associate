@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/venture-page.css';
+import VentureFileManager from './VentureFileManager'; // Assuming this component exists
 
 const VenturePage = () => {
     const { ventureName } = useParams();
@@ -10,6 +11,7 @@ const VenturePage = () => {
         sender: 'assistant'
     }]);
     const [chatInput, setChatInput] = useState('');
+    const [activeTab, setActiveTab] = useState('chat'); // Added state for tab management
 
     const handleChatSubmit = async (e) => {
         e.preventDefault();
@@ -41,7 +43,7 @@ const VenturePage = () => {
                 }
 
                 const data = await response.json();
-                
+
                 // Remove loading message and add analysis response
                 setChatMessages(prev => {
                     const filtered = prev.filter(msg => !msg.isLoading);
@@ -103,78 +105,69 @@ const VenturePage = () => {
 
     return (
         <div className="venture-page">
-            <div className="venture-header">
-                <h1>{ventureName}</h1>
-            </div>
-            <div className="panels-container">
-                <div className="sources-panel">
-                    <div className="panel-header">
-                        <h2>Sources</h2>
-                    </div>
-                    <button className="add-button">+ Add source</button>
-                    <div className="sources-list">
-                        {sources.length === 0 ? (
-                            <div className="empty-state">
-                                <div>No sources yet</div>
-                                <div>Add sources to get started</div>
-                            </div>
-                        ) : (
-                            sources.map((source, index) => (
-                                <div key={index} className="source-item">
-                                    {source.title}
-                                </div>
-                            ))
-                        )}
-                    </div>
-                </div>
+            <h1>{ventureName}</h1>
 
-                <div className="chat-panel">
-                    <div className="panel-header">
-                        <h2>Chat</h2>
-                    </div>
-                    <div className="chat-messages">
-                        {chatMessages.length === 0 ? (
-                            <div className="empty-state">
-                                <div>No messages yet</div>
-                                <div>Start a conversation</div>
-                            </div>
-                        ) : (
-                            chatMessages.map((msg, index) => (
+            <div className="venture-tabs">
+                <button 
+                    className={`tab-button ${activeTab === 'chat' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('chat')}
+                >
+                    Chat
+                </button>
+                <button 
+                    className={`tab-button ${activeTab === 'files' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('files')}
+                >
+                    Files & Information
+                </button>
+            </div>
+
+            {activeTab === 'chat' && (
+                <>
+                    <div className="chat-panel">
+                        <div className="panel-header">
+                            <h2>Chat</h2>
+                        </div>
+                        <div className="chat-messages">
+                            {chatMessages.map((msg, index) => (
                                 <div key={index} className={`message ${msg.sender}`}>
                                     {msg.text}
                                 </div>
-                            ))
-                        )}
+                            ))}
+                        </div>
+                        <form onSubmit={handleChatSubmit} className="chat-input-form">
+                            <input
+                                type="text"
+                                value={chatInput}
+                                onChange={(e) => setChatInput(e.target.value)}
+                                placeholder="Ask anything..."
+                                className="chat-input"
+                            />
+                            <button type="submit" className="send-button">Send</button>
+                        </form>
                     </div>
-                    <form onSubmit={handleChatSubmit} className="chat-input-form">
-                        <input
-                            type="text"
-                            value={chatInput}
-                            onChange={(e) => setChatInput(e.target.value)}
-                            placeholder="Ask anything..."
-                            className="chat-input"
-                        />
-                        <button type="submit" className="send-button">Send</button>
-                    </form>
-                </div>
+                    <div className="actions-panel">
+                        <div className="panel-header">
+                            <h2>Actions</h2>
+                        </div>
+                        <div className="actions-list">
+                            {agentActions.map((action) => (
+                                <button
+                                    key={action.id}
+                                    className="action-button"
+                                    onClick={action.onClick || (() => console.log(`Action clicked: ${action.label}`))}
+                                >
+                                    {action.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </>
+            )}
 
-                <div className="actions-panel">
-                    <div className="panel-header">
-                        <h2>Actions</h2>
-                    </div>
-                    <div className="actions-list"> {/*Removed Analyze My Landing Page button*/}
-                        {agentActions.map((action) => (
-                            <button
-                                key={action.id}
-                                className="action-button"
-                                onClick={action.onClick || (() => console.log(`Action clicked: ${action.label}`))}
-                            >
-                                {action.label}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            </div>
+            {activeTab === 'files' && (
+                <VentureFileManager ventureName={ventureName} />
+            )}
         </div>
     );
 };
