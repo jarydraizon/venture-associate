@@ -1,5 +1,187 @@
+
 .venture-file-manager {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  width: 100%;
+}
+
+.venture-file-manager.full-width {
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+
+.venture-section {
+  background-color: #2a2a2a;
+  border-radius: 6px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.venture-section h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #f0f0f0;
+  font-size: 18px;
+  border-bottom: 1px solid #3a3a3a;
+  padding-bottom: 10px;
+}
+
+.helper-text {
+  color: #aaa;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #ccc;
+  font-weight: normal;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #444;
+  background-color: #333;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.save-btn {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.save-btn:hover {
+  background-color: #45a049;
+}
+
+textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #444;
+  background-color: #333;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  resize: vertical;
+}
+
+.file-upload {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.upload-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.upload-btn:hover {
+  background-color: #303f9f;
+}
+
+.uploading {
+  margin-left: 10px;
+  color: #4CAF50;
+  font-style: italic;
+}
+
+.files-list {
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: #333;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #444;
+}
+
+.file-item:last-child {
+  border-bottom: none;
+}
+
+.file-name {
+  color: #fff;
+  font-size: 14px;
+  word-break: break-all;
+}
+
+.download-link {
+  color: #4CAF50;
+  text-decoration: none;
+  padding: 4px 8px;
+  border: 1px solid #4CAF50;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.download-link:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.no-files {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+  font-style: italic;
+}
+
+.loading {
+  padding: 20px;
+  text-align: center;
+  color: #bbb;
+}
+
+.error {
+  padding: 20px;
+  text-align: center;
+  color: #f44336;
+  background-color: rgba(244, 67, 54, 0.1);
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .venture-file-manager {
+    grid-template-columns: 1fr;
+  }
+  
+  .venture-file-manager.full-width {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,32 +1,51 @@
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/VenturePage.css';
 import VentureFileManager from '../components/VentureFileManager';
 
-function VenturePage() {
+const VenturePage = () => {
   const { ventureName } = useParams();
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('details');
+  const [activePanel, setActivePanel] = useState('venture');
+  const [venture, setVenture] = useState({ 
+    name: '', 
+    description: '', 
+    industry: '', 
+    website: '', 
+    regions: '' 
+  });
+  const [competitors, setCompetitors] = useState([]);
+  const [activeCompetitor, setActiveCompetitor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [ventureData, setVentureData] = useState(null);
+  const [isEditingVenture, setIsEditingVenture] = useState(false);
+  const [isEditingCompetitor, setIsEditingCompetitor] = useState(false);
+  const [newCompetitor, setNewCompetitor] = useState({ 
+    name: '', 
+    description: '', 
+    industry: '', 
+    website: '', 
+    regions: '' 
+  });
 
+  // Fetch venture data and competitors
   useEffect(() => {
-    if (!ventureName) {
-      navigate('/ventures');
-      return;
-    }
-
     const fetchVentureData = async () => {
       try {
         setLoading(true);
-        // You can add API calls here to fetch venture-specific data
-        console.log(`Loading venture data for: ${ventureName}`);
+        // Fetch venture details
+        const detailsRes = await axios.get(`/api/venture-files/${ventureName}/details`);
+        if (detailsRes.data.details) {
+          setVenture(detailsRes.data.details);
+        }
         
-        // Simulate successful data load for now
-        setVentureData({ name: ventureName });
+        // Fetch competitors
+        const competitorsRes = await axios.get(`/api/venture-files/${ventureName}/competitors`);
+        if (competitorsRes.data.competitors) {
+          setCompetitors(competitorsRes.data.competitors.sort((a, b) => a.name.localeCompare(b.name)));
+        }
+        
         setLoading(false);
       } catch (err) {
         console.error('Error loading venture data:', err);
@@ -35,63 +54,532 @@ function VenturePage() {
       }
     };
 
-    fetchVentureData();
-  }, [ventureName, navigate]);
+    if (ventureName) {
+      fetchVentureData();
+    }
+  }, [ventureName]);
 
-  if (loading) return <div className="loading-container">Loading...</div>;
-  if (error) return <div className="error-container">{error}</div>;
-  if (!ventureName) return null;
+  const handleVentureChange = (e) => {
+    const { name, value } = e.target;
+    setVenture(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleCompetitorChange = (e) => {
+    const { name, value } = e.target;
+    setNewCompetitor(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleActiveCompetitorChange = (e) => {
+    const { name, value } = e.target;
+    setActiveCompetitor(prev => ({ ...prev, [name]: value }));
+  };
+
+  const saveVentureDetails = async () => {
+    try {
+      await axios.post(`/api/venture-files/${ventureName}/details`, venture);
+      setIsEditingVenture(false);
+      alert('Venture details saved successfully');
+    } catch (err) {
+      console.error('Error saving venture details:', err);
+      alert('Failed to save venture details');
+    }
+  };
+
+  const saveCompetitorDetails = async () => {
+    try {
+      if (activeCompetitor) {
+        // Update existing competitor
+        await axios.put(`/api/venture-files/${ventureName}/competitors/${activeCompetitor.id}`, activeCompetitor);
+        
+        // Update the competitors list
+        setCompetitors(prev => 
+          prev.map(comp => comp.id === activeCompetitor.id ? activeCompetitor : comp)
+            .sort((a, b) => a.name.localeCompare(b.name))
+        );
+        
+        setIsEditingCompetitor(false);
+        alert('Competitor details updated successfully');
+      }
+    } catch (err) {
+      console.error('Error updating competitor:', err);
+      alert('Failed to update competitor details');
+    }
+  };
+
+  const addNewCompetitor = async () => {
+    try {
+      const response = await axios.post(`/api/venture-files/${ventureName}/competitors`, newCompetitor);
+      const addedCompetitor = response.data.competitor;
+      
+      // Add to competitors list
+      setCompetitors(prev => 
+        [...prev, addedCompetitor].sort((a, b) => a.name.localeCompare(b.name))
+      );
+      
+      // Reset form
+      setNewCompetitor({ 
+        name: '', 
+        description: '', 
+        industry: '', 
+        website: '', 
+        regions: '' 
+      });
+      
+      // Set the newly added competitor as active
+      setActiveCompetitor(addedCompetitor);
+      setActivePanel('competitor');
+      alert('Competitor added successfully');
+    } catch (err) {
+      console.error('Error adding competitor:', err);
+      alert('Failed to add competitor');
+    }
+  };
+
+  const selectCompetitor = (competitor) => {
+    setActiveCompetitor(competitor);
+    setActivePanel('competitor');
+    setIsEditingCompetitor(false);
+  };
+
+  if (loading) return <div className="loading-screen">Loading venture data...</div>;
+  if (error) return <div className="error-message">{error}</div>;
 
   return (
     <div className="venture-page">
       <div className="venture-header">
         <h1>{ventureName}</h1>
+        <div className="tabs">
+          <button 
+            className={`tab-button ${activePanel === 'venture' ? 'active' : ''}`} 
+            onClick={() => setActivePanel('venture')}
+          >
+            Venture Details
+          </button>
+          <button 
+            className={`tab-button ${activePanel === 'competitors' ? 'active' : ''}`} 
+            onClick={() => {
+              setActivePanel('competitors');
+              setActiveCompetitor(null);
+            }}
+          >
+            Competitors
+          </button>
+          <button 
+            className={`tab-button ${activePanel === 'add-data' ? 'active' : ''}`} 
+            onClick={() => setActivePanel('add-data')}
+          >
+            Add Data
+          </button>
+        </div>
       </div>
-      
-      <div className="tabs-container">
-        <div 
-          className={`tab ${activeTab === 'details' ? 'active' : ''}`} 
-          onClick={() => setActiveTab('details')}
-        >
-          Venture Details
-        </div>
-        <div 
-          className={`tab ${activeTab === 'chat' ? 'active' : ''}`} 
-          onClick={() => setActiveTab('chat')}
-        >
-          Chat with Expert
-        </div>
-        <div 
-          className={`tab ${activeTab === 'reports' ? 'active' : ''}`} 
-          onClick={() => setActiveTab('reports')}
-        >
-          Generate Reports
-        </div>
-      </div>
-      
-      <div className="tab-content">
-        {activeTab === 'details' && (
-          <div className="details-panel">
-            <VentureFileManager ventureName={ventureName} />
+
+      <div className="panel-container">
+        {/* Venture Details Panel */}
+        {activePanel === 'venture' && (
+          <div className="panel venture-details-panel">
+            <div className="panel-header">
+              <h2>Venture Details</h2>
+              <div className="panel-actions">
+                <button 
+                  className="action-button"
+                  onClick={() => isEditingVenture ? saveVentureDetails() : setIsEditingVenture(true)}
+                >
+                  {isEditingVenture ? 'Save Details' : 'Edit Details'}
+                </button>
+                <button 
+                  className="action-button"
+                  onClick={() => setActivePanel('add-data')}
+                >
+                  Add Data
+                </button>
+              </div>
+            </div>
+
+            <div className="panel-content">
+              {isEditingVenture ? (
+                <div className="edit-form">
+                  <div className="form-group">
+                    <label>Company Name:</label>
+                    <input 
+                      type="text" 
+                      name="name" 
+                      value={venture.name || ''} 
+                      onChange={handleVentureChange} 
+                      placeholder="Company name"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Industry:</label>
+                    <input 
+                      type="text" 
+                      name="industry" 
+                      value={venture.industry || ''} 
+                      onChange={handleVentureChange} 
+                      placeholder="Industry"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Website:</label>
+                    <input 
+                      type="text" 
+                      name="website" 
+                      value={venture.website || ''} 
+                      onChange={handleVentureChange} 
+                      placeholder="Website URL"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Regions of Operation:</label>
+                    <input 
+                      type="text" 
+                      name="regions" 
+                      value={venture.regions || ''} 
+                      onChange={handleVentureChange} 
+                      placeholder="Regions (comma separated)"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Description:</label>
+                    <textarea 
+                      name="description" 
+                      value={venture.description || ''} 
+                      onChange={handleVentureChange} 
+                      placeholder="Describe this venture"
+                      rows={5}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="info-display">
+                  {Object.keys(venture).some(key => venture[key]) ? (
+                    <>
+                      <div className="info-group">
+                        <label>Company Name:</label>
+                        <p>{venture.name || 'Not specified'}</p>
+                      </div>
+                      <div className="info-group">
+                        <label>Industry:</label>
+                        <p>{venture.industry || 'Not specified'}</p>
+                      </div>
+                      <div className="info-group">
+                        <label>Website:</label>
+                        <p>
+                          {venture.website ? (
+                            <a href={venture.website} target="_blank" rel="noopener noreferrer">
+                              {venture.website}
+                            </a>
+                          ) : 'Not specified'}
+                        </p>
+                      </div>
+                      <div className="info-group">
+                        <label>Regions of Operation:</label>
+                        <p>{venture.regions || 'Not specified'}</p>
+                      </div>
+                      <div className="info-group">
+                        <label>Description:</label>
+                        <p className="description">{venture.description || 'No description available'}</p>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="empty-state">
+                      <p>No venture details available. Click 'Edit Details' to add information.</p>
+                    </div>
+                  )}
+                </div>
+              )}
+              
+              {/* Files and URLs associated with this venture */}
+              <div className="venture-files-section">
+                <h3>Associated Files & URLs</h3>
+                <VentureFileManager ventureName={ventureName} />
+              </div>
+            </div>
           </div>
         )}
-        
-        {activeTab === 'chat' && (
-          <div className="chat-panel">
-            <h2>Chat with Expert</h2>
-            <p className="coming-soon">Coming soon...</p>
+
+        {/* Competitors List Panel */}
+        {activePanel === 'competitors' && !activeCompetitor && (
+          <div className="panel competitors-panel">
+            <div className="panel-header">
+              <h2>Competitors</h2>
+              <button 
+                className="action-button"
+                onClick={() => setActivePanel('add-competitor')}
+              >
+                Add Competitor
+              </button>
+            </div>
+
+            <div className="panel-content">
+              {competitors.length > 0 ? (
+                <div className="competitors-list">
+                  {competitors.map((competitor, index) => (
+                    <button 
+                      key={index} 
+                      className="competitor-button"
+                      onClick={() => selectCompetitor(competitor)}
+                    >
+                      {competitor.name}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <div className="empty-state">
+                  <p>No competitors added yet. Click 'Add Competitor' to get started.</p>
+                </div>
+              )}
+            </div>
           </div>
         )}
-        
-        {activeTab === 'reports' && (
-          <div className="reports-panel">
-            <h2>Generate Reports</h2>
-            <p className="coming-soon">Coming soon...</p>
+
+        {/* Add Competitor Panel */}
+        {activePanel === 'add-competitor' && (
+          <div className="panel add-competitor-panel">
+            <div className="panel-header">
+              <h2>Add New Competitor</h2>
+              <button 
+                className="action-button"
+                onClick={() => setActivePanel('competitors')}
+              >
+                Back to Competitors
+              </button>
+            </div>
+
+            <div className="panel-content">
+              <div className="edit-form">
+                <div className="form-group">
+                  <label>Company Name:</label>
+                  <input 
+                    type="text" 
+                    name="name" 
+                    value={newCompetitor.name} 
+                    onChange={handleCompetitorChange} 
+                    placeholder="Company name"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Industry:</label>
+                  <input 
+                    type="text" 
+                    name="industry" 
+                    value={newCompetitor.industry} 
+                    onChange={handleCompetitorChange} 
+                    placeholder="Industry"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Website:</label>
+                  <input 
+                    type="text" 
+                    name="website" 
+                    value={newCompetitor.website} 
+                    onChange={handleCompetitorChange} 
+                    placeholder="Website URL"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Regions of Operation:</label>
+                  <input 
+                    type="text" 
+                    name="regions" 
+                    value={newCompetitor.regions} 
+                    onChange={handleCompetitorChange} 
+                    placeholder="Regions (comma separated)"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Description:</label>
+                  <textarea 
+                    name="description" 
+                    value={newCompetitor.description} 
+                    onChange={handleCompetitorChange} 
+                    placeholder="Describe this competitor"
+                    rows={5}
+                  />
+                </div>
+                <button 
+                  className="submit-button"
+                  onClick={addNewCompetitor}
+                  disabled={!newCompetitor.name}
+                >
+                  Add Competitor
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Active Competitor Details Panel */}
+        {activePanel === 'competitor' && activeCompetitor && (
+          <div className="panel competitor-details-panel">
+            <div className="panel-header">
+              <h2>Competitor: {activeCompetitor.name}</h2>
+              <div className="panel-actions">
+                <button 
+                  className="action-button"
+                  onClick={() => setActivePanel('competitors')}
+                >
+                  Back to List
+                </button>
+                <button 
+                  className="action-button"
+                  onClick={() => isEditingCompetitor ? saveCompetitorDetails() : setIsEditingCompetitor(true)}
+                >
+                  {isEditingCompetitor ? 'Save Details' : 'Edit Details'}
+                </button>
+                <button 
+                  className="action-button"
+                  onClick={() => setActivePanel('add-data-competitor')}
+                >
+                  Add Data
+                </button>
+              </div>
+            </div>
+
+            <div className="panel-content">
+              {isEditingCompetitor ? (
+                <div className="edit-form">
+                  <div className="form-group">
+                    <label>Company Name:</label>
+                    <input 
+                      type="text" 
+                      name="name" 
+                      value={activeCompetitor.name || ''} 
+                      onChange={handleActiveCompetitorChange} 
+                      placeholder="Company name"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Industry:</label>
+                    <input 
+                      type="text" 
+                      name="industry" 
+                      value={activeCompetitor.industry || ''} 
+                      onChange={handleActiveCompetitorChange} 
+                      placeholder="Industry"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Website:</label>
+                    <input 
+                      type="text" 
+                      name="website" 
+                      value={activeCompetitor.website || ''} 
+                      onChange={handleActiveCompetitorChange} 
+                      placeholder="Website URL"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Regions of Operation:</label>
+                    <input 
+                      type="text" 
+                      name="regions" 
+                      value={activeCompetitor.regions || ''} 
+                      onChange={handleActiveCompetitorChange} 
+                      placeholder="Regions (comma separated)"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Description:</label>
+                    <textarea 
+                      name="description" 
+                      value={activeCompetitor.description || ''} 
+                      onChange={handleActiveCompetitorChange} 
+                      placeholder="Describe this competitor"
+                      rows={5}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="info-display">
+                  <div className="info-group">
+                    <label>Company Name:</label>
+                    <p>{activeCompetitor.name || 'Not specified'}</p>
+                  </div>
+                  <div className="info-group">
+                    <label>Industry:</label>
+                    <p>{activeCompetitor.industry || 'Not specified'}</p>
+                  </div>
+                  <div className="info-group">
+                    <label>Website:</label>
+                    <p>
+                      {activeCompetitor.website ? (
+                        <a href={activeCompetitor.website} target="_blank" rel="noopener noreferrer">
+                          {activeCompetitor.website}
+                        </a>
+                      ) : 'Not specified'}
+                    </p>
+                  </div>
+                  <div className="info-group">
+                    <label>Regions of Operation:</label>
+                    <p>{activeCompetitor.regions || 'Not specified'}</p>
+                  </div>
+                  <div className="info-group">
+                    <label>Description:</label>
+                    <p className="description">{activeCompetitor.description || 'No description available'}</p>
+                  </div>
+                </div>
+              )}
+              
+              {/* Files and URLs associated with this competitor */}
+              <div className="competitor-files-section">
+                <h3>Associated Files & URLs</h3>
+                <VentureFileManager 
+                  ventureName={ventureName} 
+                  competitorId={activeCompetitor.id} 
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Add Data Panel for Venture */}
+        {activePanel === 'add-data' && (
+          <div className="panel add-data-panel">
+            <div className="panel-header">
+              <h2>Add Data for {ventureName}</h2>
+              <button 
+                className="action-button"
+                onClick={() => setActivePanel('venture')}
+              >
+                Back to Venture Details
+              </button>
+            </div>
+
+            <div className="panel-content">
+              <VentureFileManager 
+                ventureName={ventureName} 
+                fullWidth={true}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Add Data Panel for Competitor */}
+        {activePanel === 'add-data-competitor' && activeCompetitor && (
+          <div className="panel add-data-panel">
+            <div className="panel-header">
+              <h2>Add Data for {activeCompetitor.name}</h2>
+              <button 
+                className="action-button"
+                onClick={() => setActivePanel('competitor')}
+              >
+                Back to Competitor Details
+              </button>
+            </div>
+
+            <div className="panel-content">
+              <VentureFileManager 
+                ventureName={ventureName} 
+                competitorId={activeCompetitor.id}
+                fullWidth={true}
+              />
+            </div>
           </div>
         )}
       </div>
     </div>
   );
-}
+};
 
 export default VenturePage;

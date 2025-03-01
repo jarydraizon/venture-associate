@@ -1,91 +1,259 @@
 
 .venture-page {
-  padding: 20px;
-  height: 100%;
-  min-height: calc(100vh - 60px);
-  background-color: #1a1a1a;
-  color: #fff;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-  width: 100%;
-  margin: 0;
+  padding: 20px;
+  height: calc(100vh - 80px);
+  overflow: hidden;
 }
 
 .venture-header {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 20px;
 }
 
 .venture-header h1 {
-  margin: 0;
-  font-size: 24px;
-  color: #fff;
+  margin: 0 0 15px 0;
+  color: #f8f8f8;
+  font-size: 28px;
 }
 
-.tabs-container {
+.tabs {
   display: flex;
-  gap: 5px;
-  margin-bottom: 20px;
   border-bottom: 1px solid #3a3a3a;
 }
 
-.tab {
+.tab-button {
   padding: 10px 20px;
+  background-color: transparent;
+  color: #bbb;
+  border: none;
   cursor: pointer;
-  border-radius: 4px 4px 0 0;
-  background: #2a2a2a;
+  font-size: 16px;
+  border-bottom: 3px solid transparent;
   transition: all 0.2s ease;
 }
 
-.tab.active {
-  background: #3a3a3a;
-  font-weight: bold;
+.tab-button:hover {
+  color: #fff;
 }
 
-.tab:hover:not(.active) {
-  background: #333;
+.tab-button.active {
+  color: #fff;
+  border-bottom: 3px solid #4CAF50;
 }
 
-.tab-content {
+.panel-container {
   flex: 1;
-  overflow: auto;
-  background: #2a2a2a;
-  border-radius: 4px;
-  padding: 20px;
+  overflow-y: auto;
+}
+
+.panel {
+  background-color: #242424;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.loading-container, .error-container {
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #f8f8f8;
+}
+
+.panel-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.action-button {
+  padding: 8px 15px;
+  background-color: #3a3a3a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.action-button:hover {
+  background-color: #4a4a4a;
+}
+
+.panel-content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.edit-form, .info-display {
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #bbb;
+  font-size: 14px;
+}
+
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  background-color: #333;
+  border: 1px solid #444;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.submit-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}
+
+.submit-button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.save-btn {
+  margin-top: 10px;
+  padding: 8px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.save-btn:hover {
+  background-color: #45a049;
+}
+
+.info-group {
+  margin-bottom: 15px;
+}
+
+.info-group label {
+  display: block;
+  color: #bbb;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.info-group p {
+  margin: 0;
+  color: #fff;
+  font-size: 16px;
+}
+
+.info-group .description {
+  white-space: pre-line;
+  line-height: 1.5;
+}
+
+.info-group a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+.info-group a:hover {
+  text-decoration: underline;
+}
+
+.empty-state {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  font-size: 18px;
-  color: #fff;
-}
-
-.error-container {
-  color: #ff6b6b;
-}
-
-.coming-soon {
-  text-align: center;
+  height: 200px;
   color: #888;
+  text-align: center;
   font-style: italic;
-  margin-top: 20px;
 }
 
-.chat-panel, .reports-panel, .details-panel {
-  padding: 15px;
+.competitors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.competitor-button {
+  padding: 12px 15px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: left;
+  transition: background-color 0.2s;
+}
+
+.competitor-button:hover {
+  background-color: #444;
+}
+
+.venture-files-section, .competitor-files-section {
+  margin-top: 30px;
+}
+
+.venture-files-section h3, .competitor-files-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #ddd;
+  font-size: 18px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 10px;
+}
+
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
-  width: 100%;
-  overflow: auto;
+  color: #bbb;
+  font-size: 18px;
 }
 
-/* Explicit visibility for file manager inside details panel */
-.details-panel .venture-file-manager {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+.error-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #f44336;
+  font-size: 18px;
 }
