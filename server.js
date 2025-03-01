@@ -19,7 +19,10 @@ app.use('/api', require('./src/api/landingPageAnalyzer.js'));
 // Mount API routes first
 app.use('/api/auth', authRoutes);
 app.use('/api/ventures', ventureRoutes);
-app.use('/api/venture-files', require('./src/api/ventureFiles.js'));
+// Make sure this module exports a router
+if (require('./src/api/ventureFiles.js')) {
+  app.use('/api/venture-files', require('./src/api/ventureFiles.js'));
+}
 
 // Serve static files from the build directory
 app.use(express.static(path.join(__dirname, 'build')));

@@ -175,3 +175,81 @@ router.get('/:ventureName/urls', authenticateToken, async (req, res) => {
 });
 
 module.exports = router;
+const express = require('express');
+const router = express.Router();
+const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    const userId = req.user ? req.user.id : '0';
+    const ventureName = req.params.ventureName || 'default';
+    const dir = path.join(__dirname, '../../uploads', userId, ventureName);
+    
+    // Create directory if it doesn't exist
+    fs.mkdirSync(dir, { recursive: true });
+    cb(null, dir);
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+const upload = multer({ storage });
+
+// Get all files for a venture
+router.get('/:userId/:ventureName', (req, res) => {
+  try {
+    const { userId, ventureName } = req.params;
+    const dir = path.join(__dirname, '../../uploads', userId, ventureName);
+    
+    if (!fs.existsSync(dir)) {
+      return res.json({ files: [] });
+    }
+    
+    const files = fs.readdirSync(dir);
+    return res.json({ files });
+  } catch (error) {
+    console.error('Error fetching files:', error);
+    return res.status(500).json({ error: 'Failed to fetch files' });
+  }
+});
+
+// Upload a file
+router.post('/:userId/:ventureName', upload.single('file'), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+    
+    return res.json({ 
+      success: true,
+      filename: req.file.originalname 
+    });
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    return res.status(500).json({ error: 'Failed to upload file' });
+  }
+});
+
+// Delete a file
+router.delete('/:userId/:ventureName/:filename', (req, res) => {
+  try {
+    const { userId, ventureName, filename } = req.params;
+    const filePath = path.join(__dirname, '../../uploads', userId, ventureName, filename);
+    
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ error: 'File not found' });
+    }
+    
+    fs.unlinkSync(filePath);
+    return res.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting file:', error);
+    return res.status(500).json({ error: 'Failed to delete file' });
+  }
+});
+
+module.exports = router;
