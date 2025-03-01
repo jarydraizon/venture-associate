@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/VentureFileManager.css';
@@ -19,33 +18,15 @@ function VentureFileManager({ ventureName, competitorId, fullWidth }) {
   const loadData = async () => {
     try {
       setLoading(true);
-      const endpoint = getApiEndpoint();
-      
-      // Fetch files
-      const filesRes = await axios.get(`${endpoint}/files`);
-      setFiles(filesRes.data.files || []);
-      
-      // Fetch URLs
-      const urlsRes = await axios.get(`${endpoint}/urls`);
-      setUrls(urlsRes.data.urls.join('\n'));
-      
-      // Only fetch details when not in fullWidth mode (details already shown in parent)
-      if (!fullWidth) {
-        // Fetch details
-        const detailsRes = await axios.get(`${endpoint}/details`);
-        if (detailsRes.data.details) {
-          setDetails(detailsRes.data.details);
-        }
-      }
-      
-      setLoading(false);
+      setError(''); // Clear any previous errors
+      await fetchFiles();
     } catch (err) {
       console.error('Error loading data:', err);
-      setError('Failed to load data');
+      setError('Failed to load data. Please try again.');
       setLoading(false);
     }
   };
-  
+
   // Add useEffect to load data when component mounts
   useEffect(() => {
     loadData();
@@ -60,12 +41,12 @@ function VentureFileManager({ ventureName, competitorId, fullWidth }) {
   const handleFileUpload = async (event) => {
     const files = event.target.files;
     if (!files.length) return;
-    
+
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
       formData.append('files', files[i]);
     }
-    
+
     try {
       setUploading(true);
       const endpoint = getApiEndpoint();
@@ -111,6 +92,24 @@ function VentureFileManager({ ventureName, competitorId, fullWidth }) {
 
   if (loading) return <div className="loading">Loading data...</div>;
   if (error) return <div className="error">{error}</div>;
+
+  //Closure to access state variables within fetchFiles
+  const fetchFiles = async () => {
+    try {
+      setLoading(true);
+      const endpoint = `${getApiEndpoint()}/files`;
+      const response = await axios.get(endpoint, getAuthConfig());
+      if (response.data.files) {
+        setFiles(response.data.files);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching files:', error);
+      setError('Failed to load files');
+      setLoading(false);
+    }
+  };
+
 
   return (
     <div className={`venture-file-manager ${fullWidth ? 'full-width' : ''}`}>
@@ -197,7 +196,7 @@ function VentureFileManager({ ventureName, competitorId, fullWidth }) {
           </label>
           {uploading && <span className="uploading">Uploading...</span>}
         </div>
-        
+
         <div className="files-list">
           {files.length > 0 ? (
             files.map((file, index) => (
@@ -231,27 +230,5 @@ const getAuthConfig = () => {
   };
 };
 
-// Update the fetchFiles function to use authentication
-const fetchFiles = async () => {
-  try {
-    setLoading(true);
-    // Use the getApiEndpoint function to get the correct endpoint
-    const endpoint = `${getApiEndpoint()}/files`;
-    
-    const response = await axios.get(endpoint, getAuthConfig());
-    
-    if (response.data.files) {
-      setFiles(response.data.files);
-    }
-    setLoading(false);
-  } catch (error) {
-    console.error('Error fetching files:', error);
-    setError('Failed to load files');
-    setLoading(false);
-  }
-};
 
-// Update any other API calls in this component to use getAuthConfig()
-
-// Export the component as a named export
 export { VentureFileManager };
