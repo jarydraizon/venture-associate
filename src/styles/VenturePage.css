@@ -1,0 +1,91 @@
+
+.venture-page {
+  padding: 20px;
+  height: 100%;
+  min-height: calc(100vh - 60px);
+  background-color: #1a1a1a;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+}
+
+.venture-header {
+  margin-bottom: 20px;
+}
+
+.venture-header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #fff;
+}
+
+.tabs-container {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px 4px 0 0;
+  background: #2a2a2a;
+  transition: all 0.2s ease;
+}
+
+.tab.active {
+  background: #3a3a3a;
+  font-weight: bold;
+}
+
+.tab:hover:not(.active) {
+  background: #333;
+}
+
+.tab-content {
+  flex: 1;
+  overflow: auto;
+  background: #2a2a2a;
+  border-radius: 4px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.loading-container, .error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
+  color: #fff;
+}
+
+.error-container {
+  color: #ff6b6b;
+}
+
+.coming-soon {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+.chat-panel, .reports-panel, .details-panel {
+  padding: 15px;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+/* Explicit visibility for file manager inside details panel */
+.details-panel .venture-file-manager {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
