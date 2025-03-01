@@ -216,4 +216,37 @@ function VentureFileManager({ ventureName, competitorId, fullWidth }) {
   );
 }
 
+// Add authentication token to requests
+const getAuthConfig = () => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  };
+};
+
+// Update the fetchFiles function to use authentication
+const fetchFiles = async () => {
+  try {
+    setLoading(true);
+    const endpoint = competitorId 
+      ? `/api/venture-files/${ventureName}/competitor/${competitorId}/files` 
+      : `/api/venture-files/${ventureName}`;
+    
+    const response = await axios.get(endpoint, getAuthConfig());
+    
+    if (response.data.files) {
+      setFiles(response.data.files);
+    }
+    setLoading(false);
+  } catch (error) {
+    console.error('Error fetching files:', error);
+    setError('Failed to load files');
+    setLoading(false);
+  }
+};
+
+// Update any other API calls in this component to use getAuthConfig()
+
 export default VentureFileManager;

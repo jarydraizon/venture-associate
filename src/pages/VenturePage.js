@@ -34,14 +34,25 @@ const VenturePage = () => {
     const fetchVentureData = async () => {
       try {
         setLoading(true);
-        // Fetch venture details
-        const detailsRes = await axios.get(`/api/venture-files/${ventureName}/details`);
+        
+        // Get auth token from localStorage
+        const token = localStorage.getItem('token');
+        
+        // Configure headers with authentication
+        const config = {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        };
+        
+        // Fetch venture details with auth headers
+        const detailsRes = await axios.get(`/api/venture-files/${ventureName}/details`, config);
         if (detailsRes.data.details) {
           setVenture(detailsRes.data.details);
         }
         
-        // Fetch competitors
-        const competitorsRes = await axios.get(`/api/venture-files/${ventureName}/competitors`);
+        // Fetch competitors with auth headers
+        const competitorsRes = await axios.get(`/api/venture-files/${ventureName}/competitors`, config);
         if (competitorsRes.data.competitors) {
           setCompetitors(competitorsRes.data.competitors.sort((a, b) => a.name.localeCompare(b.name)));
         }
