@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const path = require('path');
@@ -8,11 +7,11 @@ const fs = require('fs');
 const authenticateUser = (req, res, next) => {
   // Get token from request headers
   const token = req.headers.authorization?.split(' ')[1];
-  
+
   if (!token) {
     return res.status(401).json({ error: 'No token provided, authorization required' });
   }
-  
+
   try {
     // Verify token
     const jwt = require('jsonwebtoken');
@@ -29,11 +28,11 @@ router.get('/', authenticateUser, (req, res) => {
   try {
     const userId = req.user.user_id;
     const userDir = path.join(__dirname, '../../uploads', userId.toString());
-    
+
     if (!fs.existsSync(userDir)) {
       return res.json({ ventures: [] });
     }
-    
+
     const ventures = fs.readdirSync(userDir);
     return res.json({ ventures });
   } catch (error) {
@@ -47,20 +46,20 @@ router.post('/', authenticateUser, (req, res) => {
   try {
     const { name, description, industry, website, regions } = req.body;
     const userId = req.user.user_id;
-    
+
     if (!name) {
       return res.status(400).json({ error: 'Venture name is required' });
     }
-    
+
     const ventureDir = path.join(__dirname, '../../uploads', userId.toString(), name);
-    
+
     if (fs.existsSync(ventureDir)) {
       return res.status(400).json({ error: 'Venture already exists' });
     }
-    
+
     // Create venture directory
     fs.mkdirSync(ventureDir, { recursive: true });
-    
+
     // Save venture details
     const ventureDetails = {
       name,
@@ -69,12 +68,12 @@ router.post('/', authenticateUser, (req, res) => {
       website,
       regions
     };
-    
+
     fs.writeFileSync(
       path.join(ventureDir, 'venture_details.json'),
       JSON.stringify(ventureDetails, null, 2)
     );
-    
+
     return res.status(201).json({ 
       success: true,
       venture: ventureDetails
@@ -91,11 +90,11 @@ router.get('/:ventureName', authenticateUser, (req, res) => {
     const { ventureName } = req.params;
     const userId = req.user.user_id;
     const detailsPath = path.join(__dirname, '../../uploads', userId.toString(), ventureName, 'venture_details.json');
-    
+
     if (!fs.existsSync(detailsPath)) {
       return res.json({ details: null });
     }
-    
+
     const details = JSON.parse(fs.readFileSync(detailsPath, 'utf8'));
     return res.json({ details });
   } catch (error) {
@@ -110,16 +109,16 @@ router.put('/:ventureName', authenticateUser, (req, res) => {
     const { ventureName } = req.params;
     const userId = req.user.user_id;
     const detailsPath = path.join(__dirname, '../../uploads', userId.toString(), ventureName, 'venture_details.json');
-    
+
     if (!fs.existsSync(detailsPath)) {
       return res.status(404).json({ error: 'Venture not found' });
     }
-    
+
     const currentDetails = JSON.parse(fs.readFileSync(detailsPath, 'utf8'));
     const updatedDetails = { ...currentDetails, ...req.body };
-    
+
     fs.writeFileSync(detailsPath, JSON.stringify(updatedDetails, null, 2));
-    
+
     return res.json({ 
       success: true,
       details: updatedDetails 
@@ -136,13 +135,13 @@ router.get('/:ventureName/competitors', authenticateUser, (req, res) => {
     const { ventureName } = req.params;
     const userId = req.user.user_id;
     const competitorsPath = path.join(__dirname, '../../uploads', userId.toString(), ventureName, 'competitors.json');
-    
+
     if (!fs.existsSync(competitorsPath)) {
       // If file doesn't exist, create an empty competitors file
       fs.writeFileSync(competitorsPath, JSON.stringify([], null, 2));
       return res.json({ competitors: [] });
     }
-    
+
     const competitors = JSON.parse(fs.readFileSync(competitorsPath, 'utf8'));
     return res.json({ competitors });
   } catch (error) {
@@ -157,21 +156,21 @@ router.post('/:ventureName/competitors', authenticateUser, (req, res) => {
     const { ventureName } = req.params;
     const userId = req.user.user_id;
     const { name, website, strengths, weaknesses } = req.body;
-    
+
     if (!name) {
       return res.status(400).json({ error: 'Competitor name is required' });
     }
-    
+
     const competitorsPath = path.join(__dirname, '../../uploads', userId.toString(), ventureName, 'competitors.json');
     let competitors = [];
-    
+
     if (fs.existsSync(competitorsPath)) {
       competitors = JSON.parse(fs.readFileSync(competitorsPath, 'utf8'));
     }
-    
+
     // Check if competitor already exists
     const existingIndex = competitors.findIndex(c => c.name === name);
-    
+
     if (existingIndex >= 0) {
       // Update existing competitor
       competitors[existingIndex] = {
@@ -190,9 +189,9 @@ router.post('/:ventureName/competitors', authenticateUser, (req, res) => {
         weaknesses
       });
     }
-    
+
     fs.writeFileSync(competitorsPath, JSON.stringify(competitors, null, 2));
-    
+
     return res.status(201).json({ 
       success: true,
       competitors 
@@ -209,16 +208,16 @@ router.delete('/:ventureName/competitors/:competitorId', authenticateUser, (req,
     const { ventureName, competitorId } = req.params;
     const userId = req.user.user_id;
     const competitorsPath = path.join(__dirname, '../../uploads', userId.toString(), ventureName, 'competitors.json');
-    
+
     if (!fs.existsSync(competitorsPath)) {
       return res.status(404).json({ error: 'Competitors file not found' });
     }
-    
+
     let competitors = JSON.parse(fs.readFileSync(competitorsPath, 'utf8'));
     competitors = competitors.filter(c => c.id !== competitorId);
-    
+
     fs.writeFileSync(competitorsPath, JSON.stringify(competitors, null, 2));
-    
+
     return res.json({ 
       success: true,
       competitors 
