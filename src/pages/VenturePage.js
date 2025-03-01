@@ -87,7 +87,14 @@ const VenturePage = () => {
 
   const saveVentureDetails = async () => {
     try {
-      await axios.post(`/api/venture-files/${ventureName}/details`, venture);
+      const token = localStorage.getItem('token');
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+      
+      await axios.post(`/api/venture-files/${ventureName}/details`, venture, config);
       setIsEditingVenture(false);
       alert('Venture details saved successfully');
     } catch (err) {
@@ -99,8 +106,15 @@ const VenturePage = () => {
   const saveCompetitorDetails = async () => {
     try {
       if (activeCompetitor) {
+        const token = localStorage.getItem('token');
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        
         // Update existing competitor
-        await axios.put(`/api/venture-files/${ventureName}/competitors/${activeCompetitor.id}`, activeCompetitor);
+        await axios.put(`/api/venture-files/${ventureName}/competitors/${activeCompetitor.id}`, activeCompetitor, config);
         
         // Update the competitors list
         setCompetitors(prev => 
@@ -119,7 +133,14 @@ const VenturePage = () => {
 
   const addNewCompetitor = async () => {
     try {
-      const response = await axios.post(`/api/venture-files/${ventureName}/competitors`, newCompetitor);
+      const token = localStorage.getItem('token');
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+      
+      const response = await axios.post(`/api/venture-files/${ventureName}/competitors`, newCompetitor, config);
       const addedCompetitor = response.data.competitor;
       
       // Add to competitors list

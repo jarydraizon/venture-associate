@@ -9,6 +9,7 @@ function VentureFileManager({ ventureName, competitorId, fullWidth }) {
   const [uploading, setUploading] = useState(false);
   const [urls, setUrls] = useState('');
   const [details, setDetails] = useState({ name: '', description: '', industry: '', website: '', regions: '' });
+  const [savingUrls, setSavingUrls] = useState(false); // Added state for URL saving
 
   const getApiEndpoint = () => {
     const base = `/api/venture-files/${ventureName}`;
@@ -64,20 +65,27 @@ function VentureFileManager({ ventureName, competitorId, fullWidth }) {
 
   const handleSaveUrls = async () => {
     try {
-      const urlList = urls.split('\n').filter(url => url.trim());
+      setSavingUrls(true);
       const endpoint = getApiEndpoint();
-      await axios.post(`${endpoint}/urls`, { urls: urlList });
+
+      // Split URLs by new line and filter out empty lines
+      const urlsArray = urls.split('\n').filter(url => url.trim() !== '');
+
+      await axios.post(`${endpoint}/urls`, { urls: urlsArray }, getAuthConfig());
+
       alert('URLs saved successfully');
+      setSavingUrls(false);
     } catch (err) {
       console.error('Error saving URLs:', err);
-      setError('Failed to save URLs');
+      alert('Failed to save URLs');
+      setSavingUrls(false);
     }
   };
 
   const handleSaveDetails = async () => {
     try {
       const endpoint = getApiEndpoint();
-      await axios.post(`${endpoint}/details`, details);
+      await axios.post(`${endpoint}/details`, details, getAuthConfig()); // Added getAuthConfig()
       alert('Details saved successfully');
     } catch (err) {
       console.error('Error saving details:', err);
