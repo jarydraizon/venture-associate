@@ -200,3 +200,169 @@ router.get('/:name', authenticateToken, async (req, res) => {
 });
 
 module.exports = router;
+const express = require('express');
+const router = express.Router();
+const fs = require('fs');
+const path = require('path');
+const { authenticateToken } = require('./auth');
+
+// Base directory for venture data
+const getVentureDir = (ventureName) => {
+  return path.join(__dirname, '../../uploads/4', ventureName);
+};
+
+// Ensure directory exists
+const ensureDir = (dir) => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+  return dir;
+};
+
+// Get venture details
+router.get('/:ventureName/details', authenticateToken, (req, res) => {
+  try {
+    const { ventureName } = req.params;
+    const ventureDir = getVentureDir(ventureName);
+    const detailsPath = path.join(ventureDir, 'venture_details.json');
+    
+    if (fs.existsSync(detailsPath)) {
+      const details = JSON.parse(fs.readFileSync(detailsPath, 'utf-8'));
+      return res.json({ details });
+    }
+    
+    return res.json({ details: null });
+  } catch (err) {
+    console.error('Error getting venture details:', err);
+    return res.status(500).json({ error: 'Failed to retrieve venture details' });
+  }
+});
+
+// Save venture details
+router.post('/:ventureName/details', authenticateToken, (req, res) => {
+  try {
+    const { ventureName } = req.params;
+    const ventureDir = ensureDir(getVentureDir(ventureName));
+    const detailsPath = path.join(ventureDir, 'venture_details.json');
+    
+    fs.writeFileSync(detailsPath, JSON.stringify(req.body, null, 2));
+    
+    return res.json({ success: true });
+  } catch (err) {
+    console.error('Error saving venture details:', err);
+    return res.status(500).json({ error: 'Failed to save venture details' });
+  }
+});
+
+// Get venture competitors
+router.get('/:ventureName/competitors', authenticateToken, (req, res) => {
+  try {
+    const { ventureName } = req.params;
+    const ventureDir = getVentureDir(ventureName);
+    const competitorsDir = path.join(ventureDir, 'competitors');
+    
+    if (!fs.existsSync(competitorsDir)) {
+      return res.json({ competitors: [] });
+    }
+    
+    const competitors = [];
+    const competitorDirs = fs.readdirSync(competitorsDir);
+    
+    for (const dir of competitorDirs) {
+      const detailsPath = path.join(competitorsDir, dir, 'details.json');
+      
+      if (fs.existsSync(detailsPath)) {
+        const details = JSON.parse(fs.readFileSync(detailsPath, 'utf-8'));
+        competitors.push({
+          id: dir,
+          ...details
+        });
+      }
+    }
+    
+    return res.json({ competitors });
+  } catch (err) {
+    console.error('Error getting competitors:', err);
+    return res.status(500).json({ error: 'Failed to retrieve competitors' });
+  }
+});
+
+// Add competitor
+router.post('/:ventureName/competitors', authenticateToken, (req, res) => {
+  try {
+    const { ventureName } = req.params;
+    const ventureDir = ensureDir(getVentureDir(ventureName));
+    const competitorsDir = ensureDir(path.join(ventureDir, 'competitors'));
+    
+    // Generate a unique ID for the competitor
+    const competitorId = Date.now().toString();
+    const competitorDir = ensureDir(path.join(competitorsDir, competitorId));
+    
+    // Save competitor details
+    const detailsPath = path.join(competitorDir, 'details.json');
+    fs.writeFileSync(detailsPath, JSON.stringify(req.body, null, 2));
+    
+    // Return the competitor with the generated ID
+    return res.json({
+      success: true,
+      competitor: {
+        id: competitorId,
+        ...req.body
+      }
+    });
+  } catch (err) {
+    console.error('Error adding competitor:', err);
+    return res.status(500).json({ error: 'Failed to add competitor' });
+  }
+});
+
+// Update competitor
+router.put('/:ventureName/competitors/:competitorId', authenticateToken, (req, res) => {
+  try {
+    const { ventureName, competitorId } = req.params;
+    const ventureDir = getVentureDir(ventureName);
+    const competitorDir = path.join(ventureDir, 'competitors', competitorId);
+    
+    if (!fs.existsSync(competitorDir)) {
+      return res.status(404).json({ error: 'Competitor not found' });
+    }
+    
+    // Save updated competitor details
+    const detailsPath = path.join(competitorDir, 'details.json');
+    fs.writeFileSync(detailsPath, JSON.stringify(req.body, null, 2));
+    
+    return res.json({
+      success: true,
+      competitor: {
+        id: competitorId,
+        ...req.body
+      }
+    });
+  } catch (err) {
+    console.error('Error updating competitor:', err);
+    return res.status(500).json({ error: 'Failed to update competitor' });
+  }
+});
+
+// Delete competitor
+router.delete('/:ventureName/competitors/:competitorId', authenticateToken, (req, res) => {
+  try {
+    const { ventureName, competitorId } = req.params;
+    const ventureDir = getVentureDir(ventureName);
+    const competitorDir = path.join(ventureDir, 'competitors', competitorId);
+    
+    if (!fs.existsSync(competitorDir)) {
+      return res.status(404).json({ error: 'Competitor not found' });
+    }
+    
+    // Delete competitor directory
+    fs.rmSync(competitorDir, { recursive: true, force: true });
+    
+    return res.json({ success: true });
+  } catch (err) {
+    console.error('Error deleting competitor:', err);
+    return res.status(500).json({ error: 'Failed to delete competitor' });
+  }
+});
+
+module.exports = router;

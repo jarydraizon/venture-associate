@@ -54,7 +54,7 @@ const VenturePage = () => {
         };
         
         // Fetch venture details with auth headers
-        const detailsRes = await axios.get(`/api/venture-files/${ventureName}/details`, config);
+        const detailsRes = await axios.get(`/api/ventures/${ventureName}/details`, config);
         console.log('Venture details response:', detailsRes.data);
         
         if (detailsRes.data.details) {
@@ -62,7 +62,7 @@ const VenturePage = () => {
         }
         
         // Fetch competitors with auth headers
-        const competitorsRes = await axios.get(`/api/venture-files/${ventureName}/competitors`, config);
+        const competitorsRes = await axios.get(`/api/ventures/${ventureName}/competitors`, config);
         console.log('Competitors response:', competitorsRes.data);
         
         if (competitorsRes.data.competitors) {
@@ -110,7 +110,7 @@ const VenturePage = () => {
         }
       };
       
-      await axios.post(`/api/venture-files/${ventureName}/details`, venture, config);
+      await axios.post(`/api/ventures/${ventureName}/details`, venture, config);
       setIsEditingVenture(false);
       alert('Venture details saved successfully');
     } catch (err) {
@@ -197,6 +197,9 @@ const VenturePage = () => {
       setActivePanel('competitor');
       alert('Competitor added successfully');
     } catch (err) {
+      console.error('Error adding competitor:', err);
+      const errorMessage = err.response?.data?.error || err.message || 'unknown error';
+      alert(`Failed to add competitor: ${errorMessage}`);
       console.error('Error adding competitor:', err);
       if (err.response) {
         console.error('Error response:', err.response.data);
