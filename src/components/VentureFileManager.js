@@ -101,19 +101,39 @@ function VentureFileManager({ ventureName, competitorId, fullWidth }) {
   if (loading) return <div className="loading">Loading data...</div>;
   if (error) return <div className="error">{error}</div>;
 
+  // Get authentication configuration for API requests
+  const getAuthConfig = () => {
+    const token = localStorage.getItem('token');
+    return {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    };
+  };
+
   //Closure to access state variables within fetchFiles
   const fetchFiles = async () => {
     try {
       setLoading(true);
       const endpoint = `${getApiEndpoint()}/files`;
-      const response = await axios.get(endpoint, getAuthConfig());
+      console.log('Fetching files from:', endpoint);
+      
+      const config = getAuthConfig();
+      const response = await axios.get(endpoint, config);
+      console.log('Files response:', response.data);
+      
       if (response.data.files) {
         setFiles(response.data.files);
       }
       setLoading(false);
     } catch (error) {
       console.error('Error fetching files:', error);
-      setError('Failed to load files');
+      if (error.response && error.response.status === 401) {
+        setError('Authentication failed. Please log in again.');
+      } else {
+        setError('Failed to load files. Please try again.');
+      }
       setLoading(false);
     }
   };

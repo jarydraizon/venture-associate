@@ -34,25 +34,37 @@ const VenturePage = () => {
     const fetchVentureData = async () => {
       try {
         setLoading(true);
+        console.log('Loading venture data for:', ventureName);
         
         // Get auth token from localStorage
         const token = localStorage.getItem('token');
         
+        if (!token) {
+          setError('Authentication required. Please log in again.');
+          setLoading(false);
+          return;
+        }
+        
         // Configure headers with authentication
         const config = {
           headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
           }
         };
         
         // Fetch venture details with auth headers
         const detailsRes = await axios.get(`/api/venture-files/${ventureName}/details`, config);
+        console.log('Venture details response:', detailsRes.data);
+        
         if (detailsRes.data.details) {
           setVenture(detailsRes.data.details);
         }
         
         // Fetch competitors with auth headers
         const competitorsRes = await axios.get(`/api/venture-files/${ventureName}/competitors`, config);
+        console.log('Competitors response:', competitorsRes.data);
+        
         if (competitorsRes.data.competitors) {
           setCompetitors(competitorsRes.data.competitors.sort((a, b) => a.name.localeCompare(b.name)));
         }
@@ -60,7 +72,11 @@ const VenturePage = () => {
         setLoading(false);
       } catch (err) {
         console.error('Error loading venture data:', err);
-        setError('Failed to load venture data');
+        if (err.response && err.response.status === 401) {
+          setError('Session expired. Please log in again.');
+        } else {
+          setError('Failed to load venture data. Please try refreshing the page.');
+        }
         setLoading(false);
       }
     };
@@ -133,14 +149,32 @@ const VenturePage = () => {
 
   const addNewCompetitor = async () => {
     try {
+      // Verify we have all required fields
+      if (!newCompetitor.name.trim()) {
+        alert('Competitor name is required');
+        return;
+      }
+      
+      // Get auth token from localStorage
       const token = localStorage.getItem('token');
+      if (!token) {
+        alert('You need to be logged in to add a competitor');
+        return;
+      }
+      
       const config = {
         headers: {
-          Authorization: `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
       };
       
+      console.log('Adding competitor for venture:', ventureName);
+      console.log('Competitor data:', newCompetitor);
+      
       const response = await axios.post(`/api/venture-files/${ventureName}/competitors`, newCompetitor, config);
+      console.log('Add competitor response:', response.data);
+      
       const addedCompetitor = response.data.competitor;
       
       // Add to competitors list
@@ -163,7 +197,17 @@ const VenturePage = () => {
       alert('Competitor added successfully');
     } catch (err) {
       console.error('Error adding competitor:', err);
-      alert('Failed to add competitor');
+      if (err.response) {
+        console.error('Error response:', err.response.data);
+        console.error('Status code:', err.response.status);
+        if (err.response.status === 401) {
+          alert('Session expired. Please log in again.');
+        } else {
+          alert(`Failed to add competitor: ${err.response.data.error || 'Unknown error'}`);
+        }
+      } else {
+        alert('Failed to add competitor: Network error');
+      }
     }
   };
 
