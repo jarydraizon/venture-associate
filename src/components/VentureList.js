@@ -22,7 +22,13 @@ const VentureList = () => {
             console.log('Fetching ventures...');
             const venturesRes = await axios.get('/api/ventures', { headers });
             console.log('Ventures response:', venturesRes.data);
-            setVentures(venturesRes.data.ventures || []);
+            // Ensure we're parsing the response correctly
+            if (Array.isArray(venturesRes.data.ventures)) {
+                setVentures(venturesRes.data.ventures);
+            } else {
+                console.error('Unexpected ventures data format:', venturesRes.data.ventures);
+                setVentures([]);
+            }
             setLoading(false);
         } catch (error) {
             console.error('Error fetching ventures:', error.response || error);
@@ -47,15 +53,30 @@ const VentureList = () => {
                     <p>No ventures found. Click "Create new" to add your first venture.</p>
                 </div>
             ) : (
-                ventures.map(venture => (
-                    <div key={venture.venture_id} className="venture-card" onClick={() => navigate(`/ventures/${venture.name}`)}>
-                        <h3>{venture.name}</h3>
-                        <p>{venture.description || 'No description available'}</p>
-                        <div className="meta">
-                            {new Date(venture.created_at).toLocaleDateString()} · {venture.active ? 'Active' : 'Inactive'}
-                        </div>
-                    </div>
-                ))
+                ventures.map(venture => {
+                    // Check if venture is a string or an object
+                    if (typeof venture === 'string') {
+                        return (
+                            <div key={venture} className="venture-card" onClick={() => navigate(`/ventures/${venture}`)}>
+                                <h3>{venture}</h3>
+                                <p>No description available</p>
+                                <div className="meta">
+                                    Invalid Date · Inactive
+                                </div>
+                            </div>
+                        );
+                    } else {
+                        return (
+                            <div key={venture.venture_id} className="venture-card" onClick={() => navigate(`/ventures/${venture.name}`)}>
+                                <h3>{venture.name}</h3>
+                                <p>{venture.description || 'No description available'}</p>
+                                <div className="meta">
+                                    {new Date(venture.created_at).toLocaleDateString()} · {venture.active ? 'Active' : 'Inactive'}
+                                </div>
+                            </div>
+                        );
+                    }
+                })
             )}
         </div>
     );
