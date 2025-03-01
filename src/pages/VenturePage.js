@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import '../styles/venture-page.css';
-import VentureFileManager from './VentureFileManager'; // Assuming this component exists
+import '../styles/VenturePage.css';
+import VentureFileManager from '../components/VentureFileManager';
 
 const VenturePage = () => {
     const { ventureName } = useParams();
