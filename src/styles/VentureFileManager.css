@@ -8,9 +8,9 @@
 .message {
   padding: 10px;
   margin-bottom: 20px;
-  background-color: #f8f9fa;
+  background-color: #2a2a2a;
   border-left: 4px solid #17a2b8;
-  color: #212529;
+  color: #ffffff;
 }
 
 .file-manager-section {
@@ -19,6 +19,11 @@
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 15px;
 }
 
 .details-form,
@@ -36,6 +41,14 @@
 
 .form-group label {
   font-weight: bold;
+}
+
+.form-label {
+  color: #333;
+  background-color: transparent;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
 }
 
 .form-group input {

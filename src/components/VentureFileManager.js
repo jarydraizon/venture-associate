@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/VentureFileManager.css';
@@ -25,15 +24,15 @@ const VentureFileManager = ({ ventureName }) => {
     try {
       const token = localStorage.getItem('token');
       const headers = { 'Authorization': `Bearer ${token}` };
-      
+
       // Fetch files
       const filesRes = await axios.get(`/api/venture-files/${ventureName}/files`, { headers });
       setFiles(filesRes.data.files || []);
-      
+
       // Fetch URLs
       const urlsRes = await axios.get(`/api/venture-files/${ventureName}/urls`, { headers });
       setUrls(urlsRes.data.urls || []);
-      
+
       // Fetch details
       const detailsRes = await axios.get(`/api/venture-files/${ventureName}/details`, { headers });
       if (detailsRes.data.details) {
@@ -51,12 +50,12 @@ const VentureFileManager = ({ ventureName }) => {
     try {
       const token = localStorage.getItem('token');
       const headers = { 'Authorization': `Bearer ${token}` };
-      
+
       const updatedDetails = {
         ...details,
         list_of_competitors: competitors.split(',').map(comp => comp.trim())
       };
-      
+
       await axios.post(`/api/venture-files/${ventureName}/details`, updatedDetails, { headers });
       setMessage('Venture details saved successfully!');
       loadData();
@@ -72,14 +71,14 @@ const VentureFileManager = ({ ventureName }) => {
       setMessage('Invalid URL. Please ensure it starts with http:// or https://');
       return;
     }
-    
+
     try {
       const token = localStorage.getItem('token');
       const headers = { 'Authorization': `Bearer ${token}` };
-      
+
       const updatedUrls = [...urls, newUrl];
       await axios.post(`/api/venture-files/${ventureName}/urls`, { urls: updatedUrls }, { headers });
-      
+
       setUrls(updatedUrls);
       setNewUrl('');
       setMessage('URL added successfully!');
@@ -92,16 +91,16 @@ const VentureFileManager = ({ ventureName }) => {
   const handleFileUpload = async (e) => {
     const files = e.target.files;
     if (!files.length) return;
-    
+
     setUploading(true);
     setMessage('Uploading files...');
-    
+
     try {
       const formData = new FormData();
       for (let i = 0; i < files.length; i++) {
         formData.append('files', files[i]);
       }
-      
+
       const token = localStorage.getItem('token');
       await axios.post(`/api/venture-files/${ventureName}/upload`, formData, {
         headers: {
@@ -109,7 +108,7 @@ const VentureFileManager = ({ ventureName }) => {
           'Content-Type': 'multipart/form-data'
         }
       });
-      
+
       setMessage('Files uploaded successfully!');
       loadData();
     } catch (error) {
@@ -123,14 +122,14 @@ const VentureFileManager = ({ ventureName }) => {
   return (
     <div className="venture-file-manager">
       <h2>Manage {ventureName} Files</h2>
-      
+
       {message && <div className="message">{message}</div>}
-      
+
       <div className="file-manager-section">
         <h3>Company Details</h3>
         <form onSubmit={handleDetailsSubmit} className="details-form">
           <div className="form-group">
-            <label>Company Name:</label>
+            <label className="form-label">Company Name:</label>
             <input
               type="text"
               value={details.company_name}
@@ -138,9 +137,9 @@ const VentureFileManager = ({ ventureName }) => {
               required
             />
           </div>
-          
+
           <div className="form-group">
-            <label>Industry:</label>
+            <label className="form-label">Industry:</label>
             <input
               type="text"
               value={details.industry}
@@ -148,9 +147,9 @@ const VentureFileManager = ({ ventureName }) => {
               required
             />
           </div>
-          
+
           <div className="form-group">
-            <label>Country of Operation:</label>
+            <label className="form-label">Country of Operation:</label>
             <input
               type="text"
               value={details.country_of_operation}
@@ -158,9 +157,9 @@ const VentureFileManager = ({ ventureName }) => {
               required
             />
           </div>
-          
+
           <div className="form-group">
-            <label>Competitors (comma-separated):</label>
+            <label className="form-label">Competitors (comma-separated):</label>
             <input
               type="text"
               value={competitors}
@@ -168,16 +167,16 @@ const VentureFileManager = ({ ventureName }) => {
               required
             />
           </div>
-          
+
           <button type="submit" className="save-button">Save Details</button>
         </form>
       </div>
-      
+
       <div className="file-manager-section">
         <h3>Company URLs</h3>
         <form onSubmit={handleUrlSubmit} className="url-form">
           <div className="form-group">
-            <label>Add URL:</label>
+            <label className="form-label">Add URL:</label>
             <input
               type="url"
               value={newUrl}
@@ -188,7 +187,7 @@ const VentureFileManager = ({ ventureName }) => {
           </div>
           <button type="submit" className="save-button">Add URL</button>
         </form>
-        
+
         <div className="url-list">
           <h4>Saved URLs:</h4>
           {urls.length > 0 ? (
@@ -204,7 +203,7 @@ const VentureFileManager = ({ ventureName }) => {
           )}
         </div>
       </div>
-      
+
       <div className="file-manager-section">
         <h3>Upload Files</h3>
         <div className="file-upload">
@@ -219,7 +218,7 @@ const VentureFileManager = ({ ventureName }) => {
             {uploading ? 'Uploading...' : 'Choose Files'}
           </label>
         </div>
-        
+
         <div className="file-list">
           <h4>Uploaded Files:</h4>
           {files.length > 0 ? (
