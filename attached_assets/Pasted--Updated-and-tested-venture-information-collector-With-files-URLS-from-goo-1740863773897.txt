@@ -1,0 +1,98 @@
+#------------ Updated and tested venture information collector. With files/URLS -------- #
+
+from google.colab import drive, files
+import os
+import json
+import shutil
+
+# Mount Google Drive
+drive.mount('/content/drive', force_remount=True)
+
+# Define the base folder in Google Drive
+base_folder = "/content/drive/MyDrive/Colab Notebooks/802 LLM/Final Project"
+portfolio_file_path = "/content/portfolio_companies.txt"
+
+# Get the active venture company
+if os.path.exists(portfolio_file_path):
+    with open(portfolio_file_path, "r") as f:
+        ventures = f.read().splitlines()
+    active_venture = next((v.strip("*") for v in ventures if v.startswith("*")), None)
+    if not active_venture:
+        raise Exception("No active venture company found. Please log into a venture company first.")
+else:
+    raise Exception("Portfolio companies file not found. Please load a new venture company first.")
+
+# Define the venture folder
+venture_folder = os.path.join(base_folder, active_venture)
+if not os.path.exists(venture_folder):
+    os.makedirs(venture_folder)
+    print(f"Created folder for active venture: {active_venture}")
+
+# Input fields for dynamic inputs
+print("Please provide the following details for the company analysis:")
+
+# Collect company details
+inputs = {
+    "company_name": input("Company Name: ").strip(),
+    "industry": input("Industry (e.g., Machine Learning as a Service): ").strip(),
+    "country_of_operation": input("Country of Operation: ").strip()
+}
+
+# Ask for competitors and split into a list
+competitors = input("List of Competitors (comma-separated): ").strip()
+inputs["list_of_competitors"] = [competitor.strip() for competitor in competitors.split(",")]
+
+print("\n--- Input Details ---")
+for key, value in inputs.items():
+    if key == "list_of_competitors":
+        print(f"{key.replace('_', ' ').title()}: {', '.join(value)}")
+    else:
+        print(f"{key.replace('_', ' ').title()}: {value}")
+
+# Save inputs to the venture folder
+inputs_file_path = os.path.join(venture_folder, "venture_details.json")
+with open(inputs_file_path, "w") as file:
+    json.dump(inputs, file, indent=4)
+
+print(f"\nInputs saved successfully to {inputs_file_path}!")
+
+# Collect URLs for the venture company
+venture_urls_file_path = os.path.join(venture_folder, "venture_urls.txt")
+print("\nPlease provide URLs for the venture company's website, YouTube, or other relevant sources. Type 'done' to finish.")
+with open(venture_urls_file_path, "w") as urls_file:
+    while True:
+        url = input("Enter a URL (or type 'done' to finish): ").strip()
+        if url.lower() == "done":
+            print("URL collection session ended.")
+            break
+        elif url.startswith("http://") or url.startswith("https://"):
+            urls_file.write(url + "\n")
+            print(f"URL saved: {url}")
+        else:
+            print("Invalid URL. Please ensure it starts with 'http://' or 'https://'.")
+
+# Confirm saved URLs
+print(f"\nVenture URLs have been saved to {venture_urls_file_path}. Here are the contents:")
+!cat "{venture_urls_file_path}"
+
+# File upload session
+print("\nPlease upload any relevant documents for the venture company (e.g., PDFs, presentations).")
+
+while True:
+    # Allow file uploads
+    uploaded_files = files.upload()
+    for file_name in uploaded_files.keys():
+        # Move uploaded files to the venture folder
+        destination_path = os.path.join(venture_folder, file_name)
+        shutil.move(file_name, destination_path)
+        print(f"Moved {file_name} to {destination_path}")
+
+    # Ask if the user wants to upload more files
+    continue_uploading = input("Do you want to upload another file? (yes/no): ").strip().lower()
+    if continue_uploading != "yes":
+        print("File upload session ended.")
+        break
+
+# Confirm the contents of the venture's folder
+print(f"\nFinal list of files in the folder for {active_venture}:")
+!ls "{venture_folder}"
