@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const pool = require('../db/config');
@@ -13,7 +12,7 @@ router.get('/', authenticateToken, async (req, res) => {
       'SELECT * FROM ventures WHERE user_id = $1 ORDER BY created_at DESC',
       [req.user.id]
     );
-    
+
     console.log('Found ventures:', result.rows);
     return res.json({ ventures: result.rows });
   } catch (error) {
