@@ -130,7 +130,7 @@ const VenturePage = () => {
         };
         
         // Update existing competitor
-        await axios.put(`/api/venture-files/${ventureName}/competitors/${activeCompetitor.id}`, activeCompetitor, config);
+        await axios.put(`/api/ventures/${ventureName}/competitors/${activeCompetitor.id}`, activeCompetitor, config);
         
         // Update the competitors list
         setCompetitors(prev => 
@@ -172,7 +172,8 @@ const VenturePage = () => {
       console.log('Adding competitor for venture:', ventureName);
       console.log('Competitor data:', newCompetitor);
       
-      const response = await axios.post(`/api/venture-files/${ventureName}/competitors`, newCompetitor, config);
+      // Ensure the endpoint is properly formatted
+      const response = await axios.post(`/api/ventures/${ventureName}/competitors`, newCompetitor, config);
       console.log('Add competitor response:', response.data);
       
       const addedCompetitor = response.data.competitor;
