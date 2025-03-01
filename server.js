@@ -52,8 +52,19 @@ app.get('*', (req, res) => {
 // Only start server if not in test environment
 if (process.env.NODE_ENV !== 'test') {
   const PORT = process.env.PORT || 3001;
-  app.listen(PORT, '0.0.0.0', () => {
+  const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
+  }).on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      // Try with a different port if 3001 is in use
+      const newPort = PORT + 1;
+      console.log(`Port ${PORT} is busy, trying port ${newPort}...`);
+      const newServer = app.listen(newPort, '0.0.0.0', () => {
+        console.log(`Server running on port ${newPort}`);
+      });
+    } else {
+      console.error('Server error:', err);
+    }
   });
 }
 

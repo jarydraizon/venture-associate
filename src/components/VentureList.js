@@ -1,82 +1,84 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import '../styles/VentureList.css';
 
 const VentureList = () => {
-    const navigate = useNavigate();
     const [ventures, setVentures] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    const fetchData = async () => {
-        try {
-            setLoading(true);
-            const token = localStorage.getItem('token');
-            if (!token) {
-                setError('No authentication token found');
-                setLoading(false);
-                return;
-            }
-
-            const headers = { 'Authorization': `Bearer ${token}` };
-            console.log('Fetching ventures...');
-            const venturesRes = await axios.get('/api/ventures', { headers });
-            console.log('Ventures response:', venturesRes.data);
-            // Ensure we're parsing the response correctly
-            if (Array.isArray(venturesRes.data.ventures)) {
-                setVentures(venturesRes.data.ventures);
-            } else {
-                console.error('Unexpected ventures data format:', venturesRes.data.ventures);
-                setVentures([]);
-            }
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching ventures:', error.response || error);
-            setError(error.response?.data?.error || 'Failed to fetch ventures');
-            setLoading(false);
-        }
-    };
+    console.log('VentureList component rendered');
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        const fetchVentures = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    setError('No authentication token found');
+                    setLoading(false);
+                    return;
+                }
 
-    if (loading) {
-        return <div className="loading">Loading ventures...</div>;
-    }
+                console.log('Fetching ventures...');
+                const response = await axios.get('/api/ventures', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                console.log('Ventures response:', response.data);
+
+                if (Array.isArray(response.data.ventures)) {
+                    setVentures(response.data.ventures);
+                } else if (typeof response.data.ventures === 'object') {
+                    // Convert object to array if needed
+                    const venturesArray = Object.values(response.data.ventures);
+                    setVentures(venturesArray);
+                    console.log('Converted ventures to array:', venturesArray);
+                } else {
+                    console.error('Unexpected ventures format:', response.data.ventures);
+                    setError('Received unexpected data format from server');
+                }
+
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching ventures:', error.response || error);
+                setError(error.response?.data?.error || 'Failed to fetch ventures');
+                setLoading(false);
+            }
+        };
+
+        fetchVentures();
+    }, []);
 
     return (
         <div className="venture-list">
-            {error && <p className="error">{error}</p>}
-            {ventures.length === 0 && !error ? (
-                <div className="empty-state">
-                    <p>No ventures found. Click "Create new" to add your first venture.</p>
-                </div>
+            {loading ? (
+                <p>Loading ventures...</p>
+            ) : error ? (
+                <p className="error-message">{error}</p>
+            ) : ventures.length === 0 ? (
+                <p>No ventures found. Create one to get started!</p>
             ) : (
-                ventures.map(venture => {
-                    // Check if venture is a string or an object
-                    if (typeof venture === 'string') {
+                <div className="ventures-grid">
+                    {ventures.map(venture => {
+                        console.log('Rendering venture:', venture);
                         return (
-                            <div key={venture} className="venture-card" onClick={() => navigate(`/ventures/${venture}`)}>
-                                <h3>{venture}</h3>
-                                <p>No description available</p>
-                                <div className="meta">
-                                    Invalid Date · Inactive
-                                </div>
-                            </div>
-                        );
-                    } else {
-                        return (
-                            <div key={venture.venture_id} className="venture-card" onClick={() => navigate(`/ventures/${venture.name}`)}>
+                            <Link 
+                                to={`/ventures/${venture.name}`}
+                                key={venture.venture_id || Math.random().toString(36).substring(7)}
+                                className="venture-card"
+                            >
                                 <h3>{venture.name}</h3>
                                 <p>{venture.description || 'No description available'}</p>
-                                <div className="meta">
-                                    {new Date(venture.created_at).toLocaleDateString()} · {venture.active ? 'Active' : 'Inactive'}
-                                </div>
-                            </div>
+                                <p className="venture-date">
+                                    {venture.created_at 
+                                        ? new Date(venture.created_at).toLocaleDateString() 
+                                        : 'Date unavailable'}
+                                </p>
+                            </Link>
                         );
-                    }
-                })
+                    })}
+                </div>
             )}
         </div>
     );

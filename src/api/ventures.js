@@ -77,6 +77,9 @@ router.post('/:name/details', authenticateToken, async (req, res) => {
   try {
     const { name } = req.params;
     const details = req.body;
+    
+    console.log('Saving details for venture:', name);
+    console.log('Details received:', details);
 
     // First, check if the venture exists and belongs to the user
     const ventureCheck = await pool.query(
@@ -85,10 +88,12 @@ router.post('/:name/details', authenticateToken, async (req, res) => {
     );
 
     if (ventureCheck.rows.length === 0) {
+      console.log('Venture not found or not authorized');
       return res.status(404).json({ error: 'Venture not found or not authorized' });
     }
 
     const ventureId = ventureCheck.rows[0].venture_id;
+    console.log('Found venture ID:', ventureId);
 
     // Check if details already exist for this venture
     const detailsCheck = await pool.query(
@@ -98,25 +103,39 @@ router.post('/:name/details', authenticateToken, async (req, res) => {
 
     if (detailsCheck.rows.length > 0) {
       // Update existing details
-      await pool.query(
-        `UPDATE venture_details 
-         SET industry = $1, website = $2, regions = $3, description = $4
-         WHERE venture_id = $5`,
-        [details.industry, details.website, details.regions, details.description, ventureId]
-      );
+      console.log('Updating existing venture details');
+      try {
+        await pool.query(
+          `UPDATE venture_details 
+           SET industry = $1, website = $2, regions = $3, description = $4
+           WHERE venture_id = $5`,
+          [details.industry || '', details.website || '', details.regions || '', details.description || '', ventureId]
+        );
+        console.log('Details updated successfully');
+      } catch (err) {
+        console.error('Error updating details:', err);
+        throw err;
+      }
     } else {
       // Insert new details
-      await pool.query(
-        `INSERT INTO venture_details (venture_id, industry, website, regions, description)
-         VALUES ($1, $2, $3, $4, $5)`,
-        [ventureId, details.industry, details.website, details.regions, details.description]
-      );
+      console.log('Inserting new venture details');
+      try {
+        await pool.query(
+          `INSERT INTO venture_details (venture_id, industry, website, regions, description)
+           VALUES ($1, $2, $3, $4, $5)`,
+          [ventureId, details.industry || '', details.website || '', details.regions || '', details.description || '']
+        );
+        console.log('Details inserted successfully');
+      } catch (err) {
+        console.error('Error inserting details:', err);
+        throw err;
+      }
     }
 
-    return res.json({ success: true });
+    return res.json({ success: true, message: 'Venture details saved successfully' });
   } catch (error) {
     console.error('Error saving venture details:', error);
-    return res.status(500).json({ error: 'Failed to save venture details' });
+    return res.status(500).json({ error: 'Failed to save venture details: ' + error.message });
   }
 });
 
