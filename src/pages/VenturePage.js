@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/VenturePage.css';
-import VentureFileManager from '../components/VentureFileManager';
+import { VentureFileManager } from '../components/VentureFileManager';
 
 const VenturePage = () => {
   const { ventureName } = useParams();

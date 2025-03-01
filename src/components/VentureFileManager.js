@@ -45,6 +45,11 @@ function VentureFileManager({ ventureName, competitorId, fullWidth }) {
       setLoading(false);
     }
   };
+  
+  // Add useEffect to load data when component mounts
+  useEffect(() => {
+    loadData();
+  }, [ventureName, competitorId]); // Add dependencies to reload when these change
 
   useEffect(() => {
     if (ventureName) {
@@ -230,9 +235,8 @@ const getAuthConfig = () => {
 const fetchFiles = async () => {
   try {
     setLoading(true);
-    const endpoint = competitorId 
-      ? `/api/venture-files/${ventureName}/competitor/${competitorId}/files` 
-      : `/api/venture-files/${ventureName}`;
+    // Use the getApiEndpoint function to get the correct endpoint
+    const endpoint = `${getApiEndpoint()}/files`;
     
     const response = await axios.get(endpoint, getAuthConfig());
     
@@ -249,4 +253,5 @@ const fetchFiles = async () => {
 
 // Update any other API calls in this component to use getAuthConfig()
 
-export default VentureFileManager;
+// Export the component as a named export
+export { VentureFileManager };
