@@ -13,14 +13,19 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-app.use('/api/chat', require('./src/api/chat.js'));
-app.use('/api', require('./src/api/landingPageAnalyzer.js'));
+
+// Debug middleware to log all requests
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`);
+  next();
+});
 
 // Mount API routes first
 app.use('/api/auth', authRoutes);
 app.use('/api/ventures', ventureRoutes);
-// Add ventureFiles routes
 app.use('/api/venture-files', require('./src/api/ventureFiles.js'));
+app.use('/api/chat', require('./src/api/chat.js'));
+app.use('/api', require('./src/api/landingPageAnalyzer.js'));
 
 // Serve static files from the build directory
 app.use(express.static(path.join(__dirname, 'build')));
