@@ -7,11 +7,13 @@
   -webkit-text-fill-color: transparent;
 }
 
+/* Insights Page Styles */
 .insights-container {
-  padding: 20px;
-  height: calc(100vh - 80px); /* Account for any header/navigation */
-  display: flex;
-  flex-direction: column;
+  display: flex; /* Ensures children are side-by-side */
+  justify-content: space-between; /* Distributes space between panels */
+  height: calc(100vh - 80px); /* Full height minus header/navigation */
+  margin-left: 250px; /* Offset for the left-hand navigation panel */
+  width: calc(100% - 250px); /* Remaining width after nav panel */
 }
 
 .insights-panel {
@@ -32,9 +34,14 @@
 }
 
 /* Chat Panel Styles */
-.chat-panel {
+.chat-panel, .actions-panel {
+  width: 40%; /* Set each panel's width to 40% */
+  background-color: rgba(34, 34, 34, 0.8);
+  border-radius: 8px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .chat-messages {
@@ -131,7 +138,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .insights-container {
     flex-direction: column;
     height: auto;
@@ -139,7 +146,7 @@
   }
 
   .insights-panel {
-    height: 500px;
+    flex: none; /* Prevent flex-grow */
   }
 }
 
@@ -151,22 +158,24 @@
 
 .panels-container {
   display: flex;
-  gap: 20px;
+  gap: 20px; /* Space between panels */
   flex: 1;
-  width: 100%;
-  overflow: hidden;
+  width: calc(100% - 250px); /* Adjust for navigation panel width */
+  margin-left: 250px; /* Align next to navigation panel */
+  height: 100%; /* Ensure it takes up full height */
 }
 
+/* Chat and Actions panels */
 .chat-panel, .actions-panel {
-  flex: 1;
+  flex: 1; /* Both panels take up equal space */
   background-color: #242424;
   border-radius: 8px;
   padding: 20px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
+
 
 .panel-title {
   margin-bottom: 20px;
