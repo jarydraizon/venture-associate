@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db/config');
 const authenticateToken = require('../utils/authenticateToken');
+const fs = require('node:fs');
+const path = require('node:path');
 
 // Get all ventures for a user
 router.get('/', authenticateToken, async (req, res) => {
@@ -52,29 +54,39 @@ router.post('/', authenticateToken, async (req, res) => {
 router.get('/:name/details', authenticateToken, async (req, res) => {
   try {
     const { name } = req.params;
+    const userId = req.user.id;
 
-    // First, check if the venture exists and belongs to the user
-    const ventureCheck = await pool.query(
-      'SELECT venture_id FROM ventures WHERE name = $1 AND user_id = $2',
-      [name, req.user.id]
-    );
-
-    if (ventureCheck.rows.length === 0) {
-      return res.status(404).json({ error: 'Venture not found or not authorized' });
+    if (!userId) {
+      return res.status(401).json({ error: 'User ID not found in token' });
     }
 
-    const ventureId = ventureCheck.rows[0].venture_id;
+    console.log(`Getting details for venture ${name} for user ${userId}`);
 
-    // Get venture details from venture_details table
-    const detailsResult = await pool.query(
-      'SELECT * FROM venture_details WHERE venture_id = $1',
-      [ventureId]
-    );
+    // Create directory structure if it doesn't exist
+    const userDir = path.join(__dirname, `../../uploads/${userId}`);
+    const ventureDir = path.join(userDir, name);
 
-    return res.json({ details: detailsResult.rows[0] || null });
+    if (!fs.existsSync(userDir)) {
+      fs.mkdirSync(userDir, { recursive: true });
+    }
+
+    if (!fs.existsSync(ventureDir)) {
+      fs.mkdirSync(ventureDir, { recursive: true });
+    }
+
+    // Get venture details from file or database
+    const detailsPath = path.join(ventureDir, 'venture_details.json');
+
+    if (fs.existsSync(detailsPath)) {
+      const details = JSON.parse(fs.readFileSync(detailsPath, 'utf8'));
+      res.json({ details });
+    } else {
+      // Return minimal venture details if file doesn't exist
+      res.json({ details: { name: name } });
+    }
   } catch (error) {
-    console.error('Error fetching venture details:', error);
-    return res.status(500).json({ error: 'Failed to fetch venture details' });
+    console.error('Error getting venture details:', error);
+    res.status(500).json({ error: 'Failed to get venture details: ' + error.message });
   }
 });
 
@@ -149,29 +161,39 @@ router.post('/:name/details', authenticateToken, async (req, res) => {
 router.get('/:name/competitors', authenticateToken, async (req, res) => {
   try {
     const { name } = req.params;
+    const userId = req.user.id;
 
-    // First, check if the venture exists and belongs to the user
-    const ventureCheck = await pool.query(
-      'SELECT venture_id FROM ventures WHERE name = $1 AND user_id = $2',
-      [name, req.user.id]
-    );
-
-    if (ventureCheck.rows.length === 0) {
-      return res.status(404).json({ error: 'Venture not found or not authorized' });
+    if (!userId) {
+      return res.status(401).json({ error: 'User ID not found in token' });
     }
 
-    const ventureId = ventureCheck.rows[0].venture_id;
+    console.log(`Getting competitors for venture ${name} for user ${userId}`);
 
-    // Get competitors for this venture
-    const competitorsResult = await pool.query(
-      'SELECT * FROM competitors WHERE venture_id = $1',
-      [ventureId]
-    );
+    // Create directory structure if it doesn't exist
+    const userDir = path.join(__dirname, `../../uploads/${userId}`);
+    const ventureDir = path.join(userDir, name);
 
-    return res.json({ competitors: competitorsResult.rows });
+    if (!fs.existsSync(userDir)) {
+      fs.mkdirSync(userDir, { recursive: true });
+    }
+
+    if (!fs.existsSync(ventureDir)) {
+      fs.mkdirSync(ventureDir, { recursive: true });
+    }
+
+    // Get competitors list from file or database
+    const competitorsPath = path.join(ventureDir, 'competitors.json');
+
+    if (fs.existsSync(competitorsPath)) {
+      const competitors = JSON.parse(fs.readFileSync(competitorsPath, 'utf8'));
+      res.json({ competitors });
+    } else {
+      // Return empty array if no competitors file exists
+      res.json({ competitors: [] });
+    }
   } catch (error) {
-    console.error('Error fetching competitors:', error);
-    return res.status(500).json({ error: 'Failed to fetch competitors' });
+    console.error('Error getting competitors:', error);
+    res.status(500).json({ error: 'Failed to get competitors: ' + error.message });
   }
 });
 
