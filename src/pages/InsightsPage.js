@@ -15,9 +15,11 @@ function InsightsPage() {
       // Example venture data - in production this would come from your API
       setActiveVenture({
         id: 9,
-        name: 'MIllivolt',
+        name: 'Millivolt',
         description: 'GPU Processing Algorithm',
-        status: 'Active'
+        status: 'Active',
+        documents: 12,
+        analyses: 5
       });
     };
 
@@ -76,11 +78,11 @@ function InsightsPage() {
               <div className="venture-metrics">
                 <div className="metric">
                   <span className="metric-label">Documents</span>
-                  <span className="metric-value">12</span>
+                  <span className="metric-value">{activeVenture.documents}</span>
                 </div>
                 <div className="metric">
                   <span className="metric-label">Analyses</span>
-                  <span className="metric-value">5</span>
+                  <span className="metric-value">{activeVenture.analyses}</span>
                 </div>
               </div>
             </div>
