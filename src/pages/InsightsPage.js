@@ -59,7 +59,7 @@ function InsightsPage() {
 
   return (
     <div className="main-content">
-      <h1 className="page-title">Your Digital Copilot</h1>
+      <h1 className="page-title" style={{ marginBottom: '1rem' }}>Your Digital Copilot</h1>
       
       <div className="insights-container">
         {/* Venture Info Panel */}
