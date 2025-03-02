@@ -1,3 +1,4 @@
+
 /* Insights Page Styles */
 .page-title {
   font-size: 2.5rem;
@@ -7,35 +8,20 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* Insights Page Styles */
+/* Main container layout */
 .insights-container {
-  display: flex; /* Ensures children are side-by-side */
-  justify-content: space-between; /* Distributes space between panels */
-  height: calc(100vh - 80px); /* Full height minus header/navigation */
-  margin-left: 250px; /* Offset for the left-hand navigation panel */
-  width: calc(100% - 250px); /* Remaining width after nav panel */
-}
-
-.insights-panel {
-  flex: 1;
-  background-color: rgba(34, 34, 34, 0.8);
-  border-radius: 8px;
-  padding: 20px;
   display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  justify-content: space-between;
+  height: calc(100vh - 80px);
+  margin-left: 250px;
+  width: calc(100% - 250px);
+  gap: 20px;
+  padding: 0 20px;
 }
 
-.insights-panel h2 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Chat Panel Styles */
-.chat-panel, .actions-panel {
-  width: 40%; /* Set each panel's width to 40% */
+/* Venture Info Panel Styles */
+.venture-info-panel {
+  flex: 0 0 20%;
   background-color: rgba(34, 34, 34, 0.8);
   border-radius: 8px;
   padding: 20px;
@@ -44,6 +30,89 @@
   overflow-y: auto;
 }
 
+.venture-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.venture-details h3 {
+  margin: 0;
+  font-size: 24px;
+  color: #fff;
+}
+
+.venture-description {
+  color: #ccc;
+  margin: 0;
+  font-size: 14px;
+}
+
+.venture-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #4CAF50; /* Green for active */
+}
+
+.venture-metrics {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 8px 12px;
+  border-radius: 4px;
+  min-width: 80px;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.metric-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* Chat Panel Styles */
+.chat-panel {
+  flex: 0 0 35%;
+  background-color: rgba(34, 34, 34, 0.8);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Actions Panel Styles */
+.actions-panel {
+  flex: 0 0 35%;
+  background-color: rgba(34, 34, 34, 0.8);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Chat content styles */
 .chat-messages {
   flex: 1;
   overflow-y: auto;
@@ -108,12 +177,7 @@
   background-color: #45a049;
 }
 
-/* Actions Panel Styles */
-.actions-panel {
-  display: flex;
-  flex-direction: column;
-}
-
+/* Actions Panel content styles */
 .actions-list {
   display: flex;
   flex-direction: column;
@@ -137,48 +201,28 @@
   background-color: rgba(255, 255, 255, 0.2);
 }
 
+/* Common styles for all panels */
+.venture-info-panel h2,
+.chat-panel h2,
+.actions-panel h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .insights-container {
     flex-direction: column;
     height: auto;
-    max-height: none;
   }
-
-  .insights-panel {
-    flex: none; /* Prevent flex-grow */
+  
+  .venture-info-panel,
+  .chat-panel,
+  .actions-panel {
+    flex: none;
+    width: 100%;
+    margin-bottom: 20px;
   }
-}
-
-.insights-title {
-  margin-bottom: 20px;
-  color: white;
-  flex: 0 0 auto;
-}
-
-.panels-container {
-  display: flex;
-  gap: 20px; /* Space between panels */
-  flex: 1;
-  width: calc(100% - 250px); /* Adjust for navigation panel width */
-  margin-left: 250px; /* Align next to navigation panel */
-  height: 100%; /* Ensure it takes up full height */
-}
-
-/* Chat and Actions panels */
-.chat-panel, .actions-panel {
-  flex: 1; /* Both panels take up equal space */
-  background-color: #242424;
-  border-radius: 8px;
-  padding: 20px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-
-.panel-title {
-  margin-bottom: 20px;
-  color: white;
-  flex: 0 0 auto;
 }

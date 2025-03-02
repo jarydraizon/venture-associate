@@ -1,10 +1,28 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/insights-page.css';
 
 function InsightsPage() {
   const [message, setMessage] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
+  const [activeVenture, setActiveVenture] = useState(null);
+
+  // Fetch active venture on component mount
+  useEffect(() => {
+    // Simulate fetching active venture data
+    // In a real implementation, this would be an API call
+    const fetchActiveVenture = async () => {
+      // Example venture data - in production this would come from your API
+      setActiveVenture({
+        id: 9,
+        name: 'MIllivolt',
+        description: 'GPU Processing Algorithm',
+        status: 'Active'
+      });
+    };
+
+    fetchActiveVenture();
+  }, []);
 
   const handleSendMessage = (e) => {
     e.preventDefault();
@@ -44,8 +62,35 @@ function InsightsPage() {
       <h1 className="page-title">Your Digital Copilot</h1>
       
       <div className="insights-container">
+        {/* Venture Info Panel */}
+        <div className="venture-info-panel">
+          <h2>Active Venture</h2>
+          {activeVenture ? (
+            <div className="venture-details">
+              <h3>{activeVenture.name}</h3>
+              <p className="venture-description">{activeVenture.description}</p>
+              <div className="venture-status">
+                <span className="status-indicator"></span>
+                {activeVenture.status}
+              </div>
+              <div className="venture-metrics">
+                <div className="metric">
+                  <span className="metric-label">Documents</span>
+                  <span className="metric-value">12</span>
+                </div>
+                <div className="metric">
+                  <span className="metric-label">Analyses</span>
+                  <span className="metric-value">5</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <p>No venture selected</p>
+          )}
+        </div>
+        
         {/* Chat Panel */}
-        <div className="insights-panel chat-panel">
+        <div className="chat-panel">
           <h2>Chat</h2>
           <div className="chat-messages">
             {chatMessages.length === 0 ? (
@@ -74,7 +119,7 @@ function InsightsPage() {
         </div>
         
         {/* Actions Panel */}
-        <div className="insights-panel actions-panel">
+        <div className="actions-panel">
           <h2>Actions</h2>
           <div className="actions-list">
             {actions.map((action, index) => (
