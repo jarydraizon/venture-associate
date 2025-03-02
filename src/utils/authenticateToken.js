@@ -12,10 +12,20 @@ const authenticateToken = (req, res, next) => {
     // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Set user info in request
+    // Handle different token payload structures
+    if (!decoded) {
+      return res.status(403).json({ error: 'Invalid token payload' });
+    }
+
+    // Set user info in request - handle both formats
     req.user = {
-      id: decoded.user_id || decoded.id
+      id: decoded.user_id || decoded.id || null
     };
+
+    if (!req.user.id) {
+      console.error('Token missing user ID:', decoded);
+      return res.status(403).json({ error: 'Invalid token payload: missing user ID' });
+    }
 
     next();
   } catch (error) {
