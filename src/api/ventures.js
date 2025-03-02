@@ -114,26 +114,36 @@ router.post('/:name/details', authenticateToken, async (req, res) => {
       return res.status(401).json({ error: 'User ID not found in token' });
     }
 
+    // Make sure details is an object
+    if (!details || typeof details !== 'object') {
+      return res.status(400).json({ error: 'Invalid details format' });
+    }
+
     // Create directory structure if it doesn't exist
     const userDir = path.join(__dirname, `../../uploads/${userId}`);
     const ventureDir = path.join(userDir, name);
 
-    if (!fs.existsSync(userDir)) {
-      fs.mkdirSync(userDir, { recursive: true });
+    try {
+      if (!fs.existsSync(userDir)) {
+        fs.mkdirSync(userDir, { recursive: true });
+      }
+
+      if (!fs.existsSync(ventureDir)) {
+        fs.mkdirSync(ventureDir, { recursive: true });
+      }
+
+      // Save venture details to file
+      const detailsPath = path.join(ventureDir, 'venture_details.json');
+      fs.writeFileSync(detailsPath, JSON.stringify(details, null, 2));
+
+      return res.json({ success: true });
+    } catch (fsError) {
+      console.error('Filesystem error when saving venture details:', fsError);
+      return res.status(500).json({ error: 'Failed to save venture details due to file system error' });
     }
-
-    if (!fs.existsSync(ventureDir)) {
-      fs.mkdirSync(ventureDir, { recursive: true });
-    }
-
-    // Save venture details to file
-    const detailsPath = path.join(ventureDir, 'venture_details.json');
-    fs.writeFileSync(detailsPath, JSON.stringify(details, null, 2));
-
-    res.json({ success: true });
   } catch (error) {
     console.error('Error saving venture details:', error);
-    res.status(500).json({ error: 'Failed to save venture details: ' + error.message });
+    return res.status(500).json({ error: 'Failed to save venture details: ' + (error.message || 'Unknown error') });
   }
 });
 

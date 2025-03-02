@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -49,6 +48,18 @@ app.get('*', (req, res) => {
   res.sendFile('build/index.html', { root: __dirname });
 });
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Server error:', err);
+
+  // Send a more detailed error response
+  res.status(500).json({
+    error: 'Server error',
+    message: err.message || 'Unknown error occurred',
+    path: req.path
+  });
+});
+
 // Only start server if not in test environment
 if (process.env.NODE_ENV !== 'test') {
   const startServer = (port) => {
@@ -65,7 +76,7 @@ if (process.env.NODE_ENV !== 'test') {
       }
     });
   };
-  
+
   const PORT = process.env.PORT || 3001;
   startServer(PORT);
 }

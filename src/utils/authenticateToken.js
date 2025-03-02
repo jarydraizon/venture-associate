@@ -1,46 +1,36 @@
-
 const jwt = require('jsonwebtoken');
 
-const authenticateToken = (req, res, next) => {
-  console.log('Authenticating token...');
-  
-  // Get the token from the Authorization header
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-  
-  if (!token) {
-    console.error('No token provided');
-    return res.status(401).json({ error: 'No authentication token provided' });
-  }
-
+function authenticateToken(req, res, next) {
   try {
-    // Verify the token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('Token verified, decoded payload:', decoded);
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
-    // Handle different token payload structures
-    if (!decoded) {
-      console.error('Invalid token payload');
-      return res.status(403).json({ error: 'Invalid token payload' });
+    if (!token) {
+      return res.status(401).json({ error: 'No token provided' });
     }
 
-    // Set user info in request - handle both formats
-    req.user = {
-      id: decoded.user_id || decoded.id || null,
-      email: decoded.email || null
-    };
-
-    if (!req.user.id) {
-      console.error('Token missing user ID:', decoded);
-      return res.status(403).json({ error: 'Invalid token payload: missing user ID' });
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET is not defined in environment variables');
+      return res.status(500).json({ error: 'Server configuration error' });
     }
-    
-    console.log('User authenticated:', req.user);
-    next();
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err) {
+        console.error('Token verification error:', err.message);
+        return res.status(403).json({ error: 'Invalid or expired token' });
+      }
+
+      if (!user || !user.id) {
+        return res.status(403).json({ error: 'Invalid user data in token' });
+      }
+
+      req.user = user;
+      next();
+    });
   } catch (error) {
-    console.error('Token verification error:', error.message);
-    return res.status(403).json({ error: `Invalid authentication token: ${error.message}` });
+    console.error('Authentication error:', error);
+    return res.status(500).json({ error: 'Authentication process failed' });
   }
-};
+}
 
 module.exports = authenticateToken;
