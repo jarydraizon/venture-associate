@@ -1,38 +1,49 @@
 
 /* Insights Page Styles */
 .page-title {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(45deg, #4CAF50, #2196F3);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  padding-left: 20px;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #4CAF50;
+  padding-left: 0;
 }
 
 /* Main container layout */
 .main-content .insights-container {
   display: flex !important;
-  height: calc(100vh - 80px) !important;
-  margin-left: 0 !important;
+  height: calc(100vh - 120px) !important;
+  margin: 0 !important;
   width: 100% !important;
-  padding: 20px !important;
-  margin-top: 0 !important;
-  max-width: none !important;
+  padding: 0 !important;
   box-sizing: border-box !important;
-  gap: 10px !important;
-  justify-content: space-between !important;
+  gap: 20px !important;
+}
+
+/* Panel Headers */
+.panel-header {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Venture Info Panel Styles */
 .venture-info-panel {
   flex: 0 0 20% !important;
-  background-color: rgba(34, 34, 34, 0.8);
+  background-color: #2a2a2a;
   border-radius: 8px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  margin-right: 0;
+}
+
+.venture-info-panel h2,
+.chat-panel h2,
+.actions-panel h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 16px;
+  font-weight: normal;
+  color: #fff;
 }
 
 .venture-details {
@@ -43,12 +54,13 @@
 
 .venture-details h3 {
   margin: 0;
-  font-size: 24px;
+  font-size: 18px;
   color: #fff;
+  font-weight: 500;
 }
 
 .venture-description {
-  color: #ccc;
+  color: #aaa;
   margin: 0;
   font-size: 14px;
   margin-bottom: 10px;
@@ -59,19 +71,20 @@
   align-items: center;
   gap: 8px;
   font-size: 14px;
+  color: #aaa;
 }
 
 .status-indicator {
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background-color: #4CAF50; /* Green for active */
 }
 
 .venture-metrics {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-top: 15px;
   gap: 10px;
 }
@@ -81,11 +94,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #222;
   padding: 8px 12px;
   border-radius: 4px;
-  flex: 1;
-  min-height: 60px;
+  flex: 0 0 auto;
+  min-width: 60px;
 }
 
 .metric-label {
@@ -94,7 +107,7 @@
 }
 
 .metric-value {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   color: #fff;
 }
@@ -102,19 +115,18 @@
 /* Chat Panel Styles */
 .chat-panel {
   flex: 0 0 40% !important;
-  background-color: rgba(34, 34, 34, 0.8);
+  background-color: #2a2a2a;
   border-radius: 8px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  margin-right: 0;
 }
 
 /* Actions Panel Styles */
 .actions-panel {
   flex: 0 0 40% !important;
-  background-color: rgba(34, 34, 34, 0.8);
+  background-color: #2a2a2a;
   border-radius: 8px;
   padding: 20px;
   display: flex;
@@ -139,6 +151,7 @@
   align-items: center;
   color: rgba(255, 255, 255, 0.5);
   text-align: center;
+  font-size: 14px;
 }
 
 .message {
@@ -162,25 +175,28 @@
 .chat-input-form {
   display: flex;
   gap: 10px;
+  margin-top: auto;
 }
 
 .chat-input {
   flex: 1;
   padding: 12px 15px;
-  border-radius: 20px;
+  border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background-color: rgba(255, 255, 255, 0.1);
   color: white;
+  font-size: 14px;
 }
 
 .send-button {
   background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 20px;
+  border-radius: 4px;
   padding: 0 20px;
   cursor: pointer;
   transition: background-color 0.2s;
+  font-size: 14px;
 }
 
 .send-button:hover {
@@ -196,29 +212,19 @@
 }
 
 .action-button {
-  padding: 15px;
-  background-color: rgba(255, 255, 255, 0.1);
+  padding: 12px 15px;
+  background-color: #333;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   color: white;
-  font-size: 1rem;
+  font-size: 14px;
   text-align: left;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .action-button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-/* Common styles for all panels */
-.venture-info-panel h2,
-.chat-panel h2,
-.actions-panel h2 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #444;
 }
 
 /* Responsive Design */
@@ -233,7 +239,6 @@
   .actions-panel {
     flex: none !important;
     width: 100% !important;
-    margin-right: 0;
     margin-bottom: 20px;
   }
 }

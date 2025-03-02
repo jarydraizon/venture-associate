@@ -66,7 +66,9 @@ function InsightsPage() {
       <div className="insights-container">
         {/* Venture Info Panel */}
         <div className="venture-info-panel">
-          <h2>Active Venture</h2>
+          <div className="panel-header">
+            <h2>Active Venture</h2>
+          </div>
           {activeVenture ? (
             <div className="venture-details">
               <h3>{activeVenture.name}</h3>
@@ -93,7 +95,9 @@ function InsightsPage() {
         
         {/* Chat Panel */}
         <div className="chat-panel">
-          <h2>Chat</h2>
+          <div className="panel-header">
+            <h2>Chat</h2>
+          </div>
           <div className="chat-messages">
             {chatMessages.length === 0 ? (
               <div className="empty-chat">
@@ -122,7 +126,9 @@ function InsightsPage() {
         
         {/* Actions Panel */}
         <div className="actions-panel">
-          <h2>Actions</h2>
+          <div className="panel-header">
+            <h2>Actions</h2>
+          </div>
           <div className="actions-list">
             {actions.map((action, index) => (
               <button 
