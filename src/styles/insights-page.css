@@ -1,0 +1,244 @@
+
+/* Insights Page Styles */
+.page-title {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #4CAF50;
+  padding-left: 0;
+}
+
+/* Main container layout */
+.main-content .insights-container {
+  display: flex !important;
+  height: calc(100vh - 120px) !important;
+  margin: 0 !important;
+  width: 100% !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  gap: 20px !important;
+}
+
+/* Panel Headers */
+.panel-header {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Venture Info Panel Styles */
+.venture-info-panel {
+  flex: 0 0 20% !important;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.venture-info-panel h2,
+.chat-panel h2,
+.actions-panel h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 16px;
+  font-weight: normal;
+  color: #fff;
+}
+
+.venture-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.venture-details h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.venture-description {
+  color: #aaa;
+  margin: 0;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.venture-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #4CAF50; /* Green for active */
+}
+
+.venture-metrics {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #222;
+  padding: 8px 12px;
+  border-radius: 4px;
+  flex: 0 0 auto;
+  min-width: 60px;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.metric-value {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* Chat Panel Styles */
+.chat-panel {
+  flex: 0 0 40% !important;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Actions Panel Styles */
+.actions-panel {
+  flex: 0 0 40% !important;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Chat content styles */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.empty-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  font-size: 14px;
+}
+
+.message {
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  max-width: 85%;
+  word-break: break-word;
+}
+
+.message.user {
+  background-color: #2b5876;
+  align-self: flex-end;
+}
+
+.message.assistant {
+  background-color: #3a3a3a;
+  align-self: flex-start;
+}
+
+.chat-input-form {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 12px 15px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 14px;
+}
+
+.send-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 14px;
+}
+
+.send-button:hover {
+  background-color: #45a049;
+}
+
+/* Actions Panel content styles */
+.actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.action-button {
+  padding: 12px 15px;
+  background-color: #333;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.action-button:hover {
+  background-color: #444;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .main-content .insights-container {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .venture-info-panel,
+  .chat-panel,
+  .actions-panel {
+    flex: none !important;
+    width: 100% !important;
+    margin-bottom: 20px;
+  }
+}

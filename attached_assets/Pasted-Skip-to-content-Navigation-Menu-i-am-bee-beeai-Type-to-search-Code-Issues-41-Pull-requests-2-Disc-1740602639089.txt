@@ -1,0 +1,259 @@
+Skip to content
+Navigation Menu
+i-am-bee
+beeai
+
+Type / to search
+Code
+Issues
+41
+Pull requests
+2
+Discussions
+Actions
+Projects
+Security
+Insights
+Owner avatar
+beeai
+Public
+i-am-bee/beeai
+Go to file
+t
+Name		
+PetrBulanek
+PetrBulanek
+feat(ui): add basic env management (#196)
+c13faa0
+ · 
+4 hours ago
+.github
+fix: rollout timeout
+yesterday
+agents
+fix(agents): beeai script
+5 hours ago
+apps
+feat(ui): add basic env management (#196)
+4 hours ago
+docs
+chore: pnpm workspace update
+2 days ago
+packages
+fix(agents): activate instrumentation for beeai agent
+5 hours ago
+.dockerignore
+fix(server): docker build & run (#157)
+yesterday
+.gitignore
+fix: task dependencies (#131)
+last week
+LICENSE
+feat: use nwa to manage copyright headers (#134)
+last week
+README.md
+docs(readme): improve (#200)
+6 hours ago
+mise.local.toml-example
+feat: simplify MCP endpoint discovery
+3 weeks ago
+mise.lock
+feat(web): init with a homepage (#166)
+2 days ago
+mise.toml
+fix(server): docker build & run (#157)
+yesterday
+pnpm-lock.yaml
+feat(ui): add basic env management (#196)
+4 hours ago
+pnpm-workspace.yaml
+feat(agents): add agent-docs-creator (#194)
+7 hours ago
+provider-registry.yaml
+fix(agents): beeai script
+5 hours ago
+pyproject.toml
+feat(agents): add marketing strategy crewai agent (#126)
+last week
+uv.lock
+fix(acp): infered callback args types
+12 hours ago
+Repository files navigation
+README
+Apache-2.0 license
+BeeAI
+Warning
+
+[PRE-Alpha] This repository contains the beeai platform which is still under a rapid development. Please treat it as highly experimental and expect breaking changes often. Reach out on discord if you'd like to contribute or get involved in the discussions: join discord
+
+Installation
+The BeeAI CLI can be installed through Homebrew (on both Mac and Linux), and also from PyPI.
+
+We recommend Homebrew since it supports background service management -- you won't need to keep the server running in a terminal window.
+
+Homebrew
+Install BeeAI CLI with:
+
+brew install i-am-bee/beeai/beeai && brew services start beeai
+If you want Arize Phoenix, install it with:
+
+brew install i-am-bee/beeai/arize-phoenix && brew services start arize-phoenix
+Warning
+
+The Arize Phoenix service takes a few minutes to start.
+
+The services for beeai and arize-phoenix will continue to run in the background and restart with your device. Run brew services list to see their status.
+
+To open the web interfaces, visit:
+
+BeeAI: http://localhost:8333
+Arize Phoenix: http://localhost:6006
+PyPI
+Note
+
+Since Python stopped supporting global pip installations, we recommend using pipx -- it can be installed from your OS's package manager. (You may also create a virtual environment and use regular pip to install there, but in that case the beeai command will only be available in that environment.)
+
+Install BeeAI CLI with:
+
+pipx install beeai-cli # run once to install
+beeai serve # keep running in a separate terminal
+If you want Arize Phoenix, install it with:
+
+pipx install arize-phoenix # run once to install
+phoenix serve # keep running in a separate terminal
+This variant does not manage background services -- the beeai serve and phoenix serve commands need to be kept running in order to use the platform.
+
+To open the web interfaces, visit:
+
+BeeAI: http://localhost:8333
+Arize Phoenix: http://localhost:6006
+Development setup
+Installation
+This project uses Mise-en-place as a manager of tool versions (python, uv, nodejs, pnpm etc.), as well as a task runner and environment manager. Mise will download all the needed tools automatically -- you don't need to install them yourself.
+
+Clone this project, then run these setup steps:
+
+brew install mise  # more ways to install: https://mise.jdx.dev/installing-mise.html
+mise trust
+mise install
+After setup, you can use:
+
+mise run to list tasks and select one interactively to run
+mise <task-name> to run a task
+mise x -- <command> to run a project tool -- for example mise x -- uv add <package>
+Tip
+
+If you want to run tools directly without the mise x -- prefix, you need to activate a shell hook:
+
+Bash: eval "$(mise activate bash)" (add to ~/.bashrc to make permanent)
+Zsh: eval "$(mise activate zsh)" (add to ~/.zshrc to make permanent)
+Fish: mise activate fish | source (add to ~/.config/fish/config.fish to make permanent)
+Other shells: documentation
+Configuration
+Edit [env] in mise.local.toml in the project root (documentation). Run mise setup if you don't see the file.
+
+Running
+To run BeeAI components in development mode (ensuring proper rebuilding), use the following commands.
+
+Server
+# remove existing providers (due to breaking changes during rapid development)
+rm -f ~/.beeai/providers.yaml
+
+# API
+mise beeai-server:run
+# (keep it running, open another terminal for next steps)
+CLI
+# add official framework provider 
+mise beeai-cli:run -- provider add file://agents/official/beeai-framework/beeai-provider.yaml
+
+# tools
+mise beeai-cli:run -- tool list
+mise beeai-cli:run -- tool call fetch '{"url": "http://iambee.ai"}'
+
+# agents
+mise beeai-cli:run -- agent list
+mise beeai-cli:run -- agent run website_summarizer "summarize iambee.ai"
+UI
+# run the UI development server:
+mise beeai-ui:run
+
+# UI is also available from beeai-server (in static mode):
+mise beeai-server:run
+Concepts
+Delta updates of agent output
+Agents send updates with delta, which is a subset JSON document of their output schema. deltas can be combined to obtain the in-progress output object, usually to display it in the UI. The merging algorithm is designed to allow for incremental-only changes in the resulting JSON.
+
+The rules for applying a delta to an existing in-progress output JSON are, where output + delta => new_output denotest the combining operation:
+
+Different types can't combine (1 + ["hello"] => ERROR).
+Numbers combine by addition (1 + 2 => 3)
+Strings combine by joining ("hello" + "there" => "hellothere")
+Objects combine by merging and combining values in common keys ({a: 1, b: "hello"} + {b: "world", c: 2} => {a: 1, b: "helloworld", c: 2})
+Combining a value with null results in the value (value + null => value, null + value => value)
+Combining an empty array with a maybe-non-empty array results in the maybe-non-empty array (array + [] => array, [] + array => array)
+Exception: When output is [] | null | undefined and the first element of delta is null, it is dropped: [] + [null, "general", "Kenobi"] => ["general", "Kenobi"] -- this is to ensure that appending to an array can be done without the knowledge of whether the array is currently empty or not
+Non-empty arrays combine by combining the last element of output array with the first element of delta array, and appending the rest of the elements.
+["hello", "there"] + ["general", "Kenobi"] => ["hello", "theregeneral", "Kenobi"]
+["hello", "there"] + [null, "general", "Kenobi"] => ["hello", "there", "general", "Kenobi"]
+[] + ["general", "Kenobi"] => ["general", "Kenobi"]
+[] + [null, "general", "Kenobi"] => ["general", "Kenobi"]
+About
+Discover, run, and compose AI agents from any provider
+
+Resources
+ Readme
+License
+ Apache-2.0 license
+ Activity
+ Custom properties
+Stars
+ 9 stars
+Watchers
+ 12 watching
+Forks
+ 1 fork
+Report repository
+Releases
+ 16 tags
+Packages
+No packages published
+Contributors
+10
+@jezekra1
+@pilartomas
+@JanPokorny
+@matoushavlena
+@PetrBulanek
+@kapetr
+@tomkis
+@Zycon42
+@xjacka
+@jerome3o-anthropic
+Deployments
+25
+ release 12 hours ago
+ staging - docs yesterday
++ 23 deployments
+Languages
+Python
+51.3%
+ 
+TypeScript
+41.6%
+ 
+SCSS
+6.7%
+ 
+Other
+0.4%
+Footer
+© 2025 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact
+Manage cookies
+Do not share my personal information

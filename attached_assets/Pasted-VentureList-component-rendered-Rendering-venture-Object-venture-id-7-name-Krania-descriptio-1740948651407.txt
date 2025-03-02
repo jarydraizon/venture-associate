@@ -1,0 +1,43 @@
+VentureList component rendered
+Rendering venture: 
+Object {venture_id: 7, name: "Krania", description: "Decentralised MLaaS", user_id: 4, created_at: "2025-02-03T19:52:56.780Z", …}
+Rendering venture: 
+Object {venture_id: 8, name: "CreditPhi", description: "DeFi Credit Scoring", user_id: 4, created_at: "2025-02-03T19:53:13.480Z", …}
+Rendering venture: 
+Object {venture_id: 9, name: "MIllivolt", description: "GPU Processing Algorithm", user_id: 4, created_at: "2025-02-03T19:53:40.059Z", …}
+Rendering venture: 
+Object {venture_id: 10, name: "test", description: "123", user_id: 4, created_at: "2025-02-26T00:03:45.439Z", …}
+Loading venture data for: CreditPhi
+Venture details response: 
+Object {details: {…}}
+Competitors response: 
+Object {competitors: Array(0)}
+Error loading data: 
+ReferenceError {}
+message: "Cannot access 'O' before initialization"
+stack: "ReferenceError: Cannot access 'O' before initialization↵ at w (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/static/js/main.13894f8d.chunk.js:1:7822)↵ at https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/static/js/main.13894f8d.chunk.js:1:7957↵ at Kl (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/static/js/2.4dc2a899.chunk.js:2:177333)↵ at fs (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/static/js/2.4dc2a899.chunk.js:2:197672)↵ at https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/static/js/2.4dc2a899.chunk.js:2:194256↵ at k (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/static/js/2.4dc2a899.chunk.js:2:214819)↵ at O (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/static/js/2.4dc2a899.chunk.js:2:215353)↵ at https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/static/js/2.4dc2a899.chunk.js:2:218786↵ at c (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/static/js/2.4dc2a899.chunk.js:2:218901)↵ at n (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/static/js/2.4dc2a899.chunk.js:2:217846)"
+get stack: ƒ ()
+set stack: ƒ ()
+[[Prototype]]: Object
+
+Error loading data: 
+ReferenceError {}
+
+at t.value (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+Error saving venture details: 
+a {message: "Request failed with status code 500", name: "AxiosError", code: "ERR_BAD_RESPONSE", config: {…}, request: XMLHttpRequest, …}
+code: "ERR_BAD_RESPONSE"
+config: Object
+message: "Request failed with status code 500"
+name: "AxiosError"
+request: XMLHttpRequest
+response: Object
+status: 500
+stack: "AxiosError: Request failed with status code 500↵ at F (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/static/js/2.4dc2a899.chunk.js:2:250333)↵ at XMLHttpRequest.b (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/static/js/2.4dc2a899.chunk.js:2:254915)↵ at Ne.request (https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/static/js/2.4dc2a899.chunk.js:2:266094)↵ at async https://bf4f9ef4-d20e-442f-9fb7-9fec72d5f47a-00-zorraerlixil.spock.replit.dev/static/js/main.13894f8d.chunk.js:1:14712"
+get stack: ƒ ()
+set stack: ƒ ()
+[[Prototype]]: Object
+
