@@ -10,15 +10,16 @@
 }
 
 /* Main container layout */
-.insights-container {
-  display: flex;
-  justify-content: space-between;
-  height: calc(100vh - 80px);
-  margin-left: 230px;
-  width: calc(100% - 250px);
-  gap: 20px;
-  padding: 0 20px;
-  margin-top: -30px; /* Reduce space between title and panels */
+.main-content .insights-container {
+  display: flex !important;
+  justify-content: space-between !important;
+  height: calc(100vh - 80px) !important;
+  margin-left: 250px !important;
+  width: calc(100% - 270px) !important;
+  gap: 20px !important;
+  padding: 0 !important;
+  margin-top: -30px !important; /* Reduce space between title and panels */
+  max-width: none !important;
 }
 
 /* Venture Info Panel Styles */
