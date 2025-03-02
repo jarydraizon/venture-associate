@@ -5,20 +5,21 @@ const authenticateToken = require('../utils/authenticateToken');
 
 // Get all ventures for a user
 router.get('/', authenticateToken, async (req, res) => {
-  try {
-    console.log('Getting ventures for user ID:', req.user.id);
+    try {
+        console.log('User requesting ventures:', req.user);
 
-    const result = await pool.query(
-      'SELECT * FROM ventures WHERE user_id = $1 ORDER BY created_at DESC',
-      [req.user.id]
-    );
+        // Use user_id from token payload
+        const result = await pool.query(
+            'SELECT * FROM ventures WHERE user_id = $1',
+            [req.user.id]
+        );
 
-    console.log('Found ventures:', result.rows);
-    return res.json({ ventures: result.rows });
-  } catch (error) {
-    console.error('Error fetching ventures:', error);
-    return res.status(500).json({ error: 'Failed to fetch ventures' });
-  }
+        console.log('Ventures found:', result.rows.length);
+        res.json({ ventures: result.rows });
+    } catch (error) {
+        console.error('Error fetching ventures:', error);
+        res.status(500).json({ error: 'Failed to fetch ventures' });
+    }
 });
 
 // Create a new venture
@@ -77,7 +78,7 @@ router.post('/:name/details', authenticateToken, async (req, res) => {
   try {
     const { name } = req.params;
     const details = req.body;
-    
+
     console.log('Saving details for venture:', name);
     console.log('Details received:', details);
 
