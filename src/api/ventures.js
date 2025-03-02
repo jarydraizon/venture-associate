@@ -8,6 +8,11 @@ router.get('/', authenticateToken, async (req, res) => {
     try {
         console.log('User requesting ventures:', req.user);
 
+        if (!req.user || !req.user.id) {
+            console.error('Missing user ID in token payload');
+            return res.status(400).json({ error: 'Invalid user identification' });
+        }
+
         // Use user_id from token payload
         const result = await pool.query(
             'SELECT * FROM ventures WHERE user_id = $1',
