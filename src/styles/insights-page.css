@@ -8,9 +8,10 @@
 }
 
 .insights-container {
+  padding: 20px;
+  height: calc(100vh - 80px); /* Account for any header/navigation */
   display: flex;
-  gap: 20px;
-  height: calc(100vh - 150px);
+  flex-direction: column;
 }
 
 .insights-panel {
@@ -142,6 +143,12 @@
   }
 }
 
+.insights-title {
+  margin-bottom: 20px;
+  color: white;
+  flex: 0 0 auto;
+}
+
 .panels-container {
   display: flex;
   gap: 20px;
@@ -150,7 +157,7 @@
   overflow: hidden;
 }
 
-.venture-info-panel, .chat-panel, .actions-panel {
+.chat-panel, .actions-panel {
   flex: 1;
   background-color: #242424;
   border-radius: 8px;
@@ -161,55 +168,8 @@
   height: 100%;
 }
 
-/* Venture Info Panel Styles */
-.venture-info-panel {
-  flex: 0.8;
-}
-
-.venture-info-content {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.info-item {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.info-label {
-  font-weight: bold;
-  color: #aaa;
-  font-size: 0.9rem;
-}
-
-.info-value {
-  color: #fff;
-  word-break: break-word;
-}
-
-.info-value a {
-  color: #4CAF50;
-  text-decoration: none;
-}
-
-.info-value a:hover {
-  text-decoration: underline;
-}
-
-.info-item.description {
-  margin-top: 10px;
-}
-
-.description-text {
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-.loading {
-  color: #aaa;
-  font-style: italic;
-  text-align: center;
-  margin-top: 20px;
+.panel-title {
+  margin-bottom: 20px;
+  color: white;
+  flex: 0 0 auto;
 }
