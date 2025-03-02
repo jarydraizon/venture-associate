@@ -1,0 +1,50 @@
+
+.ventures-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.venture-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+  color: #ffffff;
+  text-decoration: none;
+  display: block;
+}
+
+.venture-card:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+}
+
+.venture-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  color: #ffffff;
+}
+
+.venture-card p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.8rem;
+}
+
+.venture-date {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.error-message {
+  color: #e74c3c;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: rgba(231, 76, 60, 0.1);
+}
+
+.loading-screen {
+  text-align: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+}
