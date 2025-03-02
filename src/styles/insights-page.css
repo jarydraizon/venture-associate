@@ -14,11 +14,11 @@
   display: flex !important;
   justify-content: space-between !important;
   height: calc(100vh - 80px) !important;
-  margin-left: 250px !important;
-  width: calc(100% - 270px) !important;
+  margin-left: 0 !important;
+  width: 100% !important;
   gap: 20px !important;
-  padding: 0 !important;
-  margin-top: -30px !important; /* Reduce space between title and panels */
+  padding: 20px !important;
+  margin-top: 0 !important;
   max-width: none !important;
 }
 

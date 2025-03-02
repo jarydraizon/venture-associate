@@ -59,15 +59,9 @@ function InsightsPage() {
 
   return (
     <div className="main-content">
-      <h1 className="page-title" style={{ marginBottom: '1rem' }}>Your Digital Copilot</h1>
+      <h1 className="page-title">Your Digital Copilot</h1>
       
-      <div className="insights-container" style={{ 
-        display: 'flex', 
-        width: 'calc(100% - 270px)', 
-        marginLeft: '250px',
-        padding: 0,
-        gap: '20px'
-      }}>
+      <div className="insights-container">
         {/* Venture Info Panel */}
         <div className="venture-info-panel">
           <h2>Active Venture</h2>
